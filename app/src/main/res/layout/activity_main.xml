@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
+    android:background="@drawable/puzzle"
     tools:context=".MainActivity">
 
     <TextView
@@ -24,7 +25,7 @@
         android:textSize="20sp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/playBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Play" />
