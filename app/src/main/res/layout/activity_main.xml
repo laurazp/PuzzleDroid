@@ -30,4 +30,22 @@
         android:layout_height="wrap_content"
         android:text="Play" />
 
+    <Button
+        android:id="@+id/optionsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Options" />
+
+    <Button
+        android:id="@+id/scoreBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ScoreTable" />
+
+    <Button
+        android:id="@+id/aboutBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="About" />
+
 </LinearLayout>
