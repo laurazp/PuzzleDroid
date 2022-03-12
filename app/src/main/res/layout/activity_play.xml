@@ -4,19 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/puzzle"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".PlayActivity">
 
     <TextView
         android:id="@+id/textView4"
+        android:layout_width="138dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_marginBottom="50dp"
+        android:text="Moves: "
+        android:textAlignment="textStart"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/puzzleView"
+        android:layout_width="375dp"
+        android:layout_height="414dp"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_marginBottom="30dp"
+        app:srcCompat="@android:drawable/sym_def_app_icon" />
+
+    <Button
+        android:id="@+id/cameraBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center_vertical"
-        android:layout_marginBottom="80dp"
-        android:text="Play View"
-        android:textAlignment="center"
-        android:textSize="20sp" />
+        android:layout_marginBottom="20dp"
+        android:onClick="openCamera"
+        android:text="Select Image" />
 
     <Button
         android:id="@+id/backBtn"
@@ -24,4 +43,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center_vertical"
         android:text="Back" />
+
 </LinearLayout>
