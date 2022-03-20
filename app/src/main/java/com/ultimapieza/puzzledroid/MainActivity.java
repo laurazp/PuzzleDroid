@@ -1,12 +1,11 @@
 package com.ultimapieza.puzzledroid;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Toast.makeText(getApplicationContext(), "Play button clicked! ", Toast.LENGTH_LONG).show(); //Aparece un mensaje en pantalla
                 // TODO: Modificar acción al hacer click
-                Intent intent = new Intent (v.getContext(), PlayActivity.class);
+                Intent intent = new Intent (v.getContext(), PuzzleActivity.class);
                 v.getContext().startActivity(intent);
             }
         });
