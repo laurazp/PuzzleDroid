@@ -30,7 +30,7 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
-        imageView = findViewById(R.id.puzzleView);
+        //imageView = findViewById(R.id.puzzleView);
 
         init();
 
@@ -38,7 +38,17 @@ public class PlayActivity extends AppCompatActivity {
 
         display();
 
+        Button selectButton = findViewById(R.id.selectBtn);
         Button backButton = findViewById(R.id.backBtn);
+
+        // When clicking on SelectBtn, go to Gallery
+        selectButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (v.getContext(), GalleryActivity.class);
+                v.getContext().startActivity(intent);
+            }
+        });
 
         // When clicking on backBtn, go back to Menu
         backButton.setOnClickListener(new View.OnClickListener(){
