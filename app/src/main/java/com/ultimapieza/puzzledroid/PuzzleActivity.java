@@ -2,21 +2,28 @@ package com.ultimapieza.puzzledroid;
 
 import static java.lang.Math.abs;
 
+import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class PuzzleActivity extends AppCompatActivity {
@@ -29,13 +36,19 @@ public class PuzzleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_puzzle);
 
         final RelativeLayout layout = findViewById(R.id.layout);
-        ImageView imageView = findViewById(R.id.imageView);
+        final ImageView imageView = findViewById(R.id.imageView);
+
+        Intent intent = getIntent();
+        final String assetName = intent.getStringExtra("assetName");
 
         // run image related code after the view was laid out
         // to have all dimensions calculated
         imageView.post(new Runnable() {
             @Override
             public void run() {
+                if (assetName != null) {
+                    setPicFromAsset(assetName, imageView);
+                }
                 pieces = splitImage();
                 TouchListener touchListener = new TouchListener();
                 for(PuzzlePiece piece : pieces) {
@@ -44,6 +57,39 @@ public class PuzzleActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setPicFromAsset(String assetName, ImageView imageView) {
+        // Get the dimensions of the View
+        int targetW = imageView.getWidth();
+        int targetH = imageView.getHeight();
+
+        AssetManager am = getAssets();
+        try {
+            InputStream is = am.open("img/" + assetName);
+            // Get the dimensions of the bitmap
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            bmOptions.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(is, new Rect(-1, -1, -1, -1), bmOptions);
+            int photoW = bmOptions.outWidth;
+            int photoH = bmOptions.outHeight;
+
+            // Determine how much to scale down the image
+            int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+            is.reset();
+
+            // Decode the image file into a Bitmap sized to fill the View
+            bmOptions.inJustDecodeBounds = false;
+            bmOptions.inSampleSize = scaleFactor;
+            bmOptions.inPurgeable = true;
+
+            Bitmap bitmap = BitmapFactory.decodeStream(is, new Rect(-1, -1, -1, -1), bmOptions);
+            imageView.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private ArrayList<PuzzlePiece> splitImage() {

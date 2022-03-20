@@ -19,8 +19,7 @@ import java.io.InputStream;
 
 public class ImageAdapter extends BaseAdapter {
 
-    public ImageAdapter(GalleryActivity galleryActivity) {
-    }
+
 
     private Context mContext;
     private AssetManager am;
