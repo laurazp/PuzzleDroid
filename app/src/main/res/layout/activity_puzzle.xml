@@ -22,7 +22,9 @@
         app:layout_constraintTop_toTopOf="parent"
         android:alpha="0.5"
         app:srcCompat="@drawable/lotus" />
+<!--match_parent le permite a la imagen agrandarse tanto como lo permita el grupo
 
+-->
     <RelativeLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
