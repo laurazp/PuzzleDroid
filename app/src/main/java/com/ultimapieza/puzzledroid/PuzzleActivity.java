@@ -30,6 +30,7 @@ public class PuzzleActivity extends AppCompatActivity {
 
     ArrayList<PuzzlePiece> pieces;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +51,8 @@ public class PuzzleActivity extends AppCompatActivity {
                     setPicFromAsset(assetName, imageView);
                 }
                 pieces = splitImage();
-                TouchListener touchListener = new TouchListener();
+                TouchListener touchListener;
+                touchListener =new TouchListener(PuzzleActivity.this);
                 for(PuzzlePiece piece : pieces) {
                     piece.setOnTouchListener(touchListener);
                     layout.addView(piece);
@@ -58,6 +60,21 @@ public class PuzzleActivity extends AppCompatActivity {
             }
         });
     }
+//    checking if the game is finished
+    public void checkGameOver() {
+        if (isGameOver()) {
+            finish();
+        }
+    }
+        private boolean isGameOver() {
+            for (PuzzlePiece piece : pieces) {
+                if (piece.canMove) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
     private void setPicFromAsset(String assetName, ImageView imageView) {
         // Get the dimensions of the View

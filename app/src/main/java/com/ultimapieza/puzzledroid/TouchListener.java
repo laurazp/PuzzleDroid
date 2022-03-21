@@ -12,7 +12,11 @@ import android.widget.RelativeLayout;
 public class TouchListener implements View.OnTouchListener {
     private float xDelta;
     private float yDelta;
+    private PuzzleActivity activity;
 
+    public TouchListener(PuzzleActivity activity) {
+        this.activity = activity;
+    }
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         float x = motionEvent.getRawX();
@@ -23,6 +27,7 @@ public class TouchListener implements View.OnTouchListener {
         if (!piece.canMove) {
             return true;
         }
+//    calling checkendgame function
 
         RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
@@ -45,9 +50,11 @@ public class TouchListener implements View.OnTouchListener {
                     piece.setLayoutParams(lParams);
                     piece.canMove = false;
                     sendViewToBack(piece);
+                    activity.checkGameOver();
                 }
                 break;
         }
+
         return true;
     }
 
