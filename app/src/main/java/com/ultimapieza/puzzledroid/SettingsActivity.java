@@ -3,13 +3,14 @@ package com.ultimapieza.puzzledroid;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Switch;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 public class SettingsActivity extends AppCompatActivity {
-    SwitchCompat switch1, switch2;
+    Switch switch1, switch2;
 
     boolean stateSwitch1, stateSwitch2;
 
@@ -24,8 +25,8 @@ public class SettingsActivity extends AppCompatActivity {
         stateSwitch1 = preferences.getBoolean("switch1", false);
         stateSwitch2 = preferences.getBoolean("switch2", false);
 
-        switch1 = (SwitchCompat) findViewById(R.id.switch1);
-        switch2 = (SwitchCompat) findViewById(R.id.switch2);
+        switch1 = findViewById(R.id.switch1);
+        switch2 = findViewById(R.id.switch2);
 
         switch1.setChecked(stateSwitch1);
         switch2.setChecked(stateSwitch2);
