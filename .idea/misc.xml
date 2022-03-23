@@ -3,6 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< HEAD
+=======
+        <entry key="..\:/Users/Andrew/StudioProjects/PuzzleDroid/app/src/main/res/layout/ativity_settings.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/jordi/OneDrive/Escritorio/DAM/4rt Semestre/P8. PuzzleDroid, desarrolla una app movil para jugar a resolver puzzles/PuzzleDroid/app/src/main/res/layout/activity_gallery.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/jordi/OneDrive/Escritorio/DAM/4rt Semestre/P8. PuzzleDroid, desarrolla una app movil para jugar a resolver puzzles/PuzzleDroid/app/src/main/res/layout/activity_help.xml" value="0.11770833333333333" />
+        <entry key="..\:/Users/jordi/OneDrive/Escritorio/DAM/4rt Semestre/P8. PuzzleDroid, desarrolla una app movil para jugar a resolver puzzles/PuzzleDroid/app/src/main/res/layout/activity_main.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/jordi/OneDrive/Escritorio/DAM/4rt Semestre/P8. PuzzleDroid, desarrolla una app movil para jugar a resolver puzzles/PuzzleDroid/app/src/main/res/layout/activity_play.xml" value="0.11770833333333333" />
+        <entry key="..\:/Users/jordi/OneDrive/Escritorio/DAM/4rt Semestre/P8. PuzzleDroid, desarrolla una app movil para jugar a resolver puzzles/PuzzleDroid/app/src/main/res/layout/activity_puzzle.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/jordi/OneDrive/Escritorio/DAM/4rt Semestre/P8. PuzzleDroid, desarrolla una app movil para jugar a resolver puzzles/PuzzleDroid/app/src/main/res/layout/activity_settings.xml" value="0.11770833333333333" />
+        <entry key="..\:/Users/jordi/OneDrive/Escritorio/DAM/4rt Semestre/P8. PuzzleDroid, desarrolla una app movil para jugar a resolver puzzles/PuzzleDroid/app/src/main/res/layout/ativity_settings.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/jordi/OneDrive/Escritorio/DAM/4rt Semestre/P8. PuzzleDroid, desarrolla una app movil para jugar a resolver puzzles/PuzzleDroid/app/src/main/res/layout/grid_element.xml" value="0.11770833333333333" />
+>>>>>>> master
         <entry key="..\:/Users/lauri/OneDrive/Documents/GitHub/PuzzleDroid/app/src/main/res/drawable/puzzle.xml" value="0.1535" />
         <entry key="..\:/Users/lauri/OneDrive/Documents/GitHub/PuzzleDroid/app/src/main/res/layout/activity_gallery.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/lauri/OneDrive/Documents/GitHub/PuzzleDroid/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
