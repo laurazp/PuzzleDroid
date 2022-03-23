@@ -1,13 +1,17 @@
 package com.ultimapieza.puzzledroid;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ultimapieza.puzzledroid.db.DbHelper;
+
 public class MainActivity extends AppCompatActivity {
+
 //Bundle pasa información desde una actividad a otra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO: Modificar acción al hacer click
+                DbHelper dbHelper = new DbHelper(MainActivity.this);
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
             }
         });
     }
+
 }
