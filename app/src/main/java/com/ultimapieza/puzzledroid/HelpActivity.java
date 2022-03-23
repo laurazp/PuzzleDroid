@@ -1,8 +1,8 @@
 package com.ultimapieza.puzzledroid;
 
-import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
 
-public class HelpActivity {
+public class HelpActivity extends AppCompatActivity {
 
 
 }

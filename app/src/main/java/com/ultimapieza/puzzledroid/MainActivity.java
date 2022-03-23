@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -37,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
         optionsButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (v.getContext(), SettingsActivity.class);
-                v.getContext().startActivity(intent);
+                Intent intent2 = new Intent (v.getContext(), SettingsActivity.class);
+                v.getContext().startActivity(intent2);
                 // TODO: Modificar acción al hacer click
             }
         });
@@ -46,7 +47,15 @@ public class MainActivity extends AppCompatActivity {
         scoreButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                // TODO: Modificar acción al hacer click
+                // TODO: Modificar acción al hacer click para que cargue la pantalla de ScoreTable
+                DbHelper dbHelper = new DbHelper(MainActivity.this);
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                if (db != null) {
+                    Toast.makeText(MainActivity.this, "DATABASE SUCCESFULLY CREATED", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "ERROR CREATING THE DATABASE", Toast.LENGTH_LONG).show();
+
+                }
             }
         });
 
@@ -54,8 +63,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO: Modificar acción al hacer click
-                DbHelper dbHelper = new DbHelper(MainActivity.this);
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
             }
         });
 
