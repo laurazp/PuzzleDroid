@@ -30,30 +30,35 @@
         android:id="@+id/playBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Play" />
+        android:text="Play"
+        app:cornerRadius="15dp" />
 
     <Button
         android:id="@+id/optionsBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Options" />
+        android:text="Options"
+        app:cornerRadius="15dp" />
 
     <Button
         android:id="@+id/scoreBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ScoreTable" />
+        android:text="ScoreTable"
+        app:cornerRadius="15dp" />
 
     <Button
         android:id="@+id/aboutBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="About" />
+        android:text="About"
+        app:cornerRadius="15dp" />
 
     <Button
         android:id="@+id/helpBtn"
         android:layout_width="81dp"
         android:layout_height="wrap_content"
-        android:text="Help" />
+        android:text="Help"
+        app:cornerRadius="15dp" />
 
 </LinearLayout>
