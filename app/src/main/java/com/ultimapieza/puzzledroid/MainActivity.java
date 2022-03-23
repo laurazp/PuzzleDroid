@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
         optionsButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent (v.getContext(), SettingsActivity.class);
+                v.getContext().startActivity(intent);
                 // TODO: Modificar acción al hacer click
             }
         });
