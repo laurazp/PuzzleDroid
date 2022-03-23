@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         helpButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent (v.getContext(), HelpActivity.class);
+                v.getContext().startActivity(intent);
                 // TODO: Modificar acción al hacer click
             }
         });
