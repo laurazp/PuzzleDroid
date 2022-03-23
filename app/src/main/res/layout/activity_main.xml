@@ -50,4 +50,10 @@
         android:layout_height="wrap_content"
         android:text="About" />
 
+    <Button
+        android:id="@+id/helpBtn"
+        android:layout_width="81dp"
+        android:layout_height="wrap_content"
+        android:text="Help" />
+
 </LinearLayout>

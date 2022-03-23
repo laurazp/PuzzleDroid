@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         Button optionsButton = findViewById(R.id.optionsBtn);
         Button scoreButton = findViewById(R.id.scoreBtn);
         Button aboutButton = findViewById(R.id.aboutBtn);
+        Button helpButton = findViewById(R.id.helpBtn);
 
         playButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -55,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
                 // TODO: Modificar acción al hacer click
                 DbHelper dbHelper = new DbHelper(MainActivity.this);
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
+            }
+        });
+
+        helpButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                // TODO: Modificar acción al hacer click
             }
         });
     }
