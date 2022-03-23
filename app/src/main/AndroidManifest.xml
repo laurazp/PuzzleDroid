@@ -16,6 +16,12 @@
             android:name=".PuzzleActivity"
             android:exported="false" />
         <activity
+            android:name=".HelpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".PlayActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
