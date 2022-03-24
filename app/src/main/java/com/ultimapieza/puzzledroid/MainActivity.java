@@ -2,6 +2,7 @@ package com.ultimapieza.puzzledroid;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
         Button scoreButton = findViewById(R.id.scoreBtn);
         Button aboutButton = findViewById(R.id.aboutBtn);
         Button helpButton = findViewById(R.id.helpBtn);
+
+        playButton.setBackgroundColor(Color.parseColor("#F7C52C"));
+        optionsButton.setBackgroundColor(Color.parseColor("#16C282"));
 
         playButton.setOnClickListener(new View.OnClickListener(){
             @Override

@@ -24,12 +24,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class PuzzleActivity extends AppCompatActivity {
 
     ArrayList<PuzzlePiece> pieces;
-
+    private int score = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +61,30 @@ public class PuzzleActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Set DateTime variable (for score points)
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm:ss");
+        String dateTime = SimpleDateFormat.getTimeInstance().format(calendar.getTime());
+        Toast.makeText(PuzzleActivity.this, "Time: " + dateTime, Toast.LENGTH_LONG).show();
     }
-//    checking if the game is finished
+
+    // Checking if the game is finished
     public void checkGameOver() {
         if (isGameOver()) {
             finish();
+
+            // Set DateTime and calculate score points
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm:ss");
+            String endDateTime = SimpleDateFormat.getTimeInstance().format(calendar.getTime());
+            Toast.makeText(PuzzleActivity.this, "Time: " + endDateTime, Toast.LENGTH_LONG).show();
+            // TODO: CALCULAR TIEMPO Y SUMAR PUNTOS EN SCORE
+
+            // Show Result
+            Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
+            intent.putExtra("SCORE", score);
+            startActivity(intent);
         }
     }
         private boolean isGameOver() {

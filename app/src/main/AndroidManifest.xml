@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PuzzleDroid">
         <activity
+            android:name=".ResultActivity"
+            android:exported="false" />
+        <activity
             android:name=".ScoreActivity"
             android:exported="false" />
         <activity
@@ -28,12 +31,6 @@
             android:name=".PlayActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".HelpActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SettingsActivity"
-            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
