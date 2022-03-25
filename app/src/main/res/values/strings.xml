@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">PuzzleDroid</string>
+    <string name="player_id">Id:</string>
+    <string name="player_name">Name:</string>
+    <string name="player_score">Score:</string>
+
+
 </resources>

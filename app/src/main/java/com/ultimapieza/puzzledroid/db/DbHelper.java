@@ -33,4 +33,7 @@ public class DbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE " + TABLE_SCORE);
         onCreate(sqLiteDatabase);
     }
+    public String getTableScore(){
+        return this.TABLE_SCORE;
+    }
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewActivity">
+
+    <EditText
+        android:id="@+id/txtId"
+        android:layout_width="91dp"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/player_id"
+        android:inputType="number"
+        android:textColorHint="#0C0C0C"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/txtName"
+        android:layout_width="197dp"
+        android:layout_height="51dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/player_name"
+        android:inputType="textPersonName"
+        android:textColorHint="#0B0A0A"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/txtScore"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/player_score"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:textColorHint="#101010" />
+
+</LinearLayout>
