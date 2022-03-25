@@ -32,8 +32,6 @@ public class MainActivity extends AppCompatActivity {
         playButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), "Play button clicked! ", Toast.LENGTH_LONG).show(); //Aparece un mensaje en pantalla
-                // TODO: Modificar acción al hacer click
                 Intent intent = new Intent (v.getContext(), PlayActivity.class);
                 v.getContext().startActivity(intent);
             }
