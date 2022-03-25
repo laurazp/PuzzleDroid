@@ -16,6 +16,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -24,14 +25,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Collections;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PuzzleActivity extends AppCompatActivity {
 
     ArrayList<PuzzlePiece> pieces;
     private int score = 0;
+
+    // Declaring a Timer
+    Timer timer;
+    TimerTask timerTask;
+    Double time = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +52,11 @@ public class PuzzleActivity extends AppCompatActivity {
         Intent intent = getIntent();
         final String assetName = intent.getStringExtra("assetName");
 
-        // run image related code after the view was laid out
-        // to have all dimensions calculated
+        // Set the timer on
+        timer = new Timer();
+        startTimer();
+
+        // Run image related code after the view was laid out to have all dimensions calculated
         imageView.post(new Runnable() {
             @Override
             public void run() {
@@ -54,49 +65,80 @@ public class PuzzleActivity extends AppCompatActivity {
                 }
                 pieces = splitImage();
                 TouchListener touchListener;
-                touchListener =new TouchListener(PuzzleActivity.this);
+                touchListener = new TouchListener(PuzzleActivity.this);
+                // Shuffle pieces order
+                Collections.shuffle(pieces);
                 for(PuzzlePiece piece : pieces) {
                     piece.setOnTouchListener(touchListener);
                     layout.addView(piece);
+                    // Randomize position, on the bottom of the screen
+                    RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
+                    lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
+                    lParams.topMargin = layout.getHeight() - piece.pieceHeight;
+                    piece.setLayoutParams(lParams);
                 }
             }
         });
+    }
 
-        // Set DateTime variable (for score points)
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm:ss");
-        String dateTime = SimpleDateFormat.getTimeInstance().format(calendar.getTime());
-        Toast.makeText(PuzzleActivity.this, "Time: " + dateTime, Toast.LENGTH_LONG).show();
+    private void startTimer() {
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        time++;
+                    }
+                });
+            }
+        };
+        timer.scheduleAtFixedRate(timerTask, 0, 1000);
     }
 
     // Checking if the game is finished
     public void checkGameOver() {
         if (isGameOver()) {
-            finish();
 
-            // Set DateTime and calculate score points
-            Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm:ss");
-            String endDateTime = SimpleDateFormat.getTimeInstance().format(calendar.getTime());
-            Toast.makeText(PuzzleActivity.this, "Time: " + endDateTime, Toast.LENGTH_LONG).show();
-            // TODO: CALCULAR TIEMPO Y SUMAR PUNTOS EN SCORE
+            // Calculate total time spent in finishing the puzzle
+            int totalTime = getTime();
+            Log.d("Total time spent ", String.valueOf(totalTime));  // Prints the time to the console
+
+            // TODO: SUMAR PUNTOS EN SCORE - MODIFICAR EL CÁLCULO DE SCORE !!!
+            score = 1000 - (totalTime * 5);
+            Log.d("SCORE is ", String.valueOf(score));  // Prints the score to the console
+
+            // TODO: AÑADIR PUNTUACIÓN A LA BASE DE DATOS
+
 
             // Show Result
             Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
             intent.putExtra("SCORE", score);
             startActivity(intent);
+
+            //finish();
         }
     }
-        private boolean isGameOver() {
-            for (PuzzlePiece piece : pieces) {
-                if (piece.canMove) {
+
+    // Calculate seconds from timer
+    private int getTime() {
+        int rounded = (int) Math.round(time);
+        //int seconds = ((rounded % 86400) % 3600) % 60; // TODO: MODIFICAR CÁLCULO DE LOS SEGUNDOS !!!
+
+        return rounded;
+    }
+
+    // Method to check if the game is over
+    private boolean isGameOver() {
+        for (PuzzlePiece piece : pieces) {
+            if (piece.canMove) {
                     return false;
-                }
             }
-
-            return true;
         }
+        return true;
+    }
 
+    // Setting the selected image into the ImageView for the puzzle
     private void setPicFromAsset(String assetName, ImageView imageView) {
         // Get the dimensions of the View
         int targetW = imageView.getWidth();
@@ -130,6 +172,7 @@ public class PuzzleActivity extends AppCompatActivity {
         }
     }
 
+    // Splitting the image into a number of pieces for the puzzle
     private ArrayList<PuzzlePiece> splitImage() {
         int piecesNumber = 12;
         int rows = 4;
@@ -163,7 +206,7 @@ public class PuzzleActivity extends AppCompatActivity {
         for (int row = 0; row < rows; row++) {
             int xCoord = 0;
             for (int col = 0; col < cols; col++) {
-                // calculate offset for each piece
+                // Calculate offset for each piece
                 int offsetX = 0;
                 int offsetY = 0;
                 if (col > 0) {
@@ -173,7 +216,7 @@ public class PuzzleActivity extends AppCompatActivity {
                     offsetY = pieceHeight / 3;
                 }
 
-                // apply the offset to each piece
+                // Apply the offset to each piece
                 Bitmap pieceBitmap = Bitmap.createBitmap(croppedBitmap, xCoord - offsetX, yCoord - offsetY, pieceWidth + offsetX, pieceHeight + offsetY);
                 PuzzlePiece piece = new PuzzlePiece(getApplicationContext());
                 piece.setImageBitmap(pieceBitmap);
@@ -182,10 +225,10 @@ public class PuzzleActivity extends AppCompatActivity {
                 piece.pieceWidth = pieceWidth + offsetX;
                 piece.pieceHeight = pieceHeight + offsetY;
 
-                // this bitmap will hold our final puzzle piece image
+                // This bitmap will hold our final puzzle piece image
                 Bitmap puzzlePiece = Bitmap.createBitmap(pieceWidth + offsetX, pieceHeight + offsetY, Bitmap.Config.ARGB_8888);
 
-                // draw path
+                // Draw path (to change the border of the piece to be like a real puzzle piece)
                 int bumpSize = pieceHeight / 4;
                 Canvas canvas = new Canvas(puzzlePiece);
                 Path path = new Path();
@@ -230,7 +273,7 @@ public class PuzzleActivity extends AppCompatActivity {
                     path.close();
                 }
 
-                // mask the piece
+                // Mask the piece to look like a real puzzle piece
                 Paint paint = new Paint();
                 paint.setColor(0XFF000000);
                 paint.setStyle(Paint.Style.FILL);
@@ -265,6 +308,7 @@ public class PuzzleActivity extends AppCompatActivity {
         return pieces;
     }
 
+    // Calculating image position into the ImageView
     private int[] getBitmapPositionInsideImageView(ImageView imageView) {
         int[] ret = new int[4];
 

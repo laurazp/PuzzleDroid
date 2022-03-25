@@ -17,6 +17,7 @@ public class TouchListener implements View.OnTouchListener {
     public TouchListener(PuzzleActivity activity) {
         this.activity = activity;
     }
+
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         float x = motionEvent.getRawX();

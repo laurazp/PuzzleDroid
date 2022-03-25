@@ -39,6 +39,6 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     public void playAgain(View view) {
-        startActivity(new Intent(getApplicationContext(), PuzzleActivity.class));
+        startActivity(new Intent(getApplicationContext(), PlayActivity.class));
     }
 }
