@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -16,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.ultimapieza.puzzledroid.db.DbHelper;
 
 public class MainActivity extends AppCompatActivity {
-
+    private WebView webView;
     // Bundle pasa información desde una actividad a otra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,13 +89,29 @@ public class MainActivity extends AppCompatActivity {
                 //startActivity(intent);
                 break;
             case R.id.nav_help:
-                Toast.makeText(this, "Help Selected", Toast.LENGTH_SHORT).show();
-                //TODO: AL HACER CLICK EN HELP, DEBE LLEVAR AL COMPONENTE WEBVIEW
-                break;
-            default:
-                break;
+                //Toast.makeText(this, "Help Selected", Toast.LENGTH_SHORT).show();
+               /* webView = (WebView) findViewById(R.id.webview);
+                //webView.setWebViewClient(new WebViewClient());
+                webView.loadUrl("https://docs.google.com/document/d/1TxqrkSPT8Plj-4pXulryNO1A2UiKAMYerj_iQ1Ixmqs/edit?usp=sharing");
+                WebSettings webSettings = webView.getSettings();
+                webSettings.setJavaScriptEnabled(true);
+*/
+                Intent intent = new Intent(this, HelpActivity.class);
+                startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
+
+        /*@Override
+       public void onBackPressed() {
+            if (webView.canGoBack()){
+                webView.goBack();
+            } else {
+                super.onBackPressed();
+            }
+
+        }
+
+*/
 
 }
