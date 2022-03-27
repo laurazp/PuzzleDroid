@@ -81,9 +81,15 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.nav_info:
                 Toast.makeText(this, "Info Selected", Toast.LENGTH_SHORT).show();
+                //TODO: CREAR ACTIVITY PARA INFO
+                //Intent intent = new Intent(this, InfoActivity.class);
+                //startActivity(intent);
                 break;
             case R.id.nav_help:
                 Toast.makeText(this, "Help Selected", Toast.LENGTH_SHORT).show();
+                //TODO: AL HACER CLICK EN HELP, DEBE LLEVAR AL COMPONENTE WEBVIEW
+                break;
+            default:
                 break;
         }
         return super.onOptionsItemSelected(item);
