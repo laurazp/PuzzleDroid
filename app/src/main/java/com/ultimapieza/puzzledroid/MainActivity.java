@@ -5,35 +5,46 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
+<<<<<<< HEAD
 import android.view.MenuInflater;
+=======
+>>>>>>> 00a4711e961ca8e0db182f07817a6f2f691ae2ee
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ultimapieza.puzzledroid.db.DbHelper;
 import com.ultimapieza.puzzledroid.db.DbHelperNewPlayer;
 
 public class MainActivity extends AppCompatActivity {
-
-//Bundle pasa información desde una actividad a otra
+    private WebView webView;
+    // Bundle pasa información desde una actividad a otra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Asignamos botones buscando por su id
         Button playButton = findViewById(R.id.playBtn);
         Button optionsButton = findViewById(R.id.optionsBtn);
         Button scoreButton = findViewById(R.id.scoreBtn);
-        Button aboutButton = findViewById(R.id.aboutBtn);
-        Button helpButton = findViewById(R.id.helpBtn);
 
+<<<<<<< HEAD
 
+=======
+        // Cambiamos el color de los botones
+>>>>>>> 00a4711e961ca8e0db182f07817a6f2f691ae2ee
         playButton.setBackgroundColor(Color.parseColor("#F7C52C"));
         optionsButton.setBackgroundColor(Color.parseColor("#16C282"));
 
+        // Al hacer click en el botón Play, nos lleva a PlayActivity
         playButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -43,15 +54,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Al hacer click en el botón Options, nos lleva a SettingsActivity
         optionsButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Intent intent2 = new Intent (v.getContext(), SettingsActivity.class);
                 v.getContext().startActivity(intent2);
-                // TODO: Modificar acción al hacer click
             }
         });
 
+        // Al hacer click en el botón ScoreTable, nos lleva al ranking de puntuaciones
         scoreButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -69,21 +81,49 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        aboutButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                // TODO: Modificar acción al hacer click
-            }
-        });
-
-        helpButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent (v.getContext(), HelpActivity.class);
-                v.getContext().startActivity(intent);
-                // TODO: Modificar acción al hacer click
-            }
-        });
     }
+
+    // Create the Action Bar Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.nav_menu, menu);
+        return true;
+    }
+
+    // Select options in the Action Bar Menu
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_info:
+                Toast.makeText(this, "Info Selected", Toast.LENGTH_SHORT).show();
+                //TODO: CREAR ACTIVITY PARA INFO
+                //Intent intent = new Intent(this, InfoActivity.class);
+                //startActivity(intent);
+                break;
+            case R.id.nav_help:
+                //Toast.makeText(this, "Help Selected", Toast.LENGTH_SHORT).show();
+               /* webView = (WebView) findViewById(R.id.webview);
+                //webView.setWebViewClient(new WebViewClient());
+                webView.loadUrl("https://docs.google.com/document/d/1TxqrkSPT8Plj-4pXulryNO1A2UiKAMYerj_iQ1Ixmqs/edit?usp=sharing");
+                WebSettings webSettings = webView.getSettings();
+                webSettings.setJavaScriptEnabled(true);
+*/
+                Intent intent = new Intent(this, HelpActivity.class);
+                startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+        /*@Override
+       public void onBackPressed() {
+            if (webView.canGoBack()){
+                webView.goBack();
+            } else {
+                super.onBackPressed();
+            }
+
+        }
+
+*/
 
 }
