@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ultimapieza.puzzledroid.db.DbHelper;
@@ -76,6 +79,25 @@ public class MainActivity extends AppCompatActivity {
                 // TODO: Modificar acción al hacer click
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.nav_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_info:
+                Toast.makeText(this, "Info Selected", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_help:
+                Toast.makeText(this, "Help Selected", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
