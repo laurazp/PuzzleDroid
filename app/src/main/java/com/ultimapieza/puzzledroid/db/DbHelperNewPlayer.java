@@ -6,33 +6,32 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-// Clase para crear la Base de datos
-public class DbHelper extends SQLiteOpenHelper {
+public class DbHelperNewPlayer extends SQLiteOpenHelper {
 
     // Definimos variables de la BBDD
     private static final int DATABASE_VERSION = 2;
-    private static final String DATABASE_NAME = "puzzle.db";
-    public static final String TABLE_SCORE = "t_score";
+    private static final String DATABASE_NAME = "player_puzzle.db";
+    public static final String TABLE_PLAYER = "t_player";
 
-    public DbHelper(@Nullable Context context) {
+    public DbHelperNewPlayer(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     //Método para crear la BD y la tabla
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_SCORE + "(" +
-                "nombre TEXT PRIMARY KEY,"+
-             "score INTEGER)");
+        sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_PLAYER + "(" +
+                "nombre TEXT PRIMARY KEY)");
+
     }
 
     // Método que se ejecuta al cambiar la versión de la BD (si se quieren actualizar campos, etc.)
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE " + TABLE_SCORE);
+        sqLiteDatabase.execSQL("DROP TABLE " + TABLE_PLAYER);
         onCreate(sqLiteDatabase);
     }
-    public String getTableScore(){
-        return this.TABLE_SCORE;
+    public String getTablePlayer(){
+        return this.TABLE_PLAYER;
     }
 }
