@@ -5,10 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
-<<<<<<< HEAD
 import android.view.MenuInflater;
-=======
->>>>>>> 00a4711e961ca8e0db182f07817a6f2f691ae2ee
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -36,11 +33,9 @@ public class MainActivity extends AppCompatActivity {
         Button optionsButton = findViewById(R.id.optionsBtn);
         Button scoreButton = findViewById(R.id.scoreBtn);
 
-<<<<<<< HEAD
 
-=======
         // Cambiamos el color de los botones
->>>>>>> 00a4711e961ca8e0db182f07817a6f2f691ae2ee
+//>>>>>>> 00a4711e961ca8e0db182f07817a6f2f691ae2ee
         playButton.setBackgroundColor(Color.parseColor("#F7C52C"));
         optionsButton.setBackgroundColor(Color.parseColor("#16C282"));
 
