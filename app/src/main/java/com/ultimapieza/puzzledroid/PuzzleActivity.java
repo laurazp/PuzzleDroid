@@ -119,7 +119,14 @@ public class PuzzleActivity extends AppCompatActivity {
             //finish();
         }
     }
+    public int getScore(){
+        int finalScore=0;
+        if(isGameOver()){
+            finalScore=score;
 
+        }
+        return finalScore;
+    }
     // Calculate seconds from timer
     private int getTime() {
         int rounded = (int) Math.round(time);

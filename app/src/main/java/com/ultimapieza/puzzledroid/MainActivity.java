@@ -5,8 +5,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -14,9 +18,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ultimapieza.puzzledroid.db.DbHelper;
+import com.ultimapieza.puzzledroid.db.DbHelperNewPlayer;
 
 public class MainActivity extends AppCompatActivity {
-
+    private WebView webView;
     // Bundle pasa información desde una actividad a otra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +33,9 @@ public class MainActivity extends AppCompatActivity {
         Button optionsButton = findViewById(R.id.optionsBtn);
         Button scoreButton = findViewById(R.id.scoreBtn);
 
+
         // Cambiamos el color de los botones
+//>>>>>>> 00a4711e961ca8e0db182f07817a6f2f691ae2ee
         playButton.setBackgroundColor(Color.parseColor("#F7C52C"));
         optionsButton.setBackgroundColor(Color.parseColor("#16C282"));
 
@@ -36,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
         playButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (v.getContext(), PlayActivity.class);
+                Intent intent = new Intent (v.getContext(), LoginActivity.class);
+//                Intent intent = new Intent (v.getContext(), PlayActivity.class);
                 v.getContext().startActivity(intent);
             }
         });
@@ -57,7 +65,9 @@ public class MainActivity extends AppCompatActivity {
                 // TODO: Modificar acción al hacer click para que cargue la pantalla de ScoreTable
                 DbHelper dbHelper = new DbHelper(MainActivity.this);
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
-                if (db != null) {
+                DbHelperNewPlayer dbNhelper= new DbHelperNewPlayer(MainActivity.this);
+                SQLiteDatabase dbNew = dbNhelper.getWritableDatabase();
+                if (db != null || dbNew !=null) {
                     Toast.makeText(MainActivity.this, "DATABASE SUCCESFULLY CREATED", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(MainActivity.this, "ERROR CREATING THE DATABASE", Toast.LENGTH_LONG).show();
@@ -85,13 +95,29 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.nav_help:
-                Toast.makeText(this, "Help Selected", Toast.LENGTH_SHORT).show();
-                //TODO: AL HACER CLICK EN HELP, DEBE LLEVAR AL COMPONENTE WEBVIEW
-                break;
-            default:
-                break;
+                //Toast.makeText(this, "Help Selected", Toast.LENGTH_SHORT).show();
+               /* webView = (WebView) findViewById(R.id.webview);
+                //webView.setWebViewClient(new WebViewClient());
+                webView.loadUrl("https://docs.google.com/document/d/1TxqrkSPT8Plj-4pXulryNO1A2UiKAMYerj_iQ1Ixmqs/edit?usp=sharing");
+                WebSettings webSettings = webView.getSettings();
+                webSettings.setJavaScriptEnabled(true);
+*/
+                Intent intent = new Intent(this, HelpActivity.class);
+                startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
+
+        /*@Override
+       public void onBackPressed() {
+            if (webView.canGoBack()){
+                webView.goBack();
+            } else {
+                super.onBackPressed();
+            }
+
+        }
+
+*/
 
 }
