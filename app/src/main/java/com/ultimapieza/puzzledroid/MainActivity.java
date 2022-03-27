@@ -80,10 +80,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_info:
-                Toast.makeText(this, "Info Selected", Toast.LENGTH_SHORT).show();
-                //TODO: CREAR ACTIVITY PARA INFO
-                //Intent intent = new Intent(this, InfoActivity.class);
-                //startActivity(intent);
+                //Toast.makeText(this, "Info Selected", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, InfoActivity.class);
+                startActivity(intent);
                 break;
             case R.id.nav_help:
                 Toast.makeText(this, "Help Selected", Toast.LENGTH_SHORT).show();

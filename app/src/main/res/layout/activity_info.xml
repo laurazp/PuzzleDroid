@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background1"
+    tools:context=".InfoActivity">
+
+    <TextView
+        android:id="@+id/infoTitle"
+        android:layout_width="191dp"
+        android:layout_height="74dp"
+        android:gravity="center"
+        android:text="About us"
+        android:textSize="28dp"
+        android:textStyle="bold"
+        android:textColor="#1D5150"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.086" />
+
+    <TextView
+        android:id="@+id/infoText"
+        android:layout_width="307dp"
+        android:layout_height="196dp"
+        android:text="PuzzleDroid is a game created by UltimaPieza, a group of development students learning how to create native applications using Android Studio. This puzzle game is written in the Java programming language."
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textColor="#0F3332"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.31" />
+
+    <TextView
+        android:id="@+id/info2Text"
+        android:layout_width="265dp"
+        android:layout_height="163dp"
+        android:text="We are:\n\n· Matilde Pascual ·\n· Andreu Martín ·\n· Jordi Podeschva ·\n· Laura Zafra ·"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textColor="#0F3332"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.653" />
+
+    <Button
+        android:id="@+id/returnBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Home"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.871" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

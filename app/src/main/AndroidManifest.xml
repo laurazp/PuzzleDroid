@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PuzzleDroid">
         <activity
+            android:name=".InfoActivity"
+            android:exported="false" />
+        <activity
             android:name=".NewActivity"
             android:exported="false" />
         <activity
