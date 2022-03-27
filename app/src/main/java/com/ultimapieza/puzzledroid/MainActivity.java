@@ -5,12 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -35,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Cambiamos el color de los botones
-//>>>>>>> 00a4711e961ca8e0db182f07817a6f2f691ae2ee
         playButton.setBackgroundColor(Color.parseColor("#F7C52C"));
         optionsButton.setBackgroundColor(Color.parseColor("#16C282"));
 
@@ -97,13 +93,13 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_help:
                 //Toast.makeText(this, "Help Selected", Toast.LENGTH_SHORT).show();
                /* webView = (WebView) findViewById(R.id.webview);
-                //webView.setWebViewClient(new WebViewClient());
+                webView.setWebViewClient(new WebViewClient());
                 webView.loadUrl("https://docs.google.com/document/d/1TxqrkSPT8Plj-4pXulryNO1A2UiKAMYerj_iQ1Ixmqs/edit?usp=sharing");
                 WebSettings webSettings = webView.getSettings();
-                webSettings.setJavaScriptEnabled(true);
-*/
-                Intent intent = new Intent(this, HelpActivity.class);
-                startActivity(intent);
+                webSettings.setJavaScriptEnabled(true);*/
+
+                Intent intent2 = new Intent(this, HelpActivity.class);
+                startActivity(intent2);
         }
         return super.onOptionsItemSelected(item);
     }
