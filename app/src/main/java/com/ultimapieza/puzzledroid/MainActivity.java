@@ -17,21 +17,22 @@ import com.ultimapieza.puzzledroid.db.DbHelper;
 
 public class MainActivity extends AppCompatActivity {
 
-//Bundle pasa información desde una actividad a otra
+    // Bundle pasa información desde una actividad a otra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Asignamos botones buscando por su id
         Button playButton = findViewById(R.id.playBtn);
         Button optionsButton = findViewById(R.id.optionsBtn);
         Button scoreButton = findViewById(R.id.scoreBtn);
-        Button aboutButton = findViewById(R.id.aboutBtn);
-        Button helpButton = findViewById(R.id.helpBtn);
 
+        // Cambiamos el color de los botones
         playButton.setBackgroundColor(Color.parseColor("#F7C52C"));
         optionsButton.setBackgroundColor(Color.parseColor("#16C282"));
 
+        // Al hacer click en el botón Play, nos lleva a PlayActivity
         playButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -40,15 +41,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Al hacer click en el botón Options, nos lleva a SettingsActivity
         optionsButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Intent intent2 = new Intent (v.getContext(), SettingsActivity.class);
                 v.getContext().startActivity(intent2);
-                // TODO: Modificar acción al hacer click
             }
         });
 
+        // Al hacer click en el botón ScoreTable, nos lleva al ranking de puntuaciones
         scoreButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -64,29 +66,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        aboutButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                // TODO: Modificar acción al hacer click
-            }
-        });
-
-        helpButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent (v.getContext(), HelpActivity.class);
-                v.getContext().startActivity(intent);
-                // TODO: Modificar acción al hacer click
-            }
-        });
     }
 
+    // Create the Action Bar Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.nav_menu, menu);
         return true;
     }
 
+    // Select options in the Action Bar Menu
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
