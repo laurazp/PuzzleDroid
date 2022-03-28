@@ -1,9 +1,12 @@
 package com.ultimapieza.puzzledroid;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Switch;
+import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,14 +15,17 @@ import androidx.appcompat.widget.SwitchCompat;
 public class SettingsActivity extends AppCompatActivity {
     Switch switch1, switch2;
 
+
     boolean stateSwitch1, stateSwitch2;
 
-    SharedPreferences preferences;
 
+    SharedPreferences preferences;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        Button backButton = findViewById(R.id.backBtn);
+
 
         preferences = getSharedPreferences("PREFS", 0);
         stateSwitch1 = preferences.getBoolean("switch1", false);
@@ -52,5 +58,14 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.apply();
             }
         });
+        // When clicking on backBtn, go back to Menu
+        backButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (v.getContext(), MainActivity.class);
+                v.getContext().startActivity(intent);
+            }
+        });
     }
+
 }
