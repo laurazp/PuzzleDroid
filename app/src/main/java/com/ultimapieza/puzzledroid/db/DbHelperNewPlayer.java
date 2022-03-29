@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 public class DbHelperNewPlayer extends SQLiteOpenHelper {
 
     // Definimos variables de la BBDD
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "player_puzzle.db";
     public static final String TABLE_PLAYER = "t_player";
 
@@ -21,7 +21,8 @@ public class DbHelperNewPlayer extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_PLAYER + "(" +
-                "nombre TEXT PRIMARY KEY)");
+                "nombre TEXT PRIMARY KEY,"+
+                "score INTEGER)");
 
     }
 

@@ -20,7 +20,8 @@ public class DbNewPlayer extends DbHelperNewPlayer {
     public DbHelperNewPlayer dbH;
     Context context;
     String name;
-    PuzzleActivity score;
+    PuzzleActivity score_;
+    int score;
     LoginActivity playerName;
 
     public DbNewPlayer(@Nullable Context context) {
@@ -31,14 +32,16 @@ public class DbNewPlayer extends DbHelperNewPlayer {
         return name;
     }
     //int id, , int score
-    public long insertPlayer(String nombre){
+    public long insertPlayer(String nombre, int score){
         long newplayer=0;
+        score=0;
         try{
             DbHelperNewPlayer dbHelper= new DbHelperNewPlayer(context);
             SQLiteDatabase db= dbHelper.getWritableDatabase();
 
             ContentValues values = new ContentValues();
             values.put("nombre", nombre);
+            values.put("score", score);
 
              newplayer= db.insert(TABLE_PLAYER,null, values);
         }catch(Exception ex){

@@ -16,6 +16,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public EditText txtPlayerInput;
     private Button txtStartGame;
+    private int score;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 DbNewPlayer dbNewPlayer= new DbNewPlayer(LoginActivity.this);
-                Long id = dbNewPlayer.insertPlayer(txtPlayerInput.getText().toString());
+                Long id = dbNewPlayer.insertPlayer(txtPlayerInput.getText().toString(),score);
 
                 if(id>0){
                     Toast.makeText(LoginActivity.this, "Nuevo jugador registrado", Toast.LENGTH_LONG).show();
