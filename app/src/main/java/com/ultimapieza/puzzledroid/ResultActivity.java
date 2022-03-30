@@ -3,8 +3,10 @@ package com.ultimapieza.puzzledroid;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,6 +44,19 @@ public class ResultActivity extends AppCompatActivity {
 
         //Recibe el valor de numOfPieces
         numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
+
+        // Definimos el botón de "See ScoreTable" y le cambiamos el color
+        Button scoretableBtn = findViewById(R.id.scoretableBtn);
+        scoretableBtn.setBackgroundColor(Color.parseColor("#16C282"));
+
+        // Al hacer click en el botón scoretableBtn, nos lleva a ScoreActivity
+        scoretableBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (v.getContext(), ScoreActivity.class);
+                v.getContext().startActivity(intent);
+            }
+        });
 
     }
 
