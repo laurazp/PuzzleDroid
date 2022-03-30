@@ -19,7 +19,7 @@ public class HelpActivity extends AppCompatActivity {
 
         webView = (WebView) findViewById(R.id.webview);
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("https://docs.google.com/document/d/1TxqrkSPT8Plj-4pXulryNO1A2UiKAMYerj_iQ1Ixmqs/edit?usp=sharing");
+        webView.loadUrl("https://drive.google.com/file/d/1OT6a_2AxCnHjzg8u91i9uttn1DCKycGb/view?usp=sharing");
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
