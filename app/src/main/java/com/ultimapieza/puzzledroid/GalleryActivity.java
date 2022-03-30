@@ -3,6 +3,7 @@ package com.ultimapieza.puzzledroid;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -14,10 +15,18 @@ import java.io.IOException;
 
 public class GalleryActivity extends AppCompatActivity {
 
+    int score;
+    int numOfPieces;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
+
+        //Recibe los valores de score y numOfPieces
+        numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
+        Log.d("NumOfPieces = ", String.valueOf(numOfPieces));
+        score = getIntent().getIntExtra("SCORE", 0);
 
         AssetManager am = getAssets();
         try {
@@ -31,6 +40,8 @@ public class GalleryActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Intent intent = new Intent(getApplicationContext(), PuzzleActivity.class);
                     intent.putExtra("assetName", files[i % files.length]);
+                    intent.putExtra("SCORE", score);
+                    intent.putExtra("NUMOFPIECES", numOfPieces);
                     startActivity(intent);
                 }
             });

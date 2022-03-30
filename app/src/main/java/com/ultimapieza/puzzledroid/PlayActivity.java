@@ -17,6 +17,9 @@ import java.util.Random;
 
 public class PlayActivity extends AppCompatActivity {
 
+    int score;
+    int numOfPieces;
+
     private static final int COLUMNS = 3;
     private static final int DIMENSIONS = COLUMNS * COLUMNS;
     private static final int SELECT_PHOTO = 100;
@@ -30,7 +33,9 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
-        //imageView = findViewById(R.id.puzzleView);
+        //Recibe los valores de score y numOfPieces
+        numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
+        score = getIntent().getIntExtra("SCORE", 0);
 
         init();
 
@@ -46,6 +51,8 @@ public class PlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (v.getContext(), GalleryActivity.class);
+                intent.putExtra("SCORE", score);
+                intent.putExtra("NUMOFPIECES", numOfPieces);
                 v.getContext().startActivity(intent);
             }
         });
@@ -69,7 +76,6 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     // Select the photo and display it on the ImageView
-    //TODO: MOSTRAR LA FOTO DIRECTAMENTE EN FORMA DE PUZZLE DESORDENADO !!! (AHORA SE MUESTRA NORMAL)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

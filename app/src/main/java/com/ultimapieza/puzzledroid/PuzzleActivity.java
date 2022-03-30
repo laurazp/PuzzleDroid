@@ -34,7 +34,10 @@ import java.util.TimerTask;
 public class PuzzleActivity extends AppCompatActivity {
 
     ArrayList<PuzzlePiece> pieces;
-    private int score = 0;
+    private int score;
+
+    int rows;
+    int numOfPieces;
 
     // Declaring a Timer
     Timer timer;
@@ -52,6 +55,13 @@ public class PuzzleActivity extends AppCompatActivity {
         Intent intent = getIntent();
         final String assetName = intent.getStringExtra("assetName");
 
+        //Recibe los valores de score y numOfPieces
+        numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
+        Log.d("NumOfPieces = ", String.valueOf(numOfPieces));
+        score = getIntent().getIntExtra("SCORE", 0);
+
+        rows = numOfPieces;
+
         // Set the timer on
         timer = new Timer();
         startTimer();
@@ -63,7 +73,7 @@ public class PuzzleActivity extends AppCompatActivity {
                 if (assetName != null) {
                     setPicFromAsset(assetName, imageView);
                 }
-                pieces = splitImage();
+                pieces = splitImage(numOfPieces + 1);
                 TouchListener touchListener;
                 touchListener = new TouchListener(PuzzleActivity.this);
                 // Shuffle pieces order
@@ -114,6 +124,7 @@ public class PuzzleActivity extends AppCompatActivity {
             // Show Result
             Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
             intent.putExtra("SCORE", score);
+            intent.putExtra("NUMOFPIECES", numOfPieces + 1);
             startActivity(intent);
 
             //finish();
@@ -180,10 +191,10 @@ public class PuzzleActivity extends AppCompatActivity {
     }
 
     // Splitting the image into a number of pieces for the puzzle
-    private ArrayList<PuzzlePiece> splitImage() {
-        int piecesNumber = 12;
-        int rows = 4;
+    private ArrayList<PuzzlePiece> splitImage(int rows) {
+        rows = rows;
         int cols = 3;
+        int piecesNumber = rows * cols;
 
         ImageView imageView = findViewById(R.id.imageView);
         ArrayList<PuzzlePiece> pieces = new ArrayList<>(piecesNumber);

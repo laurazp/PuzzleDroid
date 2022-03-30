@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ResultActivity extends AppCompatActivity {
 
+    int score;
+    int numOfPieces;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,7 +22,8 @@ public class ResultActivity extends AppCompatActivity {
         TextView scoreLabel = (TextView) findViewById(R.id.scoreLabel);
         TextView highScoreLabel = (TextView) findViewById(R.id.highScoreLabel);
 
-        int score = getIntent().getIntExtra("SCORE", 0);
+        //Recibe el valor de score
+        score = getIntent().getIntExtra("SCORE", 0);
         scoreLabel.setText(score + "");
         SharedPreferences settings = getSharedPreferences("HIGH_SCORE", Context.MODE_PRIVATE);
         int highScore = settings.getInt("HIGH_SCORE", 0);
@@ -36,9 +40,16 @@ public class ResultActivity extends AppCompatActivity {
             highScoreLabel.setText("High Score: " + highScore);
         }
 
+        //Recibe el valor de numOfPieces
+        numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
+
     }
 
     public void playAgain(View view) {
-        startActivity(new Intent(getApplicationContext(), PlayActivity.class));
+        Intent intent = new Intent(getApplicationContext(), PlayActivity.class);
+        // Pasamos la puntuación a la clase Play para que siga sumando puntos
+        intent.putExtra("SCORE", score);
+        intent.putExtra("NUMOFPIECES", numOfPieces);
+        startActivity(intent);
     }
 }
