@@ -114,8 +114,8 @@ public class PuzzleActivity extends AppCompatActivity {
             int totalTime = getTime();
             Log.d("Total time spent ", String.valueOf(totalTime));  // Prints the time to the console
 
-            // TODO: SUMAR PUNTOS EN SCORE - MODIFICAR EL CÁLCULO DE SCORE !!!
-            score = 1000 - (totalTime * 5);
+            // Se calcula la puntuación obtenida y se suma a la anterior puntuación
+            score += (1000 - (totalTime * 5));
             Log.d("SCORE is ", String.valueOf(score));  // Prints the score to the console
 
             // TODO: AÑADIR PUNTUACIÓN A LA BASE DE DATOS

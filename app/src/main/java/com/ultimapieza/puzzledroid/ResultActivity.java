@@ -53,6 +53,7 @@ public class ResultActivity extends AppCompatActivity {
         scoretableBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                //TODO: TERMINAR JUEGO AL DARLE A VER PUNTUACIÓN ???
                 Intent intent = new Intent (v.getContext(), ScoreActivity.class);
                 v.getContext().startActivity(intent);
             }
