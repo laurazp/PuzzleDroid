@@ -36,6 +36,16 @@
         android:layout_marginTop="50dp"
         android:text="Play Again"
         android:textAllCaps="false"
+        app:cornerRadius="15dp"
         android:onClick="playAgain"/>
+
+    <Button
+        android:id="@+id/scoretableBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="See ScoreTable"
+        app:cornerRadius="15dp"
+        android:textAllCaps="false"/>
 
 </LinearLayout>
