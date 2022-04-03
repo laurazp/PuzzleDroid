@@ -19,16 +19,33 @@ import com.ultimapieza.puzzledroid.db.DbHelper;
 import com.ultimapieza.puzzledroid.db.DbHelperNewPlayer;
 
 public class MainActivity extends AppCompatActivity {
+
     private WebView webView;
     public MediaPlayer reproductor;
+    String filePath = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3";
+
+    boolean musicPlaying = false;
+    Intent serviceIntent;
+
     // Bundle pasa información desde una actividad a otra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        reproductor= MediaPlayer.create(this,R.raw.piano_song_test);
-        reproductor.setLooping(true);
-        reproductor.start();
+
+//        reproductor= MediaPlayer.create(this,R.raw.piano_song_test);
+//        reproductor.setLooping(true);
+//        reproductor.start();
+
+        // Lanzamos el servicio para la música
+        serviceIntent = new Intent(this, MyService.class);
+        serviceIntent.putExtra("FilePath", filePath);
+
+        try {
+            startService(serviceIntent);
+        } catch (SecurityException e) {
+            Toast.makeText(this, "Error while starting service: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
 
         // Asignamos botones buscando por su id
         Button playButton = findViewById(R.id.playBtn);
@@ -76,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     // Create the Action Bar Menu
@@ -116,36 +132,30 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 super.onBackPressed();
             }
-
-        }
-*/
+        }*/
 
     //These 3 methods are to resume or pause the music.
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (reproductor.isPlaying())
-        {
-            reproductor.stop();
-            reproductor.release();
-        }
-    }
-    //This method Resume the music.
-    @Override
-    protected void onResume()
-    {
-
-        super.onResume();
-        reproductor.start();
-
-    }
-    //This method Pause the music.
-    @Override
-    protected void onPause()
-    {
-
-        super.onPause();
-        reproductor.pause();
-
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        if (reproductor.isPlaying())
+//        {
+//            reproductor.stop();
+//            reproductor.release();
+//        }
+//    }
+//    //This method Resume the music.
+//    @Override
+//    protected void onResume()
+//    {
+//        super.onResume();
+//        reproductor.start();
+//    }
+//    //This method Pause the music.
+//    @Override
+//    protected void onPause()
+//    {
+//        super.onPause();
+//        reproductor.pause();
+//    }
 }
