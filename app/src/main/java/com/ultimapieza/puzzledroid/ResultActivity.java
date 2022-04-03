@@ -1,22 +1,19 @@
 package com.ultimapieza.puzzledroid;
-import com.ultimapieza.puzzledroid.adaptadores.ListPlayersAdapter;
-import com.ultimapieza.puzzledroid.db.DbHelperNewPlayer;
-import com.ultimapieza.puzzledroid.entidades.Players;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ultimapieza.puzzledroid.db.DbNewPlayer;
+import com.ultimapieza.puzzledroid.db.DbHelperNewPlayer;
+import com.ultimapieza.puzzledroid.entidades.Players;
 
 import java.util.ArrayList;
 
@@ -43,6 +40,7 @@ public class ResultActivity extends AppCompatActivity {
 
         //Recibe el valor de score
         score = getIntent().getIntExtra("SCORE", 0);
+        Log.d("Score antes del botón", String.valueOf(score));
         scoreLabel.setText(score + "");
         SharedPreferences settings = getSharedPreferences("HIGH_SCORE", Context.MODE_PRIVATE);
         int highScore = settings.getInt("HIGH_SCORE", 0);
@@ -70,7 +68,9 @@ public class ResultActivity extends AppCompatActivity {
         scoretableBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                //TODO: TERMINAR JUEGO AL DARLE A VER PUNTUACIÓN ???
+                //TODO: METER SCORE EN LA BASE DE DATOS
+                int finalScore = score;
+                Log.d("Score después del botón", String.valueOf(finalScore));
 
                 Intent intent = new Intent (v.getContext(), ScoreActivity.class);
                 startActivity(intent);
@@ -79,6 +79,11 @@ public class ResultActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public int getFinalScore() {
+        int finalScore = score;
+        return finalScore;
     }
 
 

@@ -63,7 +63,7 @@ public class DbHelperNewPlayer extends SQLiteOpenHelper {
                 Players player = new Players();
                 player.setName(cursorPlayers.getString(0));
                 Log.d("Nombre del jugador", cursorPlayers.getString(0));
-                //player.setScore(cursorPlayers.getInt(1));
+                player.setScore(cursorPlayers.getInt(1));
                 listPlayer.add(player);
 
             }while(cursorPlayers.moveToNext());

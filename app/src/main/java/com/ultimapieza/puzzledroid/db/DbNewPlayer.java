@@ -2,19 +2,13 @@ package com.ultimapieza.puzzledroid.db;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
-import androidx.annotation.Nullable;                                    //retornanr nombre desde aquí
+import androidx.annotation.Nullable;
 
-import com.ultimapieza.puzzledroid.Player;
-
-import java.util.ArrayList;
-import com.ultimapieza.puzzledroid.PuzzleActivity;
-import com.ultimapieza.puzzledroid.Player;
 import com.ultimapieza.puzzledroid.LoginActivity;
-import com.ultimapieza.puzzledroid.entidades.Players;
+import com.ultimapieza.puzzledroid.PuzzleActivity;
+import com.ultimapieza.puzzledroid.ResultActivity;
 
 
 public class DbNewPlayer extends DbHelperNewPlayer {
@@ -24,6 +18,7 @@ public class DbNewPlayer extends DbHelperNewPlayer {
     PuzzleActivity score_;
     int score;
     LoginActivity playerName;
+    ResultActivity rs;
 
     public DbNewPlayer(@Nullable Context context) {
         super(context);
@@ -35,7 +30,8 @@ public class DbNewPlayer extends DbHelperNewPlayer {
     //int id, , int score
     public long insertPlayer(String nombre, int score){
         long newplayer=0;
-        score=0;
+        rs = new ResultActivity();
+        score = rs.getFinalScore();
         try{
             DbHelperNewPlayer dbHelper= new DbHelperNewPlayer(context);
             SQLiteDatabase db= dbHelper.getWritableDatabase();
