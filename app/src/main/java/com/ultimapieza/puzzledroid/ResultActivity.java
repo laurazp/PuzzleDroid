@@ -27,7 +27,6 @@ public class ResultActivity extends AppCompatActivity {
     DbHelperNewPlayer obj;
     RecyclerView listPlayer;
     ArrayList<Players> listArrayPlayers;
-    TextView name,score_p;
 
 
     @Override

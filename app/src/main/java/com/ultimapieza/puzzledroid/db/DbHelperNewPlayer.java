@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -61,7 +62,8 @@ public class DbHelperNewPlayer extends SQLiteOpenHelper {
             do {
                 Players player = new Players();
                 player.setName(cursorPlayers.getString(0));
-                player.setScore(cursorPlayers.getInt(1));
+                Log.d("Nombre del jugador", cursorPlayers.getString(0));
+                //player.setScore(cursorPlayers.getInt(1));
                 listPlayer.add(player);
 
             }while(cursorPlayers.moveToNext());

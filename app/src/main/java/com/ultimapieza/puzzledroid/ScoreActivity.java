@@ -20,10 +20,8 @@ import java.util.ArrayList;
 public class ScoreActivity extends AppCompatActivity {
     RecyclerView listPlayer;
     ArrayList<Players> listArrayPlayers;
-    DbHelperNewPlayer obj;
-    TextView name,score_p;
 
-    View v;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
