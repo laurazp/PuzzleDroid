@@ -6,6 +6,7 @@
     <string name="hint">player_name</string>
     <string name="item_menu">Nuevo Jugador</string>
     <string name="Start">Start</string>
+    <string name="Player_score">Player Name</string>
 
 
 </resources>

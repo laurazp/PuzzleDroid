@@ -1,8 +1,11 @@
 package com.ultimapieza.puzzledroid;
-
+import com.ultimapieza.puzzledroid.adaptadores.ListPlayersAdapter;
+import com.ultimapieza.puzzledroid.db.DbHelperNewPlayer;
+import com.ultimapieza.puzzledroid.entidades.Players;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -10,11 +13,22 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.ultimapieza.puzzledroid.db.DbNewPlayer;
+
+import java.util.ArrayList;
 
 public class ResultActivity extends AppCompatActivity {
 
     int score;
     int numOfPieces;
+    DbHelperNewPlayer obj;
+    RecyclerView listPlayer;
+    ArrayList<Players> listArrayPlayers;
+    TextView name,score_p;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +37,10 @@ public class ResultActivity extends AppCompatActivity {
 
         TextView scoreLabel = (TextView) findViewById(R.id.scoreLabel);
         TextView highScoreLabel = (TextView) findViewById(R.id.highScoreLabel);
+        TextView name =findViewById(R.id.viewName);
+        TextView score_p = findViewById(R.id.viewScore);
+
+        Button scoretableBtn = findViewById(R.id.scoretableBtn);
 
         //Recibe el valor de score
         score = getIntent().getIntExtra("SCORE", 0);
@@ -42,11 +60,11 @@ public class ResultActivity extends AppCompatActivity {
             highScoreLabel.setText("High Score: " + highScore);
         }
 
+
         //Recibe el valor de numOfPieces
         numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
 
         // Definimos el botón de "See ScoreTable" y le cambiamos el color
-        Button scoretableBtn = findViewById(R.id.scoretableBtn);
         scoretableBtn.setBackgroundColor(Color.parseColor("#16C282"));
 
         // Al hacer click en el botón scoretableBtn, nos lleva a ScoreActivity
@@ -54,18 +72,23 @@ public class ResultActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //TODO: TERMINAR JUEGO AL DARLE A VER PUNTUACIÓN ???
+
                 Intent intent = new Intent (v.getContext(), ScoreActivity.class);
-                v.getContext().startActivity(intent);
+                startActivity(intent);
+
+
             }
         });
 
     }
 
-    public void playAgain(View view) {
+
+    /*public void playAgain(View view) {
         Intent intent = new Intent(getApplicationContext(), PlayActivity.class);
         // Pasamos la puntuación a la clase Play para que siga sumando puntos
         intent.putExtra("SCORE", score);
         intent.putExtra("NUMOFPIECES", numOfPieces);
         startActivity(intent);
-    }
+    }*/
+
 }

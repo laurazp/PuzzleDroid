@@ -1,10 +1,15 @@
 package com.ultimapieza.puzzledroid.db;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import com.ultimapieza.puzzledroid.entidades.Players;
+
+import java.util.ArrayList;
 
 public class DbHelperNewPlayer extends SQLiteOpenHelper {
 
@@ -12,6 +17,7 @@ public class DbHelperNewPlayer extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "player_puzzle.db";
     public static final String TABLE_PLAYER = "t_player";
+    public Context context;
 
     public DbHelperNewPlayer(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -33,6 +39,35 @@ public class DbHelperNewPlayer extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
     public String getTablePlayer(){
+
         return this.TABLE_PLAYER;
+    }
+    public Cursor getData(){
+        SQLiteDatabase db=this.getWritableDatabase();
+        String query="select * from "+ TABLE_PLAYER;
+        Cursor crs =db.rawQuery(query, null);
+        return crs;
+    }
+    public ArrayList<Players> mostrarPlayers(){
+
+        DbHelperNewPlayer dbHelper= new DbHelperNewPlayer(context);
+        SQLiteDatabase db =dbHelper.getReadableDatabase();
+        ArrayList<Players> listPlayer= new ArrayList<>();
+        Cursor cursorPlayers;
+
+        cursorPlayers=db.rawQuery("SELECT * FROM " + TABLE_PLAYER,null);
+        if(cursorPlayers.moveToFirst()){
+            do {
+                Players player = new Players();
+                player.setName(cursorPlayers.getString(0));
+                player.setScore(cursorPlayers.getInt(1));
+                listPlayer.add(player);
+
+            }while(cursorPlayers.moveToNext());
+        }
+        cursorPlayers.close();
+
+
+        return listPlayer;
     }
 }

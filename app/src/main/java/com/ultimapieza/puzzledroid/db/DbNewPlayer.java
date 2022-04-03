@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import androidx.annotation.Nullable;                                    //retornanr nombre desde aquí
 
@@ -13,11 +14,11 @@ import java.util.ArrayList;
 import com.ultimapieza.puzzledroid.PuzzleActivity;
 import com.ultimapieza.puzzledroid.Player;
 import com.ultimapieza.puzzledroid.LoginActivity;
+import com.ultimapieza.puzzledroid.entidades.Players;
 
 
 public class DbNewPlayer extends DbHelperNewPlayer {
 
-    public DbHelperNewPlayer dbH;
     Context context;
     String name;
     PuzzleActivity score_;
@@ -51,28 +52,6 @@ public class DbNewPlayer extends DbHelperNewPlayer {
 
 
     }
-    public ArrayList<Player> PlayerPuzzleDroid(){
-        DbHelper dbH= new DbHelper(context);
-        SQLiteDatabase db =dbH.getWritableDatabase();
-        ArrayList<Player> playerList= new ArrayList<>();
-        Cursor cursor=null;
-        Player player=null;
 
-
-        cursor=db.rawQuery("SELECT * FROM " + TABLE_PLAYER,null);
-        if(cursor.moveToFirst()){
-            do {
-                player= new Player();
-                player.setName(cursor.getString(0));
-                player.setScore(cursor.getInt(1));
-                playerList.add(player);
-
-            }while(cursor.moveToNext());
-        }
-        cursor.close();
-
-
-        return playerList;
-    }
 
 }

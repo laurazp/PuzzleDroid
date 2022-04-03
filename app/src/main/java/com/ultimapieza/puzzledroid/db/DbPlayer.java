@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import com.ultimapieza.puzzledroid.PuzzleActivity;
 import com.ultimapieza.puzzledroid.Player;
 import com.ultimapieza.puzzledroid.LoginActivity;
-
+import com.ultimapieza.puzzledroid.entidades.Players;
 
 
 import java.util.ArrayList;
@@ -44,6 +44,7 @@ public class DbPlayer extends DbHelper{
 
 
     }
+
 
 
 
