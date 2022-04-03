@@ -2,6 +2,7 @@ package com.ultimapieza.puzzledroid;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -45,6 +46,9 @@ public class PlayActivity extends AppCompatActivity {
 
         Button selectButton = findViewById(R.id.selectBtn);
         Button backButton = findViewById(R.id.backBtn);
+
+        // Cambiamos el color de los botones
+        backButton.setBackgroundColor(Color.parseColor("#16C282"));
 
         // When clicking on SelectBtn, go to Gallery
         selectButton.setOnClickListener(new View.OnClickListener(){
