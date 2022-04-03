@@ -11,12 +11,12 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="138dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
         android:layout_marginBottom="50dp"
-        android:text="Moves: "
-        android:textAlignment="textStart"
-        android:textSize="20sp"
+        android:text="Choose an option:"
+        android:textAlignment="center"
+        android:textSize="22sp"
         android:textStyle="bold" />
 
     <Button
@@ -24,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
+        app:cornerRadius="15dp"
         android:text="Select a Puzzle" />
 
     <Button
@@ -32,6 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center_vertical"
         android:layout_marginBottom="80dp"
+        app:cornerRadius="15dp"
         android:onClick="openCamera"
         android:text="Open Your Photos" />
 
@@ -39,6 +41,7 @@
         android:id="@+id/backBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:cornerRadius="15dp"
         android:layout_gravity="center_horizontal|center_vertical"
         android:text="Back To Menu" />
 
