@@ -21,6 +21,7 @@ public class DbHelperNewPlayer extends SQLiteOpenHelper {
 
     public DbHelperNewPlayer(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context=context;
     }
 
     //Método para crear la BD y la tabla
@@ -51,7 +52,7 @@ public class DbHelperNewPlayer extends SQLiteOpenHelper {
     public ArrayList<Players> mostrarPlayers(){
 
         DbHelperNewPlayer dbHelper= new DbHelperNewPlayer(context);
-        SQLiteDatabase db =dbHelper.getReadableDatabase();
+        SQLiteDatabase db =dbHelper.getWritableDatabase();
         ArrayList<Players> listPlayer= new ArrayList<>();
         Cursor cursorPlayers;
 
