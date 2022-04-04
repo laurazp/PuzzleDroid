@@ -13,18 +13,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ultimapieza.puzzledroid.db.DbHelperNewPlayer;
+import com.ultimapieza.puzzledroid.db.DbNewPlayer;
 import com.ultimapieza.puzzledroid.entidades.Players;
 
 import java.util.ArrayList;
 
 public class ResultActivity extends AppCompatActivity {
 
+    String userName;
     int score;
     int numOfPieces;
     DbHelperNewPlayer obj;
     RecyclerView listPlayer;
     ArrayList<Players> listArrayPlayers;
-
+    DbNewPlayer db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +38,15 @@ public class ResultActivity extends AppCompatActivity {
         TextView name =findViewById(R.id.viewName);
         TextView score_p = findViewById(R.id.viewScore);
 
+        db = new DbNewPlayer(this);
+
         Button scoretableBtn = findViewById(R.id.scoretableBtn);
 
-        //Recibe el valor de score
+        //Recibe el valor de score y userName
         score = getIntent().getIntExtra("SCORE", 0);
+        userName = getIntent().getStringExtra("USERNAME");
         Log.d("Score antes del botón", String.valueOf(score));
+        Log.d("Nombre antes del botón", String.valueOf(userName));
         scoreLabel.setText(score + "");
         SharedPreferences settings = getSharedPreferences("HIGH_SCORE", Context.MODE_PRIVATE);
         int highScore = settings.getInt("HIGH_SCORE", 0);
@@ -71,6 +77,11 @@ public class ResultActivity extends AppCompatActivity {
                 //TODO: METER SCORE EN LA BASE DE DATOS
                 int finalScore = score;
                 Log.d("Score después del botón", String.valueOf(finalScore));
+                Log.d("Nombre después de botón", String.valueOf(userName));
+
+
+                //TODO: LLAMAR A UPDATE PARA ACTUALIZAR DATOS DE SCORE
+                db.updatePlayer(userName, finalScore);
 
                 Intent intent = new Intent (v.getContext(), ScoreActivity.class);
                 startActivity(intent);

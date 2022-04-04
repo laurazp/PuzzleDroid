@@ -3,6 +3,7 @@ package com.ultimapieza.puzzledroid.db;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -50,5 +51,34 @@ public class DbNewPlayer extends DbHelperNewPlayer {
 
     }
 
+    public void updatePlayer(String name, int score){
+        long newplayer=0;
+        //rs = new ResultActivity();
+        //finalScore = rs.getFinalScore();
+
+        //String userName = name;
+
+        Log.d("Score en updatePlayer", String.valueOf(score));
+        Log.d("Nombre en updatePlayer", String.valueOf(name));
+
+        try{
+
+            DbHelperNewPlayer dbHelper= new DbHelperNewPlayer(context);
+            SQLiteDatabase db= dbHelper.getWritableDatabase();
+
+            //ContentValues values = new ContentValues();
+            // Update con execSQL()
+            db.execSQL("UPDATE t_player SET score = " + score + " WHERE nombre = '" + name + "'");
+            //values.put("nombre", name);
+            //values.put("score", finalScore);
+
+            //values.put("score", rs.getFinalScore());
+
+            //newplayer= db.insert(TABLE_PLAYER,null, values);
+        }catch(Exception ex){
+            ex.toString();
+        }
+        //return newplayer;
+    }
 
 }

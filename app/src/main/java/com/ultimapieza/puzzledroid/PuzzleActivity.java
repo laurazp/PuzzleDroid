@@ -35,6 +35,7 @@ public class PuzzleActivity extends AppCompatActivity {
 
     ArrayList<PuzzlePiece> pieces;
     private int score;
+    String userName;
 
     int rows;
     int numOfPieces;
@@ -55,10 +56,11 @@ public class PuzzleActivity extends AppCompatActivity {
         Intent intent = getIntent();
         final String assetName = intent.getStringExtra("assetName");
 
-        //Recibe los valores de score y numOfPieces
+        //Recibe los valores de score, username y numOfPieces
         numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
         Log.d("NumOfPieces = ", String.valueOf(numOfPieces));
         score = getIntent().getIntExtra("SCORE", 0);
+        userName = getIntent().getStringExtra("USERNAME");
 
         rows = numOfPieces;
 
@@ -124,6 +126,7 @@ public class PuzzleActivity extends AppCompatActivity {
             // Show Result
             Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
             intent.putExtra("SCORE", score);
+            intent.putExtra("USERNAME", userName);
             intent.putExtra("NUMOFPIECES", numOfPieces + 1);
             startActivity(intent);
 

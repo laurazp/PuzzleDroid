@@ -15,6 +15,7 @@ import java.io.IOException;
 
 public class GalleryActivity extends AppCompatActivity {
 
+    String userName;
     int score;
     int numOfPieces;
 
@@ -23,10 +24,11 @@ public class GalleryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
-        //Recibe los valores de score y numOfPieces
+        //Recibe los valores de score, userName y numOfPieces
         numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
         Log.d("NumOfPieces = ", String.valueOf(numOfPieces));
         score = getIntent().getIntExtra("SCORE", 0);
+        userName = getIntent().getStringExtra("USERNAME");
 
         AssetManager am = getAssets();
         try {
@@ -41,6 +43,7 @@ public class GalleryActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), PuzzleActivity.class);
                     intent.putExtra("assetName", files[i % files.length]);
                     intent.putExtra("SCORE", score);
+                    intent.putExtra("USERNAME", userName);
                     intent.putExtra("NUMOFPIECES", numOfPieces);
                     startActivity(intent);
                 }
