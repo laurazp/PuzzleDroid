@@ -1,6 +1,9 @@
 package com.ultimapieza.puzzledroid;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +27,9 @@ public class ScoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
 
+        Button galleryButton = findViewById(R.id.galleryButton);
+        Button exitButton = findViewById(R.id.exitButton);
+
         listPlayer= findViewById(R.id.listPlayer);
         listPlayer.setLayoutManager(new LinearLayoutManager(this));
 
@@ -31,8 +37,24 @@ public class ScoreActivity extends AppCompatActivity {
 
         //listArrayPlayers=new ArrayList<>();
         ListPlayersAdapter adapters=new ListPlayersAdapter(dbNewPlayer.mostrarPlayers());
+        adapters.sortItems();
         listPlayer.setAdapter(adapters);
 
+        galleryButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (v.getContext(), GalleryActivity.class);
+                v.getContext().startActivity(intent);
+            }
+        });
+
+        exitButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //TODO: COMPROBAR SI FUNCIONA BIEN!
+                System.exit(0);
+            }
+        });
 
     }
 

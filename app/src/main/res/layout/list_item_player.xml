@@ -15,6 +15,7 @@
             android:id="@+id/viewName"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
+            android:fontFamily="monospace"
             android:textColor="#0E0E0E"
             android:textSize="24sp" />
 
@@ -22,6 +23,7 @@
             android:id="@+id/viewScore"
             android:layout_width="192dp"
             android:layout_height="wrap_content"
+            android:fontFamily="monospace"
             android:textColor="#0C0C0C"
             android:textSize="24sp" />
     </LinearLayout>

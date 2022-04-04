@@ -4,14 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".ScoreActivity">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"
+        android:fontFamily="@font/alata"
+        android:text="ScoreTable"
+        android:textAlignment="center"
+        android:textSize="48sp"
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listPlayer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="357dp"
+        android:layout_height="168dp"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/galleryButton"
+        android:layout_width="184dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="30dp"
+        android:width="170dp"
+        android:height="200dp"
+        android:text="Play Again"
+        app:cornerRadius="30dp" />
+
+    <Button
+        android:id="@+id/exitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="58dp"
+        android:width="170dp"
+        android:text="Exit"
+        app:cornerRadius="30dp" />
+
 </LinearLayout>
