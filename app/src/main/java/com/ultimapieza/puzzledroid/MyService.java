@@ -57,15 +57,22 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if(reproductor != null){
+            reproductor.stop();
+            reproductor.reset();
+            reproductor.release();
+            reproductor = null;
+        }
+    }
 
-        if (reproductor != null) {
+        /*if (reproductor != null) {
             if (reproductor.isPlaying()) {
                 reproductor.stop();
             }
             reproductor.release();
-        }
+        }*/
 
-    }
+    //}
 
     @Override
     public void onBufferingUpdate(MediaPlayer mediaPlayer, int i) {
