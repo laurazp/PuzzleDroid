@@ -89,8 +89,9 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "DATABASE SUCCESFULLY CREATED", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(MainActivity.this, "ERROR CREATING THE DATABASE", Toast.LENGTH_LONG).show();
-
                 }
+                Intent intent5 = new Intent (v.getContext(), ScoreActivity.class);
+                v.getContext().startActivity(intent5);
             }
         });
     }
