@@ -31,6 +31,7 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
 public class PuzzleActivity extends AppCompatActivity {
 
     ArrayList<PuzzlePiece> pieces;
@@ -53,15 +54,17 @@ public class PuzzleActivity extends AppCompatActivity {
         final RelativeLayout layout = findViewById(R.id.layout);
         final ImageView imageView = findViewById(R.id.imageView);
 
+        // Recibe el nombre de la imagen para el puzzle
         Intent intent = getIntent();
         final String assetName = intent.getStringExtra("assetName");
 
         //Recibe los valores de score, username y numOfPieces
         numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
-        Log.d("NumOfPieces = ", String.valueOf(numOfPieces));
         score = getIntent().getIntExtra("SCORE", 0);
         userName = getIntent().getStringExtra("USERNAME");
+        Log.d("NumOfPieces = ", String.valueOf(numOfPieces));
 
+        // Asigna el valor de numOfPieces a las filas del puzzle
         rows = numOfPieces;
 
         // Set the timer on
@@ -78,11 +81,13 @@ public class PuzzleActivity extends AppCompatActivity {
                 pieces = splitImage(numOfPieces + 1);
                 TouchListener touchListener;
                 touchListener = new TouchListener(PuzzleActivity.this);
+
                 // Shuffle pieces order
                 Collections.shuffle(pieces);
                 for(PuzzlePiece piece : pieces) {
                     piece.setOnTouchListener(touchListener);
                     layout.addView(piece);
+
                     // Randomize position, on the bottom of the screen
                     RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
                     lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
@@ -93,6 +98,7 @@ public class PuzzleActivity extends AppCompatActivity {
         });
     }
 
+    // Method to set the timer on
     private void startTimer() {
         timerTask = new TimerTask() {
             @Override
@@ -105,6 +111,7 @@ public class PuzzleActivity extends AppCompatActivity {
                 });
             }
         };
+        // The timer will count every second (1000 miliseconds)
         timer.scheduleAtFixedRate(timerTask, 0, 1000);
     }
 
@@ -116,14 +123,11 @@ public class PuzzleActivity extends AppCompatActivity {
             int totalTime = getTime();
             Log.d("Total time spent ", String.valueOf(totalTime));  // Prints the time to the console
 
-            // Se calcula la puntuación obtenida y se suma a la anterior puntuación
+            // Calcula la puntuación obtenida y la suma a la anterior puntuación
             score += (1000 - (totalTime * 5));
             Log.d("SCORE is ", String.valueOf(score));  // Prints the score to the console
 
-            // TODO: AÑADIR PUNTUACIÓN A LA BASE DE DATOS
-
-
-            // Show Result
+            // Show ResultActivity and passes the values of score, userName and numOfPieces
             Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
             intent.putExtra("SCORE", score);
             intent.putExtra("USERNAME", userName);
@@ -133,6 +137,7 @@ public class PuzzleActivity extends AppCompatActivity {
             //finish();
         }
     }
+
     public int getScore(){
         int finalScore=0;
         if(isGameOver()){
@@ -141,15 +146,15 @@ public class PuzzleActivity extends AppCompatActivity {
         }
         return finalScore;
     }
-    // Calculate seconds from timer
+
+    // Calculate seconds from timer and round it
     private int getTime() {
         int rounded = (int) Math.round(time);
-        //int seconds = ((rounded % 86400) % 3600) % 60; // TODO: MODIFICAR CÁLCULO DE LOS SEGUNDOS !!!
 
         return rounded;
     }
 
-    // Method to check if the game is over
+    // Boolean to check if the game is over
     private boolean isGameOver() {
         for (PuzzlePiece piece : pieces) {
             if (piece.canMove) {
@@ -175,7 +180,7 @@ public class PuzzleActivity extends AppCompatActivity {
             int photoW = bmOptions.outWidth;
             int photoH = bmOptions.outHeight;
 
-            // Determine how much to scale down the image
+            // Determine how much to scale down the image for the puzzle
             int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
 
             is.reset();
@@ -218,7 +223,7 @@ public class PuzzleActivity extends AppCompatActivity {
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, scaledBitmapWidth, scaledBitmapHeight, true);
         Bitmap croppedBitmap = Bitmap.createBitmap(scaledBitmap, abs(scaledBitmapLeft), abs(scaledBitmapTop), croppedImageWidth, croppedImageHeight);
 
-        // Calculate the with and height of the pieces
+        // Calculate the width and height of the pieces
         int pieceWidth = croppedImageWidth/cols;
         int pieceHeight = croppedImageHeight/rows;
 
@@ -303,21 +308,21 @@ public class PuzzleActivity extends AppCompatActivity {
                 paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
                 canvas.drawBitmap(pieceBitmap, 0, 0, paint);
 
-                // draw a white border
+                // Draw a white border
                 Paint border = new Paint();
                 border.setColor(0X80FFFFFF);
                 border.setStyle(Paint.Style.STROKE);
                 border.setStrokeWidth(8.0f);
                 canvas.drawPath(path, border);
 
-                // draw a black border
+                // Draw a black border
                 border = new Paint();
                 border.setColor(0X80000000);
                 border.setStyle(Paint.Style.STROKE);
                 border.setStrokeWidth(3.0f);
                 canvas.drawPath(path, border);
 
-                // set the resulting bitmap to the piece
+                // Set the resulting bitmap to the piece
                 piece.setImageBitmap(puzzlePiece);
 
                 pieces.add(piece);
@@ -325,7 +330,6 @@ public class PuzzleActivity extends AppCompatActivity {
             }
             yCoord += pieceHeight;
         }
-
         return pieces;
     }
 

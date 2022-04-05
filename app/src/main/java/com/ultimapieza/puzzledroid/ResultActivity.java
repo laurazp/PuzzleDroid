@@ -35,7 +35,7 @@ public class ResultActivity extends AppCompatActivity {
 
         TextView scoreLabel = (TextView) findViewById(R.id.scoreLabel);
         TextView highScoreLabel = (TextView) findViewById(R.id.highScoreLabel);
-        TextView name =findViewById(R.id.viewName);
+        TextView name = findViewById(R.id.viewName);
         TextView score_p = findViewById(R.id.viewScore);
 
         db = new DbNewPlayer(this);

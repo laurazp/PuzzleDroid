@@ -3,12 +3,10 @@ package com.ultimapieza.puzzledroid;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -18,10 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.ultimapieza.puzzledroid.db.DbHelper;
 import com.ultimapieza.puzzledroid.db.DbHelperNewPlayer;
 
+
 public class MainActivity extends AppCompatActivity {
 
-    private WebView webView;
-    public MediaPlayer reproductor;
     String filePath = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3";
 
     boolean musicPlaying = false;
@@ -32,10 +29,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//        reproductor= MediaPlayer.create(this,R.raw.piano_song_test);
-//        reproductor.setLooping(true);
-//        reproductor.start();
 
         // Lanzamos el servicio para la música
         serviceIntent = new Intent(this, MyService.class);
@@ -114,49 +107,19 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.nav_help:
                 //Toast.makeText(this, "Help Selected", Toast.LENGTH_SHORT).show();
-               /* webView = (WebView) findViewById(R.id.webview);
-                webView.setWebViewClient(new WebViewClient());
-                webView.loadUrl("https://docs.google.com/document/d/1TxqrkSPT8Plj-4pXulryNO1A2UiKAMYerj_iQ1Ixmqs/edit?usp=sharing");
-                WebSettings webSettings = webView.getSettings();
-                webSettings.setJavaScriptEnabled(true);*/
-
                 Intent intent2 = new Intent(this, HelpActivity.class);
                 startActivity(intent2);
         }
         return super.onOptionsItemSelected(item);
     }
 
-        /*@Override
-       public void onBackPressed() {
-            if (webView.canGoBack()){
-                webView.goBack();
-            } else {
-                super.onBackPressed();
-            }
-        }*/
+    /*@Override
+    public void onBackPressed() {
+         if (webView.canGoBack()){
+             webView.goBack();
+         } else {
+             super.onBackPressed();
+         }
+     }*/
 
-    //These 3 methods are to resume or pause the music.
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        if (reproductor.isPlaying())
-//        {
-//            reproductor.stop();
-//            reproductor.release();
-//        }
-//    }
-//    //This method Resume the music.
-//    @Override
-//    protected void onResume()
-//    {
-//        super.onResume();
-//        reproductor.start();
-//    }
-//    //This method Pause the music.
-//    @Override
-//    protected void onPause()
-//    {
-//        super.onPause();
-//        reproductor.pause();
-//    }
 }

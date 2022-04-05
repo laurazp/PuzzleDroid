@@ -27,8 +27,7 @@ public class LoginActivity extends AppCompatActivity {
         txtPlayerInput=findViewById(R.id.txtPlayerInput);
         txtStartGame= findViewById(R.id.txtStartGame);
 
-        //userName = txtPlayerInput.getText().toString();
-
+        // Al hacer click en el botón Start, registra al jugador en la BD y empieza el juego
         txtStartGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -36,26 +35,30 @@ public class LoginActivity extends AppCompatActivity {
                 DbNewPlayer dbNewPlayer= new DbNewPlayer(LoginActivity.this);
                 Long id = dbNewPlayer.insertPlayer(txtPlayerInput.getText().toString(),score);
 
+                // Asigna el input de texto a userName
                 userName = txtPlayerInput.getText().toString();
 
+                // Comprueba que se haya registrado correctamente al jugador en la BD
                 if(id>0){
                     Toast.makeText(LoginActivity.this, "Nuevo jugador registrado", Toast.LENGTH_LONG).show();
                     clean();
                 }else{
                     Toast.makeText(LoginActivity.this, "Error al registrar nuevo jugador", Toast.LENGTH_LONG).show();
                 }
+
+                // Crea un nuevo intent para PlayActivity y pasa el userName
                 Intent intent = new Intent (view.getContext(), PlayActivity.class);
                 intent.putExtra("USERNAME", userName);
                 Log.d("Nombre en login", String.valueOf(userName));
                 view.getContext().startActivity(intent);
-
             }
         });
-
     }
+
     public String GetInputName(){
         return String.valueOf(this.txtPlayerInput);
     }
+
     private void clean(){
         txtPlayerInput.setText(" ");
     }

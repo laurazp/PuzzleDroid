@@ -3,7 +3,10 @@ package com.ultimapieza.puzzledroid.db;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
 import androidx.annotation.Nullable;
+
 import com.ultimapieza.puzzledroid.ResultActivity;
 
 
@@ -50,8 +53,8 @@ public class DbNewPlayer extends DbHelperNewPlayer {
     public void updatePlayer(String name, int score){
 
         // Comprobaciones para mostrar Logs en la consola
-        //Log.d("Score en updatePlayer", String.valueOf(score));
-        //Log.d("Nombre en updatePlayer", String.valueOf(name));
+        Log.d("Score en updatePlayer", String.valueOf(score));
+        Log.d("Nombre en updatePlayer", String.valueOf(name));
 
         try{
             DbHelperNewPlayer dbHelper= new DbHelperNewPlayer(context);

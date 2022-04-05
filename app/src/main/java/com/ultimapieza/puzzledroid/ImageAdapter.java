@@ -17,9 +17,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 
+// Clase para crear las vistas de cada imagen que aparecerá en la Gallery
 public class ImageAdapter extends BaseAdapter {
-
-
 
     private Context mContext;
     private AssetManager am;
@@ -47,7 +46,7 @@ public class ImageAdapter extends BaseAdapter {
         return 0;
     }
 
-    // create a new ImageView for each item referenced by the Adapter
+    // Create a new ImageView for each item referenced by the Adapter
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
@@ -58,7 +57,7 @@ public class ImageAdapter extends BaseAdapter {
         imageView.setImageBitmap(null);
 
 
-        // run image related code after the view was laid out
+        // Run image related code after the view was laid out
 
         imageView.post(new Runnable() {
             @SuppressLint("StaticFieldLeak")
@@ -80,10 +79,10 @@ public class ImageAdapter extends BaseAdapter {
                 }.execute();
             }
         });
-
         return convertView;
     }
 
+    // Get the images from assets and scale them down
     private Bitmap getPicFromAsset(ImageView imageView, String assetName) {
         // Get the dimensions of the View
         int targetW = imageView.getWidth();

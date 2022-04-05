@@ -26,10 +26,11 @@ public class GalleryActivity extends AppCompatActivity {
 
         //Recibe los valores de score, userName y numOfPieces
         numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
-        Log.d("NumOfPieces = ", String.valueOf(numOfPieces));
         score = getIntent().getIntExtra("SCORE", 0);
         userName = getIntent().getStringExtra("USERNAME");
+        Log.d("NumOfPieces = ", String.valueOf(numOfPieces));
 
+        // Muestra las imágenes de la carpeta assets en el grid
         AssetManager am = getAssets();
         try {
             final String[] files  = am.list("img");
@@ -37,6 +38,7 @@ public class GalleryActivity extends AppCompatActivity {
             GridView grid = findViewById(R.id.grid);
             grid.setAdapter(new ImageAdapter(this));
 
+            // Al hacer click, se inicia el puzzle con la imagen elegida
             grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

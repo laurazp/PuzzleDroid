@@ -28,7 +28,8 @@ public class TouchListener implements View.OnTouchListener {
         if (!piece.canMove) {
             return true;
         }
-//    calling checkendgame function
+
+      //Calling checkendgame function
 
         RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
@@ -55,7 +56,6 @@ public class TouchListener implements View.OnTouchListener {
                 }
                 break;
         }
-
         return true;
     }
 

@@ -40,6 +40,7 @@ public class SettingsActivity extends AppCompatActivity {
         switch1.setChecked(stateSwitch1);
         switch2.setChecked(stateSwitch2);
 
+        // Switch for turning the music on/off
         switch1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +81,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        // TODO: Switch for turning sounds on/off
         switch2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,6 +92,7 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.apply();
             }
         });
+
         // When clicking on backBtn, go back to Menu
         backButton.setOnClickListener(new View.OnClickListener(){
             @Override
