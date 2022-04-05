@@ -96,11 +96,12 @@ public class ResultActivity extends AppCompatActivity {
         return finalScore;
     }
 
-    // Función para seguir jugando y aumentando la puntuación
+    // Método para seguir jugando y aumentando la puntuación
     public void playAgain(View view) {
         Intent intent = new Intent(getApplicationContext(), PlayActivity.class);
         // Pasamos la puntuación a la clase Play para que siga sumando puntos
         intent.putExtra("SCORE", score);
+        intent.putExtra("USERNAME", userName);
         intent.putExtra("NUMOFPIECES", numOfPieces);
         startActivity(intent);
     }
