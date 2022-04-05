@@ -201,7 +201,7 @@ public class PuzzleActivity extends AppCompatActivity {
     // Splitting the image into a number of pieces for the puzzle
     private ArrayList<PuzzlePiece> splitImage(int rows) {
         rows = rows;
-        int cols = 1;
+        int cols = 3;
         int piecesNumber = rows * cols;
 
         ImageView imageView = findViewById(R.id.imageView);
