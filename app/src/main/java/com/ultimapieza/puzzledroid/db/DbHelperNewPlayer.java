@@ -31,7 +31,6 @@ public class DbHelperNewPlayer extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_PLAYER + "(" +
                 "nombre TEXT PRIMARY KEY,"+
                 "score INTEGER)");
-
     }
 
     // Método que se ejecuta al cambiar la versión de la BD (si se quieren actualizar campos, etc.)
@@ -40,16 +39,20 @@ public class DbHelperNewPlayer extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE " + TABLE_PLAYER);
         onCreate(sqLiteDatabase);
     }
+
     public String getTablePlayer(){
 
         return this.TABLE_PLAYER;
     }
+
     public Cursor getData(){
         SQLiteDatabase db=this.getWritableDatabase();
         String query="select * from "+ TABLE_PLAYER;
         Cursor crs =db.rawQuery(query, null);
         return crs;
     }
+
+    // Método para mostrar los jugadores de la BD en la ScoreTable (devuelve un ArrayList con todos los jugadores de la BD)
     public ArrayList<Players> mostrarPlayers(){
 
         DbHelperNewPlayer dbHelper= new DbHelperNewPlayer(context);
@@ -58,6 +61,8 @@ public class DbHelperNewPlayer extends SQLiteOpenHelper {
         Cursor cursorPlayers;
 
         cursorPlayers=db.rawQuery("SELECT * FROM " + TABLE_PLAYER,null);
+
+        // Recorre las filas de la BD y va introduciendo los datos en el ArrayList de jugadores "listPlayer"
         if(cursorPlayers.moveToFirst()){
             do {
                 Players player = new Players();
@@ -69,7 +74,6 @@ public class DbHelperNewPlayer extends SQLiteOpenHelper {
             }while(cursorPlayers.moveToNext());
         }
         cursorPlayers.close();
-
 
         return listPlayer;
     }

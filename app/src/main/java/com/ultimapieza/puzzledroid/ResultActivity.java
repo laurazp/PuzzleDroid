@@ -47,7 +47,11 @@ public class ResultActivity extends AppCompatActivity {
         userName = getIntent().getStringExtra("USERNAME");
         Log.d("Score antes del botón", String.valueOf(score));
         Log.d("Nombre antes del botón", String.valueOf(userName));
+
+        // Muestra en pantalla el resultado de score
         scoreLabel.setText(score + "");
+
+        // Comprueba si la puntuación es la más alta, la guarda como High Score y lo muestra en pantalla
         SharedPreferences settings = getSharedPreferences("HIGH_SCORE", Context.MODE_PRIVATE);
         int highScore = settings.getInt("HIGH_SCORE", 0);
 
@@ -58,11 +62,9 @@ public class ResultActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = settings.edit();
             editor.putInt("HIGH_SCORE", score);
             editor.commit();
-
         } else {
             highScoreLabel.setText("High Score: " + highScore);
         }
-
 
         //Recibe el valor de numOfPieces
         numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
@@ -74,36 +76,33 @@ public class ResultActivity extends AppCompatActivity {
         scoretableBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                //TODO: METER SCORE EN LA BASE DE DATOS
+                //Mete la puntuación en la base de datos
                 int finalScore = score;
                 Log.d("Score después del botón", String.valueOf(finalScore));
                 Log.d("Nombre después de botón", String.valueOf(userName));
 
-
-                //TODO: LLAMAR A UPDATE PARA ACTUALIZAR DATOS DE SCORE
+                //Llama a la función updatePlayer para actualizar el registro de la base de datos y añadir la puntuación
                 db.updatePlayer(userName, finalScore);
 
                 Intent intent = new Intent (v.getContext(), ScoreActivity.class);
                 startActivity(intent);
-
-
             }
         });
-
     }
 
+    //TODO: CONFIRMAR QUE NO SE USA Y BORRAR
     public int getFinalScore() {
         int finalScore = score;
         return finalScore;
     }
 
-
-    /*public void playAgain(View view) {
+    // Función para seguir jugando y aumentando la puntuación
+    public void playAgain(View view) {
         Intent intent = new Intent(getApplicationContext(), PlayActivity.class);
         // Pasamos la puntuación a la clase Play para que siga sumando puntos
         intent.putExtra("SCORE", score);
         intent.putExtra("NUMOFPIECES", numOfPieces);
         startActivity(intent);
-    }*/
+    }
 
 }
