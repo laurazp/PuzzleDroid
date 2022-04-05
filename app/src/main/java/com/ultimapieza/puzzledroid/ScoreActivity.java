@@ -49,8 +49,9 @@ public class ScoreActivity extends AppCompatActivity {
         exitButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                //TODO: COMPROBAR SI FUNCIONA BIEN!
-                System.exit(0);
+
+                Intent intent = new Intent (v.getContext(), InfoActivity.class);
+                v.getContext().startActivity(intent);
             }
         });
 
