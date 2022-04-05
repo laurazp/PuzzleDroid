@@ -7,6 +7,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+// Servicio para gestionar la música y que suene a lo largo de todas las Activities
 public class MyService extends Service implements MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnSeekCompleteListener, MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener {
 
     private MediaPlayer reproductor;
@@ -25,6 +26,7 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
     public void onCreate() {
         super.onCreate();
 
+        // Definimos un reproductor y los métodos que va a necesitar
         reproductor = new MediaPlayer();
 
         reproductor.setOnCompletionListener(this);
@@ -39,10 +41,12 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        // Recibe el path del archivo de música
         filePath = intent.getStringExtra("FilePath");
         Log.d("Path to music is ", String.valueOf(filePath));
         reproductor.reset();
 
+        // Pone en marcha el reproductor de manera asíncrona
         if (!reproductor.isPlaying()) {
             try {
                 reproductor.setDataSource(filePath);
@@ -51,28 +55,22 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
                 Toast.makeText(this, "Error while getting source: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
+        // Si el servicio es destruido por baja memoria, Android reinicia el servicio
         return START_STICKY;
     }
 
+    // Detiene el reproductor y libera los recursos
     @Override
     public void onDestroy() {
         super.onDestroy();
         if(reproductor != null){
+            //if (reproductor.isPlaying()) {
             reproductor.stop();
             reproductor.reset();
             reproductor.release();
             reproductor = null;
         }
     }
-
-        /*if (reproductor != null) {
-            if (reproductor.isPlaying()) {
-                reproductor.stop();
-            }
-            reproductor.release();
-        }*/
-
-    //}
 
     @Override
     public void onBufferingUpdate(MediaPlayer mediaPlayer, int i) {
