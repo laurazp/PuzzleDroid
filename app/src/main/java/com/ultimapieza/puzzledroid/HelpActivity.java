@@ -19,7 +19,8 @@ public class HelpActivity extends AppCompatActivity {
         // Muestra la información de ayuda en una WebView
         webView = (WebView) findViewById(R.id.webview);
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("https://drive.google.com/file/d/1OT6a_2AxCnHjzg8u91i9uttn1DCKycGb/view?usp=sharing");
+        //webView.loadUrl("https://drive.google.com/file/d/1OT6a_2AxCnHjzg8u91i9uttn1DCKycGb/view?usp=sharing");
+        webView.loadUrl("https://live.staticflickr.com/65535/51986639509_9c2ba3570f_z.jpg");
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
