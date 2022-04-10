@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,6 +39,8 @@ public class ResultActivity extends AppCompatActivity {
         TextView highScoreLabel = (TextView) findViewById(R.id.highScoreLabel);
         TextView name = findViewById(R.id.viewName);
         TextView score_p = findViewById(R.id.viewScore);
+        Button addcalendarButton=findViewById(R.id.addcalendarButton);
+
 
         db = new DbNewPlayer(this);
 
@@ -88,6 +92,36 @@ public class ResultActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        addcalendarButton.setOnClickListener(new View.OnClickListener(){
+             @Override
+             public void onClick(View v) {
+                 //Intent intent = new Intent (v.getContext(), Calendar.class);
+                // en el titulo o en la descripción hay que poner la puntuación
+                 Intent intent = new Intent(Intent.ACTION_EDIT)
+                 .setData(CalendarContract.Events.CONTENT_URI)
+                 .putExtra(CalendarContract.Events.TITLE," My Score")
+                 //.putExtra(CalendarContract.Events.EVENT_LOCATION," Anywhere")
+                 .putExtra(CalendarContract.Events.DESCRIPTION,"Points");
+                 //.putExtra(CalendarContract.Events.ALL_DAY," true");
+                 //en caso de que queramos añadir contactos al evento
+                 //.putExtra(Intent.EXTRA_EMAIL, " player@gmail.com, player1@gmail.com" );
+                 startActivity(intent);
+
+                 //con el siguiente if comprobamos si el calendario puede añadir los cambios
+                 if(intent.resolveActivity(getPackageManager())!=null){
+                     startActivity(intent);
+                 }else{
+                     Toast.makeText(ResultActivity.this,"There is not app than can support this action",
+                             Toast.LENGTH_SHORT).show();
+                 }
+
+
+             }
+
+             //v.getContext().startActivity(intent);
+        });
+
     }
 
     //TODO: CONFIRMAR QUE NO SE USA Y BORRAR

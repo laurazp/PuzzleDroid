@@ -48,4 +48,12 @@
         app:cornerRadius="15dp"
         android:textAllCaps="false"/>
 
+    <Button
+        android:id="@+id/addcalendarButton"
+        android:layout_width="179dp"
+        android:layout_height="49dp"
+        android:width="60dp"
+        android:text="Add Calendar"
+        app:cornerRadius="50dp" />
+
 </LinearLayout>

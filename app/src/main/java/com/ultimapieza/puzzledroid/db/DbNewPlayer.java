@@ -66,6 +66,7 @@ public class DbNewPlayer extends DbHelperNewPlayer {
         catch(Exception ex){
             ex.toString();
         }
+
     }
 
 }

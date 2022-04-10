@@ -36,6 +36,7 @@ public class ScoreActivity extends AppCompatActivity {
         adapters.notifyDataSetChanged();
         listPlayer.setAdapter(adapters);
 
+
         // Al hacer click en el botón "Play Again", vuelve a la activity de elegir imagen para el puzzle
         galleryButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -54,6 +55,7 @@ public class ScoreActivity extends AppCompatActivity {
                 v.getContext().startActivity(intent);
             }
         });
+
 
     }
 }
