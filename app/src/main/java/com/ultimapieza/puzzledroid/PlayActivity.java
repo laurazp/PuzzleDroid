@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,9 +14,8 @@ public class PlayActivity extends AppCompatActivity {
     String userName;
     int numOfPieces;
 
-    ImageView imageView;
-
     private String[] tileList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +27,7 @@ public class PlayActivity extends AppCompatActivity {
         score = getIntent().getIntExtra("SCORE", 0);
         userName = getIntent().getStringExtra("USERNAME");
 
-
+        // Define buttons
         Button selectButton = findViewById(R.id.selectBtn);
         Button backButton = findViewById(R.id.backBtn);
 
@@ -56,14 +54,21 @@ public class PlayActivity extends AppCompatActivity {
                 v.getContext().startActivity(intent);
             }
         });
-
     }
 
-    // Open Device Folder and search for photos
+    // Starts PuzzleActivity and puts a value of 1 in "CAMERA"
     public void openCamera (View view) {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
+
+        Intent intent = new Intent(getApplicationContext(), PuzzleActivity.class);
+        intent.putExtra("SCORE", score);
+        intent.putExtra("USERNAME", userName);
+        intent.putExtra("NUMOFPIECES", numOfPieces);
+        intent.putExtra("CAMERA", 1);
         startActivity(intent);
+
+        //Intent intent = new Intent(Intent.ACTION_PICK);
+        //intent.setType("image/*");
+        //startActivity(intent);
     }
 
 }
