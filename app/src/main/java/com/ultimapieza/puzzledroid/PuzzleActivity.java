@@ -2,8 +2,12 @@ package com.ultimapieza.puzzledroid;
 
 import static java.lang.Math.abs;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -15,12 +19,15 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
@@ -37,71 +44,133 @@ public class PuzzleActivity extends AppCompatActivity {
     ArrayList<PuzzlePiece> pieces;
     private int score;
     String userName;
-
+    int camera;
     int rows;
     int numOfPieces;
+
+    ImageView imageView;
+    Bitmap selectedImage;
+    RelativeLayout layout;
 
     // Declaring a Timer
     Timer timer;
     TimerTask timerTask;
     Double time = 0.0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_puzzle);
 
-        final RelativeLayout layout = findViewById(R.id.layout);
-        final ImageView imageView = findViewById(R.id.imageView);
+        layout = findViewById(R.id.layout);
+        imageView = findViewById(R.id.imageView);
 
-        // Recibe el nombre de la imagen para el puzzle
+        // Recibe el nombre de la imagen elegida desde las imágenes estáticas de la app
         Intent intent = getIntent();
         final String assetName = intent.getStringExtra("assetName");
 
-        // pruebas recibir imagen
-
-        // fin pruebas
-
-
-
-        //Recibe los valores de score, username y numOfPieces
+        //Recibe los valores de score, username, numOfPieces y camera
         numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
         score = getIntent().getIntExtra("SCORE", 0);
         userName = getIntent().getStringExtra("USERNAME");
+        camera = getIntent().getIntExtra("CAMERA", 0);
         Log.d("NumOfPieces = ", String.valueOf(numOfPieces));
 
         // Asigna el valor de numOfPieces a las filas del puzzle
         rows = numOfPieces;
 
+        // Si se ha elegido seleccionar foto desde la propia cámara, se llama a selectImage() que lanza el menú de opciones de cámara
+        if (camera == 1) {
+            selectImage(this);
+        }
+        else {
+            // Run image related code after the view was laid out to have all dimensions calculated
+            imageView.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (assetName != null) {
+                        setPicFromAsset(assetName, imageView);
+                    }
+                    // Split the image into pieces
+                    pieces = splitImage(numOfPieces + 1);
+                    TouchListener touchListener;
+                    touchListener = new TouchListener(PuzzleActivity.this);
+
+                    // Shuffle pieces order
+                    Collections.shuffle(pieces);
+                    for(PuzzlePiece piece : pieces) {
+                        piece.setOnTouchListener(touchListener);
+                        layout.addView(piece);
+
+                        // Randomize position, on the bottom of the screen
+                        RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
+                        lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
+                        lParams.topMargin = layout.getHeight() - piece.pieceHeight;
+                        piece.setLayoutParams(lParams);
+                    }
+                }
+            });
+        }
+
         // Set the timer on
         timer = new Timer();
         startTimer();
+    }
 
-        // Run image related code after the view was laid out to have all dimensions calculated
-        imageView.post(new Runnable() {
-            @Override
-            public void run() {
-                if (assetName != null) {
-                    setPicFromAsset(assetName, imageView);
-                }
-                pieces = splitImage(numOfPieces + 1);
-                TouchListener touchListener;
-                touchListener = new TouchListener(PuzzleActivity.this);
+    // Una vez hecha la foto con la cámara o seleccionada de la galería, vuelve a la PlayActivity con esa foto
+    // onActivityResult se activa después de los eventos de la cámara, porque se vuelve a la activity desde la que se llamaron
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_CANCELED) {
+            switch (requestCode) {
+                case 0: // TakePhoto
+                    if (resultCode == RESULT_OK && data != null) {
+                        selectedImage = (Bitmap) data.getExtras().get("data");
+                        // Establece la foto hecha con la cámara como fondo del ImageView
+                        imageView.setImageBitmap(selectedImage);
 
-                // Shuffle pieces order
-                Collections.shuffle(pieces);
-                for(PuzzlePiece piece : pieces) {
-                    piece.setOnTouchListener(touchListener);
-                    layout.addView(piece);
+                        // Llama al método que parte la imagen en piezas
+                        pieces = splitImage(numOfPieces + 1);
+                        TouchListener touchListener;
+                        touchListener = new TouchListener(PuzzleActivity.this);
 
-                    // Randomize position, on the bottom of the screen
-                    RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
-                    lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
-                    lParams.topMargin = layout.getHeight() - piece.pieceHeight;
-                    piece.setLayoutParams(lParams);
-                }
+                        // Shuffle pieces order
+                        Collections.shuffle(pieces);
+                        for(PuzzlePiece piece : pieces) {
+                            piece.setOnTouchListener(touchListener);
+                            layout.addView(piece);
+
+                            // Randomize position, on the bottom of the screen
+                            RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
+                            lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
+                            lParams.topMargin = layout.getHeight() - piece.pieceHeight;
+                            piece.setLayoutParams(lParams);
+                        }
+                    }
+                    break;
+                case 1: //Choose from Gallery
+                    if (resultCode == RESULT_OK && data != null) {
+                        Uri selectedImage = data.getData();
+                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                        if (selectedImage != null) {
+                            Cursor cursor = getContentResolver().query(selectedImage,
+                                    filePathColumn, null, null, null);
+                            if (cursor != null) {
+                                cursor.moveToFirst();
+
+                                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                                String picturePath = cursor.getString(columnIndex);
+                                // Establece la foto seleccionada de la galería como fondo del ImageView
+                                imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                                cursor.close();
+                            }
+                        }
+                    }
+                    break;
             }
-        });
+        }
     }
 
     // Method to set the timer on
@@ -206,6 +275,7 @@ public class PuzzleActivity extends AppCompatActivity {
 
     // Splitting the image into a number of pieces for the puzzle
     private ArrayList<PuzzlePiece> splitImage(int rows) {
+        Bitmap bitmap;
         rows = rows;
         int cols = 1;
         int piecesNumber = rows * cols;
@@ -215,7 +285,14 @@ public class PuzzleActivity extends AppCompatActivity {
 
         // Get the scaled bitmap of the source image
         BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
-        Bitmap bitmap = drawable.getBitmap();
+        //Bitmap bitmap = drawable.getBitmap();
+
+        if (drawable == null) {
+            bitmap = selectedImage;
+        }
+        else {
+            bitmap = drawable.getBitmap();
+        }
 
         int[] dimensions = getBitmapPositionInsideImageView(imageView);
         int scaledBitmapLeft = dimensions[0];
@@ -379,6 +456,37 @@ public class PuzzleActivity extends AppCompatActivity {
         ret[1] = top;
 
         return ret;
+    }
+
+
+    // Show a menu to choose between camera or photo gallery
+    public void selectImage(Context context) {
+        final CharSequence[] options = { "Take Photo", "Choose from Gallery", "Cancel" };
+
+        // Open the menu as an AlertDialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Choose an action");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+
+                if (options[item].equals("Take Photo")) {
+                    Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(takePicture, 0);
+                    startActivity(takePicture);
+
+                } else if (options[item].equals("Choose from Gallery")) {
+                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(pickPhoto , 1);
+                    startActivity(pickPhoto);
+
+                } else if (options[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
     }
 
 }
