@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ultimapieza.puzzledroid.db.DbHelperNewPlayer;
 import com.ultimapieza.puzzledroid.db.DbNewPlayer;
 import com.ultimapieza.puzzledroid.entidades.Players;
+import com.ultimapieza.puzzledroid.PushME;
 
 import java.util.ArrayList;
 
@@ -66,6 +67,9 @@ public class ResultActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = settings.edit();
             editor.putInt("HIGH_SCORE", score);
             editor.commit();
+            //Integrar aqui parte del codigo para notificacion push
+            //Enlazar con clase PushME;
+
         } else {
             highScoreLabel.setText("High Score: " + highScore);
         }

@@ -46,6 +46,9 @@
             android:name=".SettingsActivity"
             android:exported="false" />
         <activity
+            android:name=".PushME"
+            android:exported="false" />
+        <activity
             android:name=".PlayActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
