@@ -58,6 +58,12 @@ public class PuzzleActivity extends AppCompatActivity {
         Intent intent = getIntent();
         final String assetName = intent.getStringExtra("assetName");
 
+        // pruebas recibir imagen
+
+        // fin pruebas
+
+
+
         //Recibe los valores de score, username y numOfPieces
         numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
         score = getIntent().getIntExtra("SCORE", 0);
