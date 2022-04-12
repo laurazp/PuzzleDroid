@@ -86,7 +86,7 @@ public class ResultActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Mete la puntuación en la base de datos
                 int finalScore = score;
-                Log.d("Score después del botón", String.valueOf(finalScore));
+                //Log.d("Score después del botón", String.valueOf(finalScore));
                 Log.d("Nombre después de botón", String.valueOf(userName));
 
                 //Llama a la función updatePlayer para actualizar el registro de la base de datos y añadir la puntuación
@@ -102,11 +102,12 @@ public class ResultActivity extends AppCompatActivity {
              public void onClick(View v) {
                  //Intent intent = new Intent (v.getContext(), Calendar.class);
                 // en el titulo o en la descripción hay que poner la puntuación
+                 Log.d("Score después del botón", String.valueOf(score));
                  Intent intent = new Intent(Intent.ACTION_EDIT)
                  .setData(CalendarContract.Events.CONTENT_URI)
-                 .putExtra(CalendarContract.Events.TITLE," My Score")
+                 .putExtra(CalendarContract.Events.TITLE," My Score" +" "+ String.valueOf(score));
                  //.putExtra(CalendarContract.Events.EVENT_LOCATION," Anywhere")
-                 .putExtra(CalendarContract.Events.DESCRIPTION,"Points");
+                 //.putExtra(CalendarContract.Events.DESCRIPTION,String.valueOf(score));
                  //.putExtra(CalendarContract.Events.ALL_DAY," true");
                  //en caso de que queramos añadir contactos al evento
                  //.putExtra(Intent.EXTRA_EMAIL, " player@gmail.com, player1@gmail.com" );
