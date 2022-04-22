@@ -38,6 +38,7 @@ public class ImageAdapter extends BaseAdapter {
         return files.length;
     }
 
+
     public Object getItem(int position) {
         return null;
     }
@@ -45,6 +46,7 @@ public class ImageAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return 0;
     }
+
 
     // Create a new ImageView for each item referenced by the Adapter
     public View getView(final int position, View convertView, ViewGroup parent) {

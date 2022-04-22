@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class PlayActivity extends AppCompatActivity {
@@ -15,7 +19,17 @@ public class PlayActivity extends AppCompatActivity {
     int numOfPieces;
 
     private String[] tileList;
+    /*ActivityResultLauncher<Intent> startForResult=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if(result !=null && result.getResultCode()==RESULT_OK){
 
+
+
+
+            }
+        }
+    });*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +52,13 @@ public class PlayActivity extends AppCompatActivity {
         selectButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+
+                /*Laura code
                 Intent intent = new Intent (v.getContext(), GalleryActivity.class);
                 intent.putExtra("SCORE", score);
                 intent.putExtra("USERNAME", userName);
                 intent.putExtra("NUMOFPIECES", numOfPieces);
-                v.getContext().startActivity(intent);
+                v.getContext().startActivity(intent);*/
             }
         });
 
