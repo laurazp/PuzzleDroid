@@ -66,9 +66,12 @@ public class PuzzleActivity extends AppCompatActivity {
         layout = findViewById(R.id.layout);
         imageView = findViewById(R.id.imageView);
 
+
+
         // Recibe el nombre de la imagen elegida desde las imágenes estáticas de la app
         Intent intent = getIntent();
         final String assetName = intent.getStringExtra("assetName");
+        final String mCurrentPhotoUri = intent.getStringExtra("mCurrentPhotoUri");
 
         //Recibe los valores de score, username, numOfPieces y camera
         numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
@@ -92,6 +95,10 @@ public class PuzzleActivity extends AppCompatActivity {
                     if (assetName != null) {
                         setPicFromAsset(assetName, imageView);
                     }
+                    if (mCurrentPhotoUri != null) {
+                        setPicFromAsset(mCurrentPhotoUri, imageView);
+                    }
+
                     // Split the image into pieces
                     pieces = splitImage(numOfPieces + 1);
                     TouchListener touchListener;
@@ -164,7 +171,23 @@ public class PuzzleActivity extends AppCompatActivity {
                                 String picturePath = cursor.getString(columnIndex);
                                 // Establece la foto seleccionada de la galería como fondo del ImageView
                                 imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+
                                 cursor.close();
+
+                            }
+                            pieces = splitImage(numOfPieces + 1);
+                            TouchListener touchListener;
+                            touchListener = new TouchListener(PuzzleActivity.this);
+                            Collections.shuffle(pieces);
+                            for(PuzzlePiece piece : pieces) {
+                                piece.setOnTouchListener(touchListener);
+                                layout.addView(piece);
+
+                                // Randomize position, on the bottom of the screen
+                                RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
+                                lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
+                                lParams.topMargin = layout.getHeight() - piece.pieceHeight;
+                                piece.setLayoutParams(lParams);
                             }
                         }
                     }

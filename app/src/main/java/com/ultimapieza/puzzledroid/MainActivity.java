@@ -78,11 +78,11 @@ public class MainActivity extends AppCompatActivity {
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
                 DbHelperNewPlayer dbNhelper= new DbHelperNewPlayer(MainActivity.this);
                 SQLiteDatabase dbNew = dbNhelper.getWritableDatabase();
-                if (db != null || dbNew !=null) {
+                /*if (db != null || dbNew !=null) {
                     Toast.makeText(MainActivity.this, "DATABASE SUCCESFULLY CREATED", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(MainActivity.this, "ERROR CREATING THE DATABASE", Toast.LENGTH_LONG).show();
-                }
+                }*/
                 Intent intent5 = new Intent (v.getContext(), ScoreActivity.class);
                 v.getContext().startActivity(intent5);
             }
