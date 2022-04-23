@@ -22,17 +22,12 @@ public class PushME extends AppCompatActivity {
     private final static String CHANNEL_ID = "NOTIFICACION";
     private final static int NOTIFICACION_ID = 0;
 
+    public void notifications(){
 
-
-
-    private void notifications(){
         createNotificationChannel();
         createNotification();
-
     }
-
-
-         private void createNotificationChannel(){
+         public void createNotificationChannel(){
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
 
                 CharSequence name = "Notificacion";
@@ -44,10 +39,10 @@ public class PushME extends AppCompatActivity {
 
          }
 
-         private void createNotification() {
-             Intent intenta = new Intent(this, PushME.class);
-             intenta.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intenta, PendingIntent.FLAG_IMMUTABLE);
+         public void createNotification() {
+             Intent intent = new Intent(this, PushME.class);
+             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
              NotificationCompat.Builder builder = new NotificationCompat.Builder(PushME.this, CHANNEL_ID);
              builder.setSmallIcon(R.drawable.notification_icon);
