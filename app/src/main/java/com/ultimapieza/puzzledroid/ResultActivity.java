@@ -1,8 +1,12 @@
 package com.ultimapieza.puzzledroid;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.util.Log;
@@ -12,12 +16,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ultimapieza.puzzledroid.db.DbHelperNewPlayer;
 import com.ultimapieza.puzzledroid.db.DbNewPlayer;
 import com.ultimapieza.puzzledroid.entidades.Players;
+import com.ultimapieza.puzzledroid.PushME;
 
+import java.security.cert.CertPathBuilder;
 import java.util.ArrayList;
 
 public class ResultActivity extends AppCompatActivity {
@@ -29,6 +37,9 @@ public class ResultActivity extends AppCompatActivity {
     RecyclerView listPlayer;
     ArrayList<Players> listArrayPlayers;
     DbNewPlayer db;
+    PushME pushME;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +54,7 @@ public class ResultActivity extends AppCompatActivity {
 
 
         db = new DbNewPlayer(this);
+        PushME pushME1 = new PushME();
 
         Button scoretableBtn = findViewById(R.id.scoretableBtn);
 
@@ -66,9 +78,19 @@ public class ResultActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = settings.edit();
             editor.putInt("HIGH_SCORE", score);
             editor.commit();
+            //Integrar aqui parte del codigo para notificacion push
+
+
+            //Enlazar con clase PushME;
+
         } else {
+
             highScoreLabel.setText("High Score: " + highScore);
+
         }
+
+
+
 
         //Recibe el valor de numOfPieces
         numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
@@ -124,6 +146,7 @@ public class ResultActivity extends AppCompatActivity {
         });
 
     }
+
 
     //TODO: CONFIRMAR QUE NO SE USA Y BORRAR
     public int getFinalScore() {
