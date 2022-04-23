@@ -42,9 +42,15 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         // Recibe el path del archivo de música
-        filePath = intent.getStringExtra("FilePath");
-        Log.d("Path to music is ", String.valueOf(filePath));
-        reproductor.reset();
+        try {
+            filePath = intent.getStringExtra("FilePath");
+            Log.d("Path to music is ", String.valueOf(filePath));
+            reproductor.reset();
+        }
+        catch (Exception e) {
+            Log.d("Error en path de música", e.getMessage());
+        }
+
 
         // Pone en marcha el reproductor de manera asíncrona
         if (!reproductor.isPlaying()) {
