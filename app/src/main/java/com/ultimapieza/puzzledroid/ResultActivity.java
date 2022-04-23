@@ -23,9 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ultimapieza.puzzledroid.db.DbHelperNewPlayer;
 import com.ultimapieza.puzzledroid.db.DbNewPlayer;
 import com.ultimapieza.puzzledroid.entidades.Players;
-import com.ultimapieza.puzzledroid.PushME;
 
-import java.security.cert.CertPathBuilder;
 import java.util.ArrayList;
 
 public class ResultActivity extends AppCompatActivity {
@@ -37,7 +35,9 @@ public class ResultActivity extends AppCompatActivity {
     RecyclerView listPlayer;
     ArrayList<Players> listArrayPlayers;
     DbNewPlayer db;
-    PushME pushME;
+    private PendingIntent pendingIntent;
+    private final static String CHANNEL_ID = "NOTIFICACION";
+    private final static int NOTIFICACION_ID = 0;
 
 
 
@@ -54,7 +54,7 @@ public class ResultActivity extends AppCompatActivity {
 
 
         db = new DbNewPlayer(this);
-        PushME pushME1 = new PushME();
+
 
         Button scoretableBtn = findViewById(R.id.scoretableBtn);
 
@@ -79,15 +79,14 @@ public class ResultActivity extends AppCompatActivity {
             editor.putInt("HIGH_SCORE", score);
             editor.commit();
             //Integrar aqui parte del codigo para notificacion push
-
+            createNotificationChannel();
+            createNotification();
 
             //Enlazar con clase PushME;
 
         } else {
 
             highScoreLabel.setText("High Score: " + highScore);
-
-            pushME.createNotification();
 
         }
 
@@ -165,5 +164,41 @@ public class ResultActivity extends AppCompatActivity {
         intent.putExtra("NUMOFPIECES", numOfPieces);
         startActivity(intent);
     }
+
+
+    //pushME
+
+
+    public void createNotificationChannel(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+
+            CharSequence name = "Notificacion";
+            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(notificationChannel);
+
+        }
+
+    }
+
+    public void createNotification() {
+        Intent intent = new Intent(this, ResultActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(ResultActivity.this, CHANNEL_ID);
+        builder.setSmallIcon(R.drawable.notification_icon);
+        builder.setContentTitle("HAS REALIZADO UN RECORD");
+        builder.setContentText("Has realizado un nuevo record, enhorabuena. Te quedas en el ranking");
+        builder.setColor(Color.GREEN);
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        builder.setContentIntent(pendingIntent);
+        builder.setAutoCancel(true);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(ResultActivity.this);
+        notificationManager.notify(1, builder.build());
+
+    }
+
 
 }
