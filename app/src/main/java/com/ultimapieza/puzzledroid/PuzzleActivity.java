@@ -145,26 +145,28 @@ public class PuzzleActivity extends AppCompatActivity {
             });
         }
 
-        if(ownPhotos) {
+        if(ownPhotos && camera != 1) {
             // TODO: Display image randomly from user's photo gallery
             // Llama a la función pickImagesIntent para que entre en OnActivityResult
             //pickImagesIntent();
 
+            // Crea un Array con los valores de las imágenes de la galería del usuario
             String[] projection = new String[]{
                     MediaStore.Images.Media.DATA,
             };
 
             Uri images = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-            Cursor cur = managedQuery(images,
+            Cursor cur = getContentResolver().query(images,
                     projection,
-                    "",
                     null,
-                    "");
+                    null,
+                    null);
             final ArrayList<String> imagesPath = new ArrayList<String>();
             if (cur.moveToFirst()) {
 
                 int dataColumn = cur.getColumnIndex(
                         MediaStore.Images.Media.DATA);
+                // Añade las imágenes al Array
                 do {
                     imagesPath.add(cur.getString(dataColumn));
                 } while (cur.moveToNext());
@@ -172,6 +174,7 @@ public class PuzzleActivity extends AppCompatActivity {
             cur.close();
             final Random random = new Random();
             final int count = imagesPath.size();
+            Log.d("Tamaño del Array", String.valueOf(imagesPath.size()));
             handler.post(new Runnable() {
                 @Override
                 public void run() {
