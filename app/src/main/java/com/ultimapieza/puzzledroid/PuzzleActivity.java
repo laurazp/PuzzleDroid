@@ -3,6 +3,7 @@ package com.ultimapieza.puzzledroid;
 import static java.lang.Math.abs;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
@@ -28,11 +29,15 @@ import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -60,6 +65,17 @@ public class PuzzleActivity extends AppCompatActivity {
     Bitmap selectedImage;
     RelativeLayout layout;
 
+    // Store image Uris in this ArrayList
+    private ArrayList<Uri> imageUris;
+
+    private ImageSwitcher imagesIs;
+
+    // Request code to pick images
+    private static final int PICK_IMAGES_CODE =0;
+
+    // Position of selected random image
+    int position = 0;
+
     // Declaring a Timer
     Timer timer;
     TimerTask timerTask;
@@ -73,6 +89,20 @@ public class PuzzleActivity extends AppCompatActivity {
 
         layout = findViewById(R.id.layout);
         imageView = findViewById(R.id.imageView);
+
+        if (ownPhotos) {
+            // Init ArrayList of Uris
+            imageUris = new ArrayList<>();
+
+            // setup image switcher
+            imagesIs.setFactory(new ViewSwitcher.ViewFactory() {
+                @Override
+                public View makeView() {
+                    ImageView imageView = new ImageView(getApplicationContext());
+                    return imageView;
+                }
+            });
+        }
 
         // Recibe el nombre de la imagen elegida desde las imágenes estáticas de la app
         Intent intent = getIntent();
@@ -137,6 +167,7 @@ public class PuzzleActivity extends AppCompatActivity {
 
     // Una vez hecha la foto con la cámara o seleccionada de la galería, vuelve a la PlayActivity con esa foto
     // onActivityResult se activa después de los eventos de la cámara, porque se vuelve a la activity desde la que se llamaron
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -216,6 +247,42 @@ public class PuzzleActivity extends AppCompatActivity {
                     break;
             }
         }
+
+        if (requestCode == PICK_IMAGES_CODE) {
+            Toast.makeText(this, "Displaying random images from your gallery!", Toast.LENGTH_SHORT).show();
+            if (resultCode == Activity.RESULT_OK) {
+                if (data.getClipData() != null) {
+                    // picked multiple images
+                    int count = data.getClipData().getItemCount(); // number of picked images
+                    for (int i = 0; i > count; i++) {
+                        // get image Uri at specific index
+                        Uri imageUri = data.getClipData().getItemAt(i).getUri();
+                        imageUris.add(imageUri); // add to list
+                    }
+
+                    // set first image to our image switcher
+                    imagesIs.setImageURI(imageUris.get(0));
+                    position = 0;
+                }
+                else {
+                    // picked single image
+                    Uri imageUri = data.getData();
+                    imageUris.add(imageUri);
+                    // set image to our image switcher
+                    imagesIs.setImageURI(imageUris.get(0));
+                    position = 0;
+                }
+                pickImagesIntent();
+            }
+        }
+    }
+
+    private void pickImagesIntent() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select image(s)"), PICK_IMAGES_CODE);
     }
 
     // Method to set the timer on
