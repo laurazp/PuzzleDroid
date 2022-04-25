@@ -119,9 +119,7 @@ public class PuzzleActivity extends AppCompatActivity {
             // Si vienes de darle al botón de PlayAgain
             if(ownPhotos) {
                 Log.d("IF", "Ha entrado en el if(ownPhotos)!!");
-                // TODO: Display image randomly from user's photo gallery
-                // Llama a la función pickImagesIntent para que entre en OnActivityResult
-                //pickImagesIntent();
+                // Display image randomly from user's photo gallery
 
                 // Crea un Array con los valores de las imágenes de la galería del usuario
                 String[] projection = new String[]{
@@ -152,13 +150,38 @@ public class PuzzleActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (!imagesPath.isEmpty()) {
+                            // Selecciona imagen aleatoriamente
                             int number = random.nextInt(count);
                             String path = imagesPath.get(number);
                             if (currentBitmap != null)
                                 currentBitmap.recycle();
                             currentBitmap = BitmapFactory.decodeFile(path);
+                            // Establece la foto aleatoria como imagen para el puzzle
                             imageView.setImageBitmap(currentBitmap);
                             handler.postDelayed(this, 1000);
+
+                            // Rompe la imagen en piezas
+                            if (path != null) {
+                                setPicFromAsset(path, imageView);
+                            }
+
+                            // Split the image into pieces
+                            pieces = splitImage(numOfPieces + 1);
+                            TouchListener touchListener;
+                            touchListener = new TouchListener(PuzzleActivity.this);
+
+                            // Shuffle pieces order
+                            Collections.shuffle(pieces);
+                            for (PuzzlePiece piece : pieces) {
+                                piece.setOnTouchListener(touchListener);
+                                layout.addView(piece);
+
+                                // Randomize position, on the bottom of the screen
+                                RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
+                                lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
+                                lParams.topMargin = layout.getHeight() - piece.pieceHeight;
+                                piece.setLayoutParams(lParams);
+                            }
                         }
                     }
                 });
