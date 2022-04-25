@@ -29,12 +29,9 @@ import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -67,8 +64,9 @@ public class PuzzleActivity extends AppCompatActivity {
 
     // Store image Uris in this ArrayList
     private ArrayList<Uri> imageUris;
+    //Uri imageUri;
 
-    private ImageSwitcher imagesIs;
+    //private ImageSwitcher imagesIs;
 
     // Request code to pick images
     private static final int PICK_IMAGES_CODE =0;
@@ -107,23 +105,7 @@ public class PuzzleActivity extends AppCompatActivity {
         // Asigna el valor de numOfPieces a las filas del puzzle
         rows = numOfPieces;
 
-        if (ownPhotos) {
-            Log.d("OwnPhotos value is ", String.valueOf(ownPhotos));
-            // Init ArrayList of Uris
-            imageUris = new ArrayList<>();
 
-            // setup image switcher
-            imagesIs.setFactory(new ViewSwitcher.ViewFactory() {
-                @Override
-                public View makeView() {
-                    ImageView imageView = new ImageView(getApplicationContext());
-                    return imageView;
-                }
-            });
-
-            // Llama a la función pickImagesIntent para que entre en OnActivityResult
-            pickImagesIntent();
-        }
 
         /*if(ownPhotos) {
             // TODO: Display image randomly from user's photo gallery
@@ -166,6 +148,24 @@ public class PuzzleActivity extends AppCompatActivity {
                     }
                 }
             });
+        }
+
+        if (ownPhotos) {
+            Log.d("OwnPhotos value is ", String.valueOf(ownPhotos));
+            // Init ArrayList of Uris
+            imageUris = new ArrayList<>();
+
+            // setup image switcher
+            /*imagesIs.setFactory(new ViewSwitcher.ViewFactory() {
+                @Override
+                public View makeView() {
+                    ImageView imageView = new ImageView(getApplicationContext());
+                    return imageView;
+                }
+            });*/
+
+            // Llama a la función pickImagesIntent para que entre en OnActivityResult
+            pickImagesIntent();
         }
 
         // Set the timer on
@@ -265,7 +265,8 @@ public class PuzzleActivity extends AppCompatActivity {
                                 }
 
                                 // set first image to our image switcher
-                                imagesIs.setImageURI(imageUris.get(0));
+                                //imageView.setImageURI(imageUri);
+                                //imagesIs.setImageURI(selectedImage);
                                 position = 0;
                             }
                             else {
@@ -273,7 +274,8 @@ public class PuzzleActivity extends AppCompatActivity {
                                 Uri imageUri = data.getData();
                                 imageUris.add(imageUri);
                                 // set image to our image switcher
-                                imagesIs.setImageURI(imageUris.get(0));
+                                imageView.setImageURI(imageUri);
+                                //imagesIs.setImageURI(imageUris.get(0));
                                 position = 0;
                             }
                             pickImagesIntent();
