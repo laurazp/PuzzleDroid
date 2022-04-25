@@ -90,6 +90,23 @@ public class PuzzleActivity extends AppCompatActivity {
         layout = findViewById(R.id.layout);
         imageView = findViewById(R.id.imageView);
 
+        // Recibe el nombre de la imagen elegida desde las imágenes estáticas de la app
+        Intent intent = getIntent();
+        final String assetName = intent.getStringExtra("assetName");
+        final String mCurrentPhotoUri = intent.getStringExtra("mCurrentPhotoUri");
+
+        ownPhotos = intent.getBooleanExtra("ownPhotos", false);
+
+        //Recibe los valores de score, username, numOfPieces y camera
+        numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
+        score = getIntent().getIntExtra("SCORE", 0);
+        userName = getIntent().getStringExtra("USERNAME");
+        camera = getIntent().getIntExtra("CAMERA", 0);
+        Log.d("NumOfPieces = ", String.valueOf(numOfPieces));
+
+        // Asigna el valor de numOfPieces a las filas del puzzle
+        rows = numOfPieces;
+
         if (ownPhotos) {
             // Init ArrayList of Uris
             imageUris = new ArrayList<>();
@@ -103,21 +120,6 @@ public class PuzzleActivity extends AppCompatActivity {
                 }
             });
         }
-
-        // Recibe el nombre de la imagen elegida desde las imágenes estáticas de la app
-        Intent intent = getIntent();
-        final String assetName = intent.getStringExtra("assetName");
-        final String mCurrentPhotoUri = intent.getStringExtra("mCurrentPhotoUri");
-
-        //Recibe los valores de score, username, numOfPieces y camera
-        numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
-        score = getIntent().getIntExtra("SCORE", 0);
-        userName = getIntent().getStringExtra("USERNAME");
-        camera = getIntent().getIntExtra("CAMERA", 0);
-        Log.d("NumOfPieces = ", String.valueOf(numOfPieces));
-
-        // Asigna el valor de numOfPieces a las filas del puzzle
-        rows = numOfPieces;
 
         // Si se ha elegido seleccionar foto desde la propia cámara, se llama a selectImage() que lanza el menú de opciones de cámara
         if (camera == 1) {
