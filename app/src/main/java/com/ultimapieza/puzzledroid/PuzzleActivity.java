@@ -54,6 +54,7 @@ public class PuzzleActivity extends AppCompatActivity {
     int camera;
     int rows;
     int numOfPieces;
+    boolean ownPhotos;
 
     ImageView imageView;
     Bitmap selectedImage;
@@ -72,8 +73,6 @@ public class PuzzleActivity extends AppCompatActivity {
 
         layout = findViewById(R.id.layout);
         imageView = findViewById(R.id.imageView);
-
-
 
         // Recibe el nombre de la imagen elegida desde las imágenes estáticas de la app
         Intent intent = getIntent();
@@ -105,6 +104,10 @@ public class PuzzleActivity extends AppCompatActivity {
                     if (mCurrentPhotoUri != null) {
                         setPicFromAsset(mCurrentPhotoUri, imageView);
                     }
+                    /*if(ownPhotos) {
+                        // TODO: Display image randomly from user's photo gallery
+
+                    }*/
 
                     // Split the image into pieces
                     pieces = splitImage(numOfPieces + 1);
@@ -176,11 +179,11 @@ public class PuzzleActivity extends AppCompatActivity {
 
                                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                                 String picturePath = cursor.getString(columnIndex);
-                                // Establece la foto seleccionada de la galería como fondo del ImageView
 
-                                // TODO: GRANT PERMISSIONS HERE ??
+                                // Grant permissions
                                 writeStoragePermissionGranted();
 
+                                // Establece la foto seleccionada de la galería como fondo del ImageView
                                 setPicFromPath(picturePath, imageView);
                                 //imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
@@ -190,6 +193,7 @@ public class PuzzleActivity extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                                 TouchListener touchListener;
+                                ownPhotos = true;
                                 touchListener = new TouchListener(PuzzleActivity.this);
                                 Collections.shuffle(pieces);
                                 for(PuzzlePiece piece : pieces) {
@@ -248,6 +252,9 @@ public class PuzzleActivity extends AppCompatActivity {
             intent.putExtra("SCORE", score);
             intent.putExtra("USERNAME", userName);
             intent.putExtra("NUMOFPIECES", numOfPieces + 1);
+            if (ownPhotos) {
+                intent.putExtra("ownPhotos", true);
+            }
             startActivity(intent);
 
             //finish();
