@@ -134,10 +134,11 @@ public class PuzzleActivity extends AppCompatActivity {
                     if (mCurrentPhotoUri != null) {
                         setPicFromAsset(mCurrentPhotoUri, imageView);
                     }
-                    /*if(ownPhotos) {
+                    if(ownPhotos) {
                         // TODO: Display image randomly from user's photo gallery
-
-                    }*/
+                        // Llama a la función pickImagesIntent para que entre en OnActivityResult
+                        pickImagesIntent();
+                    }
 
                     // Split the image into pieces
                     pieces = splitImage(numOfPieces + 1);
@@ -240,8 +241,6 @@ public class PuzzleActivity extends AppCompatActivity {
 
                                 cursor.close();
                             }
-
-
                         }
                     }
                     break;
@@ -275,6 +274,7 @@ public class PuzzleActivity extends AppCompatActivity {
                 pickImagesIntent();
             }
         }
+
     }
 
     private void pickImagesIntent() {

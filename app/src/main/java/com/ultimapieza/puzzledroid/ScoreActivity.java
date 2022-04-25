@@ -2,6 +2,7 @@ package com.ultimapieza.puzzledroid;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,7 +32,7 @@ public class ScoreActivity extends AppCompatActivity {
 
         // Recibimos el valor de "ownPhotos"
         Intent intent = getIntent();
-        boolean ownPhotos = intent.getBooleanExtra("ownPhotos", false);
+        ownPhotos = intent.getBooleanExtra("ownPhotos", false);
 
         // Llamamos al método mostrarPlayers para que se muestren en la ReciclerView
         DbNewPlayer dbNewPlayer=new DbNewPlayer(ScoreActivity.this);
@@ -47,9 +48,11 @@ public class ScoreActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Check if last image was chosen from user's gallery or static images
+                Log.d("OwnPhotos boolean es ", String.valueOf(ownPhotos));
                 if (ownPhotos) {
                     // Go to PuzzleActivity and Display image randomly from user's photo gallery
                     Intent intent = new Intent (v.getContext(), PuzzleActivity.class);
+                    Log.d("OwnPhotos boolean es ", String.valueOf(ownPhotos));
                     intent.putExtra("ownPhotos", ownPhotos);
                     v.getContext().startActivity(intent);
                 }
