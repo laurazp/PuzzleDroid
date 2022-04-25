@@ -110,7 +110,57 @@ public class PuzzleActivity extends AppCompatActivity {
 
         // Si se ha elegido seleccionar foto desde la propia cámara, se llama a selectImage() que lanza el menú de opciones de cámara
         if (camera == 1) {
-            selectImage(this);
+            // Si vienes de darle al botón de PlayAgain
+            if(ownPhotos) {
+                Log.d("IF", "Ha entrado en el if(ownPhotos)!!");
+                // TODO: Display image randomly from user's photo gallery
+                // Llama a la función pickImagesIntent para que entre en OnActivityResult
+                //pickImagesIntent();
+
+                // Crea un Array con los valores de las imágenes de la galería del usuario
+                String[] projection = new String[]{
+                        MediaStore.Images.Media.DATA,
+                };
+
+                Uri images = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                Cursor cur = getContentResolver().query(images,
+                        projection,
+                        null,
+                        null,
+                        null);
+                final ArrayList<String> imagesPath = new ArrayList<String>();
+                if (cur.moveToFirst()) {
+
+                    int dataColumn = cur.getColumnIndex(
+                            MediaStore.Images.Media.DATA);
+                    // Añade las imágenes al Array
+                    do {
+                        imagesPath.add(cur.getString(dataColumn));
+                    } while (cur.moveToNext());
+                }
+                cur.close();
+                final Random random = new Random();
+                final int count = imagesPath.size();
+                Log.d("Tamaño del Array", String.valueOf(imagesPath.size()));
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!imagesPath.isEmpty()) {
+                            int number = random.nextInt(count);
+                            String path = imagesPath.get(number);
+                            if (currentBitmap != null)
+                                currentBitmap.recycle();
+                            currentBitmap = BitmapFactory.decodeFile(path);
+                            imageView.setImageBitmap(currentBitmap);
+                            handler.postDelayed(this, 1000);
+                        }
+                    }
+                });
+            }
+            // Si es la primera vez que seleccionas desde tus fotos
+            else {
+                selectImage(this);
+            }
         }
         else {
             // Run image related code after the view was laid out to have all dimensions calculated
@@ -145,49 +195,7 @@ public class PuzzleActivity extends AppCompatActivity {
             });
         }
 
-        if(ownPhotos && camera != 1) {
-            // TODO: Display image randomly from user's photo gallery
-            // Llama a la función pickImagesIntent para que entre en OnActivityResult
-            //pickImagesIntent();
 
-            // Crea un Array con los valores de las imágenes de la galería del usuario
-            String[] projection = new String[]{
-                    MediaStore.Images.Media.DATA,
-            };
-
-            Uri images = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-            Cursor cur = getContentResolver().query(images,
-                    projection,
-                    null,
-                    null,
-                    null);
-            final ArrayList<String> imagesPath = new ArrayList<String>();
-            if (cur.moveToFirst()) {
-
-                int dataColumn = cur.getColumnIndex(
-                        MediaStore.Images.Media.DATA);
-                // Añade las imágenes al Array
-                do {
-                    imagesPath.add(cur.getString(dataColumn));
-                } while (cur.moveToNext());
-            }
-            cur.close();
-            final Random random = new Random();
-            final int count = imagesPath.size();
-            Log.d("Tamaño del Array", String.valueOf(imagesPath.size()));
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    int number = random.nextInt(count);
-                    String path = imagesPath.get(number);
-                    if (currentBitmap != null)
-                        currentBitmap.recycle();
-                    currentBitmap = BitmapFactory.decodeFile(path);
-                    imageView.setImageBitmap(currentBitmap);
-                    handler.postDelayed(this, 1000);
-                }
-            });
-        }
 
         /*if (ownPhotos) {
             Log.d("OwnPhotos value is ", String.valueOf(ownPhotos));
@@ -271,8 +279,8 @@ public class PuzzleActivity extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                                 TouchListener touchListener;
-                                ownPhotos = true;
                                 touchListener = new TouchListener(PuzzleActivity.this);
+                                ownPhotos = true;
                                 Collections.shuffle(pieces);
                                 for(PuzzlePiece piece : pieces) {
                                     piece.setOnTouchListener(touchListener);
@@ -366,6 +374,7 @@ public class PuzzleActivity extends AppCompatActivity {
             intent.putExtra("SCORE", score);
             intent.putExtra("USERNAME", userName);
             intent.putExtra("NUMOFPIECES", numOfPieces + 1);
+            Log.d("ownPhotos al finalizar", String.valueOf(ownPhotos));
             if (ownPhotos) {
                 intent.putExtra("ownPhotos", true);
             }

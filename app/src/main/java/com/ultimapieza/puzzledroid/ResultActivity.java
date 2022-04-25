@@ -39,7 +39,7 @@ public class ResultActivity extends AppCompatActivity {
     private final static String CHANNEL_ID = "NOTIFICACION";
     private final static int NOTIFICACION_ID = 0;
 
-
+    boolean ownPhotos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +52,11 @@ public class ResultActivity extends AppCompatActivity {
         TextView score_p = findViewById(R.id.viewScore);
         Button addcalendarButton=findViewById(R.id.addcalendarButton);
 
-
         db = new DbNewPlayer(this);
 
+        // Recibimos el valor de "ownPhotos"
+        Intent intent = getIntent();
+        ownPhotos = intent.getBooleanExtra("ownPhotos", false);
 
         Button scoretableBtn = findViewById(R.id.scoretableBtn);
 
@@ -157,12 +159,29 @@ public class ResultActivity extends AppCompatActivity {
 
     // Método para seguir jugando y aumentando la puntuación
     public void playAgain(View view) {
-        Intent intent = new Intent(getApplicationContext(), PlayActivity.class);
-        // Pasamos la puntuación a la clase Play para que siga sumando puntos
-        intent.putExtra("SCORE", score);
-        intent.putExtra("USERNAME", userName);
-        intent.putExtra("NUMOFPIECES", numOfPieces);
-        startActivity(intent);
+
+
+        Log.d("OwnPhotos boolean es ", String.valueOf(ownPhotos));
+        if (ownPhotos) {
+            // Go to PuzzleActivity and Display image randomly from user's photo gallery
+            Intent intent = new Intent (view.getContext(), PuzzleActivity.class);
+            Log.d("OwnPhotos boolean es ", String.valueOf(ownPhotos));
+            intent.putExtra("ownPhotos", ownPhotos);
+            // Pasamos la puntuación a la clase Puzzle para que siga sumando puntos
+            intent.putExtra("SCORE", score);
+            intent.putExtra("USERNAME", userName);
+            intent.putExtra("NUMOFPIECES", numOfPieces);
+            view.getContext().startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(getApplicationContext(), PlayActivity.class);
+            // Pasamos la puntuación a la clase Play para que siga sumando puntos
+            intent.putExtra("SCORE", score);
+            intent.putExtra("USERNAME", userName);
+            intent.putExtra("NUMOFPIECES", numOfPieces);
+            startActivity(intent);
+        }
+
     }
 
 

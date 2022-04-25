@@ -75,7 +75,7 @@ public class PlayActivity extends AppCompatActivity {
         intent.putExtra("USERNAME", userName);
         intent.putExtra("NUMOFPIECES", numOfPieces);
         intent.putExtra("CAMERA", 1);
-        intent.putExtra("ownPhotos", true);
+        //intent.putExtra("ownPhotos", true);
         startActivity(intent);
 
         //Intent intent = new Intent(Intent.ACTION_PICK);

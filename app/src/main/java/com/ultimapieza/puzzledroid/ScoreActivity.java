@@ -2,19 +2,20 @@ package com.ultimapieza.puzzledroid;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.ultimapieza.puzzledroid.adaptadores.ListPlayersAdapter;
 import com.ultimapieza.puzzledroid.db.DbNewPlayer;
 
 
 public class ScoreActivity extends AppCompatActivity {
     RecyclerView listPlayer;
-    boolean ownPhotos;
+    //boolean ownPhotos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +32,8 @@ public class ScoreActivity extends AppCompatActivity {
         listPlayer.setLayoutManager(new LinearLayoutManager(this));
 
         // Recibimos el valor de "ownPhotos"
-        Intent intent = getIntent();
-        ownPhotos = intent.getBooleanExtra("ownPhotos", false);
+        //Intent intent = getIntent();
+        //ownPhotos = intent.getBooleanExtra("ownPhotos", false);
 
         // Llamamos al método mostrarPlayers para que se muestren en la ReciclerView
         DbNewPlayer dbNewPlayer=new DbNewPlayer(ScoreActivity.this);
@@ -48,7 +49,7 @@ public class ScoreActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Check if last image was chosen from user's gallery or static images
-                Log.d("OwnPhotos boolean es ", String.valueOf(ownPhotos));
+                /*Log.d("OwnPhotos boolean es ", String.valueOf(ownPhotos));
                 if (ownPhotos) {
                     // Go to PuzzleActivity and Display image randomly from user's photo gallery
                     Intent intent = new Intent (v.getContext(), PuzzleActivity.class);
@@ -56,10 +57,10 @@ public class ScoreActivity extends AppCompatActivity {
                     intent.putExtra("ownPhotos", ownPhotos);
                     v.getContext().startActivity(intent);
                 }
-                else {
+                else {*/
                     Intent intent = new Intent (v.getContext(), GalleryActivity.class);
                     v.getContext().startActivity(intent);
-                }
+                //}
             }
         });
 
