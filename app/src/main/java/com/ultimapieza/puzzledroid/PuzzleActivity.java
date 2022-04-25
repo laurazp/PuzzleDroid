@@ -109,7 +109,6 @@ public class PuzzleActivity extends AppCompatActivity {
         rows = numOfPieces;
 
 
-
         // Si se ha elegido seleccionar foto desde la propia cámara, se llama a selectImage() que lanza el menú de opciones de cámara
         if (camera == 1) {
             // Si es la primera vez que seleccionas desde tus fotos
@@ -132,7 +131,7 @@ public class PuzzleActivity extends AppCompatActivity {
                         null,
                         null,
                         null);
-                final ArrayList<String> imagesPath = new ArrayList<String>();
+                final ArrayList<String> imagesPath = new ArrayList<>();
                 if (cur.moveToFirst()) {
 
                     int dataColumn = cur.getColumnIndex(
@@ -158,7 +157,7 @@ public class PuzzleActivity extends AppCompatActivity {
                             currentBitmap = BitmapFactory.decodeFile(path);
                             // Establece la foto aleatoria como imagen para el puzzle
                             imageView.setImageBitmap(currentBitmap);
-                            handler.postDelayed(this, 1000);
+                            //handler.postDelayed(this, 1000);
 
                             // Rompe la imagen en piezas
                             if (path != null) {
