@@ -119,7 +119,16 @@ public class PuzzleActivity extends AppCompatActivity {
                     return imageView;
                 }
             });
+
+            // Llama a la función pickImagesIntent para que entre en OnActivityResult
+            pickImagesIntent();
         }
+
+        /*if(ownPhotos) {
+            // TODO: Display image randomly from user's photo gallery
+            // Llama a la función pickImagesIntent para que entre en OnActivityResult
+            pickImagesIntent();
+        }*/
 
         // Si se ha elegido seleccionar foto desde la propia cámara, se llama a selectImage() que lanza el menú de opciones de cámara
         if (camera == 1) {
@@ -135,11 +144,6 @@ public class PuzzleActivity extends AppCompatActivity {
                     }
                     if (mCurrentPhotoUri != null) {
                         setPicFromAsset(mCurrentPhotoUri, imageView);
-                    }
-                    if(ownPhotos) {
-                        // TODO: Display image randomly from user's photo gallery
-                        // Llama a la función pickImagesIntent para que entre en OnActivityResult
-                        pickImagesIntent();
                     }
 
                     // Split the image into pieces
