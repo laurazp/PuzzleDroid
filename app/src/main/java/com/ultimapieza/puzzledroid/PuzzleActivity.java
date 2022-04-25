@@ -3,7 +3,6 @@ package com.ultimapieza.puzzledroid;
 import static java.lang.Math.abs;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
@@ -26,6 +25,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -64,9 +64,12 @@ public class PuzzleActivity extends AppCompatActivity {
 
     // Store image Uris in this ArrayList
     private ArrayList<Uri> imageUris;
-    //Uri imageUri;
 
-    //private ImageSwitcher imagesIs;
+    Handler handler = new Handler();
+
+    protected int counter = 0;
+    //private ImageView mImageView;
+    private Bitmap currentBitmap = null;
 
     // Request code to pick images
     private static final int PICK_IMAGES_CODE =0;
@@ -105,14 +108,6 @@ public class PuzzleActivity extends AppCompatActivity {
         // Asigna el valor de numOfPieces a las filas del puzzle
         rows = numOfPieces;
 
-
-
-        /*if(ownPhotos) {
-            // TODO: Display image randomly from user's photo gallery
-            // Llama a la función pickImagesIntent para que entre en OnActivityResult
-            pickImagesIntent();
-        }*/
-
         // Si se ha elegido seleccionar foto desde la propia cámara, se llama a selectImage() que lanza el menú de opciones de cámara
         if (camera == 1) {
             selectImage(this);
@@ -150,23 +145,64 @@ public class PuzzleActivity extends AppCompatActivity {
             });
         }
 
-        if (ownPhotos) {
+        if(ownPhotos) {
+            // TODO: Display image randomly from user's photo gallery
+            // Llama a la función pickImagesIntent para que entre en OnActivityResult
+            //pickImagesIntent();
+
+            String[] projection = new String[]{
+                    MediaStore.Images.Media.DATA,
+            };
+
+            Uri images = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+            Cursor cur = managedQuery(images,
+                    projection,
+                    "",
+                    null,
+                    "");
+            final ArrayList<String> imagesPath = new ArrayList<String>();
+            if (cur.moveToFirst()) {
+
+                int dataColumn = cur.getColumnIndex(
+                        MediaStore.Images.Media.DATA);
+                do {
+                    imagesPath.add(cur.getString(dataColumn));
+                } while (cur.moveToNext());
+            }
+            cur.close();
+            final Random random = new Random();
+            final int count = imagesPath.size();
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    int number = random.nextInt(count);
+                    String path = imagesPath.get(number);
+                    if (currentBitmap != null)
+                        currentBitmap.recycle();
+                    currentBitmap = BitmapFactory.decodeFile(path);
+                    imageView.setImageBitmap(currentBitmap);
+                    handler.postDelayed(this, 1000);
+                }
+            });
+        }
+
+        /*if (ownPhotos) {
             Log.d("OwnPhotos value is ", String.valueOf(ownPhotos));
             // Init ArrayList of Uris
             imageUris = new ArrayList<>();
 
             // setup image switcher
-            /*imagesIs.setFactory(new ViewSwitcher.ViewFactory() {
+            imagesIs.setFactory(new ViewSwitcher.ViewFactory() {
                 @Override
                 public View makeView() {
                     ImageView imageView = new ImageView(getApplicationContext());
                     return imageView;
                 }
-            });*/
+            });
 
             // Llama a la función pickImagesIntent para que entre en OnActivityResult
             pickImagesIntent();
-        }
+        }*/
 
         // Set the timer on
         timer = new Timer();
@@ -251,7 +287,7 @@ public class PuzzleActivity extends AppCompatActivity {
                         }
                     }
                     break;
-                default:
+                /*default:
                     if (requestCode == PICK_IMAGES_CODE) {
                         Toast.makeText(this, "Displaying random images from your gallery!", Toast.LENGTH_SHORT).show();
                         if (resultCode == Activity.RESULT_OK) {
@@ -280,7 +316,7 @@ public class PuzzleActivity extends AppCompatActivity {
                             }
                             pickImagesIntent();
                         }
-                    }
+                    }*/
             }
         }
     }
