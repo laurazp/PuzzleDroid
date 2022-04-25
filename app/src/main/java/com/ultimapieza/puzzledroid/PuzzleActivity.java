@@ -108,8 +108,14 @@ public class PuzzleActivity extends AppCompatActivity {
         // Asigna el valor de numOfPieces a las filas del puzzle
         rows = numOfPieces;
 
+
+
         // Si se ha elegido seleccionar foto desde la propia cámara, se llama a selectImage() que lanza el menú de opciones de cámara
         if (camera == 1) {
+            // Si es la primera vez que seleccionas desde tus fotos
+            selectImage(this);
+        }
+        else {
             // Si vienes de darle al botón de PlayAgain
             if(ownPhotos) {
                 Log.d("IF", "Ha entrado en el if(ownPhotos)!!");
@@ -157,42 +163,38 @@ public class PuzzleActivity extends AppCompatActivity {
                     }
                 });
             }
-            // Si es la primera vez que seleccionas desde tus fotos
             else {
-                selectImage(this);
+                // Run image related code after the view was laid out to have all dimensions calculated
+                imageView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (assetName != null) {
+                            setPicFromAsset(assetName, imageView);
+                        }
+                        if (mCurrentPhotoUri != null) {
+                            setPicFromAsset(mCurrentPhotoUri, imageView);
+                        }
+
+                        // Split the image into pieces
+                        pieces = splitImage(numOfPieces + 1);
+                        TouchListener touchListener;
+                        touchListener = new TouchListener(PuzzleActivity.this);
+
+                        // Shuffle pieces order
+                        Collections.shuffle(pieces);
+                        for(PuzzlePiece piece : pieces) {
+                            piece.setOnTouchListener(touchListener);
+                            layout.addView(piece);
+
+                            // Randomize position, on the bottom of the screen
+                            RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
+                            lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
+                            lParams.topMargin = layout.getHeight() - piece.pieceHeight;
+                            piece.setLayoutParams(lParams);
+                        }
+                    }
+                });
             }
-        }
-        else {
-            // Run image related code after the view was laid out to have all dimensions calculated
-            imageView.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (assetName != null) {
-                        setPicFromAsset(assetName, imageView);
-                    }
-                    if (mCurrentPhotoUri != null) {
-                        setPicFromAsset(mCurrentPhotoUri, imageView);
-                    }
-
-                    // Split the image into pieces
-                    pieces = splitImage(numOfPieces + 1);
-                    TouchListener touchListener;
-                    touchListener = new TouchListener(PuzzleActivity.this);
-
-                    // Shuffle pieces order
-                    Collections.shuffle(pieces);
-                    for(PuzzlePiece piece : pieces) {
-                        piece.setOnTouchListener(touchListener);
-                        layout.addView(piece);
-
-                        // Randomize position, on the bottom of the screen
-                        RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
-                        lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
-                        lParams.topMargin = layout.getHeight() - piece.pieceHeight;
-                        piece.setLayoutParams(lParams);
-                    }
-                }
-            });
         }
 
 
