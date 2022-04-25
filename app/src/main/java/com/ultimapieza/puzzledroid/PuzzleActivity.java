@@ -108,6 +108,7 @@ public class PuzzleActivity extends AppCompatActivity {
         rows = numOfPieces;
 
         if (ownPhotos) {
+            Log.d("OwnPhotos value is ", String.valueOf(ownPhotos));
             // Init ArrayList of Uris
             imageUris = new ArrayList<>();
 
@@ -250,37 +251,36 @@ public class PuzzleActivity extends AppCompatActivity {
                         }
                     }
                     break;
-            }
-        }
+                default:
+                    if (requestCode == PICK_IMAGES_CODE) {
+                        Toast.makeText(this, "Displaying random images from your gallery!", Toast.LENGTH_SHORT).show();
+                        if (resultCode == Activity.RESULT_OK) {
+                            if (data.getClipData() != null) {
+                                // picked multiple images
+                                int count = data.getClipData().getItemCount(); // number of picked images
+                                for (int i = 0; i > count; i++) {
+                                    // get image Uri at specific index
+                                    Uri imageUri = data.getClipData().getItemAt(i).getUri();
+                                    imageUris.add(imageUri); // add to list
+                                }
 
-        if (requestCode == PICK_IMAGES_CODE) {
-            Toast.makeText(this, "Displaying random images from your gallery!", Toast.LENGTH_SHORT).show();
-            if (resultCode == Activity.RESULT_OK) {
-                if (data.getClipData() != null) {
-                    // picked multiple images
-                    int count = data.getClipData().getItemCount(); // number of picked images
-                    for (int i = 0; i > count; i++) {
-                        // get image Uri at specific index
-                        Uri imageUri = data.getClipData().getItemAt(i).getUri();
-                        imageUris.add(imageUri); // add to list
+                                // set first image to our image switcher
+                                imagesIs.setImageURI(imageUris.get(0));
+                                position = 0;
+                            }
+                            else {
+                                // picked single image
+                                Uri imageUri = data.getData();
+                                imageUris.add(imageUri);
+                                // set image to our image switcher
+                                imagesIs.setImageURI(imageUris.get(0));
+                                position = 0;
+                            }
+                            pickImagesIntent();
+                        }
                     }
-
-                    // set first image to our image switcher
-                    imagesIs.setImageURI(imageUris.get(0));
-                    position = 0;
-                }
-                else {
-                    // picked single image
-                    Uri imageUri = data.getData();
-                    imageUris.add(imageUri);
-                    // set image to our image switcher
-                    imagesIs.setImageURI(imageUris.get(0));
-                    position = 0;
-                }
-                pickImagesIntent();
             }
         }
-
     }
 
     private void pickImagesIntent() {
