@@ -1,8 +1,12 @@
 package com.ultimapieza.puzzledroid;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
@@ -11,10 +15,14 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
+import java.io.FileInputStream;
+
 public class SettingsActivity extends AppCompatActivity {
 
     Switch switch1, switch2;
     boolean stateSwitch1, stateSwitch2;
+    MediaPlayer mediaPlayer;
 
     String filePath = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3";
     Intent serviceIntent;
@@ -25,6 +33,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         Button backButton = findViewById(R.id.backBtn);
+        Button selectMusic = findViewById(R.id.selectMusic);
 
         // Lanzamos el servicio para la música
         serviceIntent = new Intent(this, MyService.class);
@@ -101,6 +110,30 @@ public class SettingsActivity extends AppCompatActivity {
                 v.getContext().startActivity(intent);
             }
         });
+/*
+        Intent intentMusic = new Intent(Intent.ACTION_GET_CONTENT);
+        intentMusic.setType("audio/*");
+        startActivityForResult(intentMusic,1);
+
+        MediaPlayer player = new MediaPlayer();
+        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
+*/
     }
+  /*  @Override 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
+
+        if(requestCode == 1 && resultCode == Activity.RESULT_OK){
+            audio = data.getData(); //declared above Uri audio;
+            Log.d("media", "onActivityResult: "+audio);
+
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+    }*/
 
 }
