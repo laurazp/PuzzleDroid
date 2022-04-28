@@ -117,7 +117,7 @@ public class PuzzleActivity extends AppCompatActivity {
         else {
             // Si vienes de darle al botón de PlayAgain
             if(ownPhotos) {
-                Log.d("IF", "Ha entrado en el if(ownPhotos)!!");
+                //Log.d("IF", "Ha entrado en el if(ownPhotos)!!");
                 // Display image randomly from user's photo gallery
 
                 // Crea un Array con los valores de las imágenes de la galería del usuario
@@ -219,26 +219,6 @@ public class PuzzleActivity extends AppCompatActivity {
             }
         }
 
-
-
-        /*if (ownPhotos) {
-            Log.d("OwnPhotos value is ", String.valueOf(ownPhotos));
-            // Init ArrayList of Uris
-            imageUris = new ArrayList<>();
-
-            // setup image switcher
-            imagesIs.setFactory(new ViewSwitcher.ViewFactory() {
-                @Override
-                public View makeView() {
-                    ImageView imageView = new ImageView(getApplicationContext());
-                    return imageView;
-                }
-            });
-
-            // Llama a la función pickImagesIntent para que entre en OnActivityResult
-            pickImagesIntent();
-        }*/
-
         // Set the timer on
         timer = new Timer();
         startTimer();
@@ -322,36 +302,6 @@ public class PuzzleActivity extends AppCompatActivity {
                         }
                     }
                     break;
-                /*default:
-                    if (requestCode == PICK_IMAGES_CODE) {
-                        Toast.makeText(this, "Displaying random images from your gallery!", Toast.LENGTH_SHORT).show();
-                        if (resultCode == Activity.RESULT_OK) {
-                            if (data.getClipData() != null) {
-                                // picked multiple images
-                                int count = data.getClipData().getItemCount(); // number of picked images
-                                for (int i = 0; i > count; i++) {
-                                    // get image Uri at specific index
-                                    Uri imageUri = data.getClipData().getItemAt(i).getUri();
-                                    imageUris.add(imageUri); // add to list
-                                }
-
-                                // set first image to our image switcher
-                                //imageView.setImageURI(imageUri);
-                                //imagesIs.setImageURI(selectedImage);
-                                position = 0;
-                            }
-                            else {
-                                // picked single image
-                                Uri imageUri = data.getData();
-                                imageUris.add(imageUri);
-                                // set image to our image switcher
-                                imageView.setImageURI(imageUri);
-                                //imagesIs.setImageURI(imageUris.get(0));
-                                position = 0;
-                            }
-                            pickImagesIntent();
-                        }
-                    }*/
             }
         }
     }
@@ -403,7 +353,6 @@ public class PuzzleActivity extends AppCompatActivity {
                 intent.putExtra("ownPhotos", true);
             }
             startActivity(intent);
-
             //finish();
         }
     }

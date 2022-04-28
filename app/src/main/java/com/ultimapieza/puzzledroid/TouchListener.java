@@ -4,6 +4,7 @@ import static java.lang.Math.abs;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
+import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ public class TouchListener implements View.OnTouchListener {
     private float xDelta;
     private float yDelta;
     private PuzzleActivity activity;
+    MediaPlayer mediaPlayer;
 
     public TouchListener(PuzzleActivity activity) {
         this.activity = activity;
@@ -23,6 +25,26 @@ public class TouchListener implements View.OnTouchListener {
         float x = motionEvent.getRawX();
         float y = motionEvent.getRawY();
         final double tolerance = sqrt(pow(view.getWidth(), 2) + pow(view.getHeight(), 2)) / 10;
+
+        // Play a sound when touching the puzzle pieces
+        mediaPlayer = MediaPlayer.create(activity, R.raw.click);
+        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                mediaPlayer.start();
+            }
+        });
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                if(mediaPlayer!=null) {
+                    if(mediaPlayer.isPlaying())
+                        mediaPlayer.stop();
+                    mediaPlayer.reset();
+                    mediaPlayer.release();
+                    mediaPlayer = null;
+                }
+            };
+        });
 
         PuzzlePiece piece = (PuzzlePiece) view;
         if (!piece.canMove) {

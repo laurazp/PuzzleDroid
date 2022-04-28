@@ -12,7 +12,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Score:"
-        android:textSize="30sp"/>
+        android:textSize="30sp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="20dp"/>
 
     <TextView
         android:id="@+id/scoreLabel"
@@ -20,7 +26,7 @@
         android:layout_height="wrap_content"
         android:text="50"
         android:textSize="40sp"
-        android:layout_marginTop="80dp"/>
+        android:layout_marginTop="20dp"/>
 
     <TextView
         android:id="@+id/highScoreLabel"
@@ -28,12 +34,12 @@
         android:layout_height="wrap_content"
         android:text="High Score: 100"
         android:textSize="20sp"
-        android:layout_marginTop="80dp"/>
+        android:layout_marginTop="20dp"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:text="Play Again"
         android:textAllCaps="false"
         app:cornerRadius="15dp"
@@ -43,7 +49,7 @@
         android:id="@+id/scoretableBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="See ScoreTable"
         app:cornerRadius="15dp"
         android:textAllCaps="false"/>
@@ -54,6 +60,7 @@
         android:layout_height="49dp"
         android:width="60dp"
         android:text="Add Calendar"
+        android:layout_marginTop="10dp"
         app:cornerRadius="50dp" />
 
 </LinearLayout>
