@@ -1,4 +1,6 @@
 package com.ultimapieza.puzzledroid;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -12,6 +14,7 @@ import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +34,13 @@ public class ResultActivity extends AppCompatActivity {
     String userName;
     int score;
     int numOfPieces;
+    ImageView imageView;
+
+    // Atributos para las animaciones
+    private ObjectAnimator animatorRotation;
+    private long animationDuration = 1000;
+    private AnimatorSet animatorSet; // Reproduce un conjunto de ObjectAnimator en un orden especificado
+
     DbHelperNewPlayer obj;
     RecyclerView listPlayer;
     ArrayList<Players> listArrayPlayers;
@@ -51,6 +61,11 @@ public class ResultActivity extends AppCompatActivity {
         TextView name = findViewById(R.id.viewName);
         TextView score_p = findViewById(R.id.viewScore);
         Button addcalendarButton=findViewById(R.id.addcalendarButton);
+        imageView = findViewById(R.id.imageView);
+
+        // TODO: Ejecutar animación
+        imageView.setImageResource(R.drawable.trophy);
+        animacion();
 
         db = new DbNewPlayer(this);
 
@@ -217,6 +232,15 @@ public class ResultActivity extends AppCompatActivity {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(ResultActivity.this);
         notificationManager.notify(1, builder.build());
 
+    }
+
+    // Animación
+    private void animacion() {
+        animatorRotation = ObjectAnimator.ofFloat(imageView, "rotation", 0f, 360f);
+        animatorRotation.setDuration(animationDuration);
+        AnimatorSet animatorSetRotation = new AnimatorSet();
+        animatorSetRotation.play(animatorRotation);
+        animatorSetRotation.start();
     }
 
 
