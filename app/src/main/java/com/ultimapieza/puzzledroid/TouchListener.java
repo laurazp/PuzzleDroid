@@ -35,31 +35,10 @@ public class TouchListener implements View.OnTouchListener {
         float y = motionEvent.getRawY();
         final double tolerance = sqrt(pow(view.getWidth(), 2) + pow(view.getHeight(), 2)) / 10;
 
-        // Play a sound when touching the puzzle pieces
-        mediaPlayer = MediaPlayer.create(activity, R.raw.click);
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                mediaPlayer.start();
-            }
-        });
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                if(mediaPlayer!=null) {
-                    if(mediaPlayer.isPlaying())
-                        mediaPlayer.stop();
-                    mediaPlayer.reset();
-                    mediaPlayer.release();
-                    mediaPlayer = null;
-                }
-            };
-        });
-
         piece = (PuzzlePiece) view;
         if (!piece.canMove) {
             return true;
         }
-
 
         RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
@@ -83,6 +62,8 @@ public class TouchListener implements View.OnTouchListener {
 
                     // Add animation
                     animacion();
+                    // Add sound
+                    playSound();
 
                     piece.canMove = false;
                     sendViewToBack(piece);
@@ -92,6 +73,23 @@ public class TouchListener implements View.OnTouchListener {
                 break;
         }
         return true;
+    }
+
+    // Play a sound when touching the puzzle pieces
+    private void playSound() {
+        //mediaPlayer.reset();
+        mediaPlayer = MediaPlayer.create(activity, R.raw.bubble);
+        mediaPlayer.start();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                if(mediaPlayer!=null) {
+                    if(mediaPlayer.isPlaying())
+                        mediaPlayer.stop();
+                    mediaPlayer.reset();
+                    mediaPlayer.release();
+                }
+            };
+        });
     }
 
     public void sendViewToBack(final View child) {
