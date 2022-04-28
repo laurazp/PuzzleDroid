@@ -4,6 +4,8 @@ import static java.lang.Math.abs;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,6 +17,13 @@ public class TouchListener implements View.OnTouchListener {
     private float yDelta;
     private PuzzleActivity activity;
     MediaPlayer mediaPlayer;
+    PuzzlePiece piece;
+
+    // Atributos para las animaciones
+    private ObjectAnimator animatorAlpha;
+    private long animationDuration = 1000;
+    private AnimatorSet animatorSet; // Reproduce un conjunto de ObjectAnimator en un orden especificado
+
 
     public TouchListener(PuzzleActivity activity) {
         this.activity = activity;
@@ -46,7 +55,7 @@ public class TouchListener implements View.OnTouchListener {
             };
         });
 
-        PuzzlePiece piece = (PuzzlePiece) view;
+        piece = (PuzzlePiece) view;
         if (!piece.canMove) {
             return true;
         }
@@ -71,6 +80,10 @@ public class TouchListener implements View.OnTouchListener {
                     lParams.leftMargin = piece.xCoord;
                     lParams.topMargin = piece.yCoord;
                     piece.setLayoutParams(lParams);
+
+                    // Add animation
+                    animacion();
+
                     piece.canMove = false;
                     sendViewToBack(piece);
                     //Calling checkGameOver function
@@ -87,6 +100,15 @@ public class TouchListener implements View.OnTouchListener {
             parent.removeView(child);
             parent.addView(child, 0);
         }
+    }
+
+    // Animación
+    private void animacion() {
+        animatorAlpha = ObjectAnimator.ofFloat(piece, View.ALPHA, 0.2f, 1.0f);
+        animatorAlpha.setDuration(animationDuration);
+        AnimatorSet animatorSetAlpha = new AnimatorSet();
+        animatorSetAlpha.play(animatorAlpha);
+        animatorSetAlpha.start();
     }
 
 }

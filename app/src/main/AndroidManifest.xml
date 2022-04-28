@@ -19,6 +19,7 @@
         android:roundIcon="@mipmap/launcherapp_round"
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.PuzzleDroid">
 
         <service

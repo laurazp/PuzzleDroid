@@ -63,7 +63,7 @@ public class ResultActivity extends AppCompatActivity {
         Button addcalendarButton=findViewById(R.id.addcalendarButton);
         imageView = findViewById(R.id.imageView);
 
-        // TODO: Ejecutar animación
+        // Ejecutar animación
         imageView.setImageResource(R.drawable.trophy);
         animacion();
 
