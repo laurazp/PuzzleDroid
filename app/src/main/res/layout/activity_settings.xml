@@ -38,13 +38,15 @@
         android:id="@+id/switch2"
         android:layout_width="236dp"
         android:layout_height="48dp"
+        android:background="@android:color/darker_gray"
         android:text="Sounds"
         android:textStyle="bold"
-        android:background="@android:color/darker_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.612" />
 
     <Button
         android:id="@+id/backBtn"
@@ -59,14 +61,14 @@
         app:layout_constraintVertical_bias="0.824" />
 
     <Button
-        android:id="@+id/selectMusic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Select MP3"
+        android:id="@+id/buttonSelect"
+        android:layout_width="109dp"
+        android:layout_height="50dp"
+        android:text="Select"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.67" />
+        app:layout_constraintVertical_bias="0.478" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
