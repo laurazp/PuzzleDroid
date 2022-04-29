@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Lanzamos el servicio para la música
-        serviceIntent = new Intent(this, MyService.class);
+        serviceIntent = new Intent(MainActivity.this, MyService.class);
         serviceIntent.putExtra("FilePath", filePath);
 
         try {
