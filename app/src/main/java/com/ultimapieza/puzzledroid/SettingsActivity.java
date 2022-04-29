@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -108,7 +109,7 @@ public class SettingsActivity extends AppCompatActivity {
                 v.getContext().startActivity(intent);
             }
         });
-
+        // boton entra para seleccionar mp3
         buttonSelect.setOnClickListener(new View.OnClickListener() {
             @Override
                 public void onClick(View v) {
@@ -121,7 +122,29 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
         });
+        MediaPlayer player = new MediaPlayer();
+        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
+        File audio = null;
+        try {
+            player.setDataSource(new FileInputStream(new File(audio.getPath())).getFD());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                player.start();
+            }
+        });
+
+        player.prepareAsync();
+
+        if(player.isPlaying())
+            player.stop();
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
