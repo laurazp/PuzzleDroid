@@ -138,7 +138,6 @@ public class ResultActivity extends AppCompatActivity {
              public void onClick(View v) {
                  //Intent intent = new Intent (v.getContext(), Calendar.class);
                 // en el titulo o en la descripción hay que poner la puntuación
-                 Log.d("Score después del botón", String.valueOf(score));
                  Intent intent = new Intent(Intent.ACTION_EDIT)
                  .setData(CalendarContract.Events.CONTENT_URI)
                  .putExtra(CalendarContract.Events.TITLE," My Score" +" "+ String.valueOf(score));
@@ -175,13 +174,11 @@ public class ResultActivity extends AppCompatActivity {
     // Método para seguir jugando y aumentando la puntuación
     public void playAgain(View view) {
 
-
-        Log.d("OwnPhotos boolean es ", String.valueOf(ownPhotos));
         if (ownPhotos) {
             // Go to PuzzleActivity and Display image randomly from user's photo gallery
             Intent intent = new Intent (view.getContext(), PuzzleActivity.class);
-            Log.d("OwnPhotos boolean es ", String.valueOf(ownPhotos));
             intent.putExtra("ownPhotos", ownPhotos);
+
             // Pasamos la puntuación a la clase Puzzle para que siga sumando puntos
             intent.putExtra("SCORE", score);
             intent.putExtra("USERNAME", userName);

@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         playButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (v.getContext(), LoginActivity.class);
+                Intent intent = new Intent (v.getContext(), PlayActivity.class);
 //                Intent intent = new Intent (v.getContext(), PlayActivity.class);
                 v.getContext().startActivity(intent);
             }
