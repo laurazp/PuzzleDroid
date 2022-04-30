@@ -120,6 +120,7 @@ public class PuzzleActivity extends AppCompatActivity {
         else {
             // Si vienes de darle al botón de PlayAgain
             if(ownPhotos) {
+                writeStoragePermissionGranted();
                 //Log.d("IF", "Ha entrado en el if(ownPhotos)!!");
                 // Display image randomly from user's photo gallery
 
