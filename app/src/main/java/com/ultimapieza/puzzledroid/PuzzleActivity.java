@@ -3,6 +3,8 @@ package com.ultimapieza.puzzledroid;
 import static java.lang.Math.abs;
 
 import android.Manifest;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
@@ -354,6 +356,14 @@ public class PuzzleActivity extends AppCompatActivity {
     public void checkGameOver() {
         if (isGameOver()) {
 
+            // Muestra animación final del puzzle
+            for(PuzzlePiece piece : pieces) {
+                AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(PuzzleActivity.this,
+                        R.animator.property_animator);
+                set.setTarget(piece);
+                set.start();
+            }
+
             // Calculate total time spent in finishing the puzzle
             int totalTime = getTime();
             Log.d("Total time spent ", String.valueOf(totalTime));  // Prints the time to the console
@@ -362,7 +372,25 @@ public class PuzzleActivity extends AppCompatActivity {
             score += (1000 - (totalTime * 5));
             Log.d("SCORE is ", String.valueOf(score));  // Prints the score to the console
 
-            // Show ResultActivity and passes the values of score, userName and numOfPieces
+            // Retardar unos segundos el lanzamiento de la siguiente activity (para mostrar animación final)
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // Show ResultActivity and passes the values of score, userName and numOfPieces
+                    Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
+                    intent.putExtra("SCORE", score);
+                    intent.putExtra("USERNAME", userName);
+                    intent.putExtra("NUMOFPIECES", numOfPieces + 1);
+                    Log.d("ownPhotos al finalizar", String.valueOf(ownPhotos));
+                    if (ownPhotos) {
+                        intent.putExtra("ownPhotos", true);
+                    }
+                    startActivity(intent);
+                    //PuzzleActivity.this.finish();
+                }
+            },1500);
+
+/*            // Show ResultActivity and passes the values of score, userName and numOfPieces
             Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
             intent.putExtra("SCORE", score);
             intent.putExtra("USERNAME", userName);
@@ -372,7 +400,7 @@ public class PuzzleActivity extends AppCompatActivity {
                 intent.putExtra("ownPhotos", true);
             }
             startActivity(intent);
-            //finish();
+*/            //finish();
         }
     }
 

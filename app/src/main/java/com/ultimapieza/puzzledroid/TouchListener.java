@@ -100,7 +100,7 @@ public class TouchListener implements View.OnTouchListener {
         }
     }
 
-    // Animación
+    // Animación al colocar cada pieza en su sitio
     private void animacion() {
         animatorAlpha = ObjectAnimator.ofFloat(piece, View.ALPHA, 0.2f, 1.0f);
         animatorAlpha.setDuration(animationDuration);

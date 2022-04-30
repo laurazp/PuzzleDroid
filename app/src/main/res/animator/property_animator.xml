@@ -1,0 +1,10 @@
+<set android:ordering="together"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <objectAnimator
+        android:propertyName="rotation"
+        android:duration="1000"
+        android:valueFrom="0f"
+        android:valueTo="360f"
+        />
+</set>
