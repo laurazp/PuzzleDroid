@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,12 +18,16 @@ import com.ultimapieza.puzzledroid.db.DbHelper;
 import com.ultimapieza.puzzledroid.db.DbHelperNewPlayer;
 
 
+
 public class MainActivity extends AppCompatActivity {
 
     String filePath = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3";
-
+    public static boolean MyService_Started = false;
     boolean musicPlaying = false;
+
+
     Intent serviceIntent;
+
 
     // Bundle pasa información desde una actividad a otra
     @Override
@@ -30,15 +35,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Lanzamos el servicio para la música
+
+        /* Lanzamos el servicio para la música
         serviceIntent = new Intent(this, MyService.class);
         serviceIntent.putExtra("FilePath", filePath);
 
-        try {
-            startService(serviceIntent);
-        } catch (SecurityException e) {
-            Toast.makeText(this, "Error while starting service: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
+         */
+
+
+
+
 
         // Asignamos botones buscando por su id
         Button playButton = findViewById(R.id.playBtn);
@@ -89,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     // Create the Action Bar Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -112,7 +119,24 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!MyService_Started)  {
 
+            serviceIntent = new Intent(this, MyService.class);
+            serviceIntent.putExtra("FilePath", filePath);
+            startService(serviceIntent);
+            /*Intent i = new Intent(this, MyService.class);
+            i.putExtra("action", startService(serviceIntent));
+            startService(serviceIntent)(i);
+
+             */
+
+            MyService_Started = true;
+
+        }
+    }
     /*@Override
     public void onBackPressed() {
          if (webView.canGoBack()){

@@ -20,6 +20,8 @@
         android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.PuzzleDroid">
 
+
+
         <service
             android:name=".MyService"
             android:enabled="true"
@@ -45,6 +47,9 @@
             android:exported="false" />
         <activity
             android:name=".HelpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Global"
             android:exported="false" />
         <activity
             android:name=".SettingsActivity"

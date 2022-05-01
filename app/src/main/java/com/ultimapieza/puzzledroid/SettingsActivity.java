@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 public class SettingsActivity extends AppCompatActivity {
 
     Switch switch1, switch2;
@@ -44,6 +45,7 @@ public class SettingsActivity extends AppCompatActivity {
         switch1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 stateSwitch1= !stateSwitch1;
                 switch1.setChecked(stateSwitch1);
                 SharedPreferences.Editor editor = preferences.edit();
@@ -55,19 +57,18 @@ public class SettingsActivity extends AppCompatActivity {
                     //encender musica
                     try {
                         startService(serviceIntent);
+
                     }
                     catch (Exception e) {
                         Toast.makeText(SettingsActivity.this, "Error starting music.", Toast.LENGTH_SHORT).show();
                     }
-                    //stateSwitch1 = false;
-                    //SharedPreferences.Editor editor = preferences.edit();
-                    //editor.putBoolean("switch1", false);
-                    //editor.apply();
                 }
                 else {
                     //apagar musica
                     try {
                         stopService(serviceIntent);
+
+
                     }
                     catch (Exception e) {
                         Toast.makeText(SettingsActivity.this, "Error stopping music.", Toast.LENGTH_SHORT).show();
