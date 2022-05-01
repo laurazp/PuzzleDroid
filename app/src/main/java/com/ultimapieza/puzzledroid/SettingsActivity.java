@@ -120,31 +120,9 @@ public class SettingsActivity extends AppCompatActivity {
                 intentMusic.setType("audio/*");
                 startActivityForResult(intentMusic, 1);
 
-
-                MediaPlayer player = new MediaPlayer();
-                player.setAudioStreamType(AudioManager.STREAM_MUSIC);
             }
 
         });
-
-        MediaPlayer player = new MediaPlayer();
-        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-
-
-
-        //player.setDataSource(new FileInputStream(new File(audio.getPath())).getFD());
-
-
-        player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                player.start();
-            }
-        });
-
-           // player.prepareAsync();
-        if (player.isPlaying())
-            player.stop();
     }
 
 
@@ -160,6 +138,26 @@ public class SettingsActivity extends AppCompatActivity {
 
         super.onActivityResult(requestCode, resultCode, data);
 
+        MediaPlayer player = new MediaPlayer();
+        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
+        try {
+            player.setDataSource(new FileInputStream(new File(audio.getPath())).getFD());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                player.start();
+            }
+        });
+
+        player.prepareAsync();
+        if(player.isPlaying())
+            player.stop();
 
     }
+
 }
