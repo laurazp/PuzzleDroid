@@ -1,9 +1,12 @@
 package com.ultimapieza.puzzledroid;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,6 +15,11 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
 
     private MediaPlayer reproductor;
     String filePath;
+
+    // Atributos para controlar llamada entrante
+    private boolean isPausedInCall = false;
+    private PhoneStateListener phoneStateListener;
+    private TelephonyManager telephonyManager;
 
     public MyService() {
     }
@@ -35,11 +43,48 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
         reproductor.setOnBufferingUpdateListener(this);
         reproductor.setOnPreparedListener(this);
         reproductor.setOnSeekCompleteListener(this);
-
+        //reproductor.reset();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        // Manage incoming calls during playback (pause/resume MediaPlayer)
+        telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);  // Get the telephony manager
+        phoneStateListener = new PhoneStateListener() {
+            @Override
+            public void onCallStateChanged(int state, String phoneNumber) {
+                super.onCallStateChanged(state, phoneNumber);
+                switch (state) {
+                    case TelephonyManager.CALL_STATE_OFFHOOK:
+                    case TelephonyManager.CALL_STATE_RINGING:
+                        if(reproductor != null) {
+                            if (reproductor.isPlaying()) {
+                                Log.d("MusicService","Pausando reproductor...");
+                                pauseMedia();
+                                isPausedInCall = true;
+                            }
+                        }
+                        //stopSelf();
+                        //stopMyService();
+                        break;
+                    case TelephonyManager.CALL_STATE_IDLE:
+                        if (reproductor != null) {
+                            if (isPausedInCall) {
+                                Log.d("MusicService","Reanudando reproductor...");
+                                reproductor.prepareAsync();
+                                isPausedInCall = false;
+                            }
+                            //playAudio();
+                        }
+                        break;
+                }
+            }
+        };
+
+        // Register the listener with the telephony manager
+        telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+
 
         // Recibe el path del archivo de música
         try {
@@ -56,37 +101,43 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
         if (!reproductor.isPlaying()) {
             try {
                 reproductor.setDataSource(filePath);
+                reproductor.setOnPreparedListener(this);
                 reproductor.prepareAsync();
             } catch (Exception e) {
-                Toast.makeText(this, "Error while getting source: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error while preparing music to play: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
         // Si el servicio es destruido por baja memoria, Android reinicia el servicio
         return START_STICKY;
     }
 
+
     // Detiene el reproductor y libera los recursos
     @Override
     public void onDestroy() {
         super.onDestroy();
         if(reproductor != null){
-            //if (reproductor.isPlaying()) {
             reproductor.stop();
-            reproductor.reset();
-            reproductor.release();
-            reproductor = null;
+        }
+        reproductor.reset();
+        reproductor.release();
+        reproductor = null;
+        //isPausedInCall = true;
+
+        // Destroy the phoneStateListener
+        if (phoneStateListener != null) {
+            telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
         }
     }
 
     @Override
     public void onBufferingUpdate(MediaPlayer mediaPlayer, int i) {
-
     }
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
         if (mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();
+            //mediaPlayer.stop();
         }
         stopSelf();
     }
@@ -115,15 +166,22 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-        if (!mediaPlayer.isPlaying()) {
-            mediaPlayer.setLooping(true);
-            mediaPlayer.setVolume(1, 1);
-            mediaPlayer.start();
-        }
+        //mediaPlayer.setLooping(true);
+        //mediaPlayer.setVolume(1, 1);
+        mediaPlayer.start();
     }
 
     @Override
     public void onSeekComplete(MediaPlayer mediaPlayer) {
 
     }
+
+    public void pauseMedia() {
+        if (reproductor != null) {
+            if (reproductor.isPlaying()) {
+                reproductor.stop();
+            }
+        }
+    }
+
 }

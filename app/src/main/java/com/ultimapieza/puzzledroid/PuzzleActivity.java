@@ -3,6 +3,8 @@ package com.ultimapieza.puzzledroid;
 import static java.lang.Math.abs;
 
 import android.Manifest;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
@@ -57,6 +59,8 @@ public class PuzzleActivity extends AppCompatActivity {
     int rows;
     int numOfPieces;
     boolean ownPhotos;
+    String firstPhotoSelected;
+    boolean photoUsed;
 
     ImageView imageView;
     Bitmap selectedImage;
@@ -75,18 +79,18 @@ public class PuzzleActivity extends AppCompatActivity {
     private static final int PICK_IMAGES_CODE =0;
 
     // Position of selected random image
-    int position = 0;
 
     // Declaring a Timer
     Timer timer;
     TimerTask timerTask;
     Double time = 0.0;
-
+    public int countPhotos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_puzzle);
+
 
         layout = findViewById(R.id.layout);
         imageView = findViewById(R.id.imageView);
@@ -97,13 +101,14 @@ public class PuzzleActivity extends AppCompatActivity {
         final String mCurrentPhotoUri = intent.getStringExtra("mCurrentPhotoUri");
 
         ownPhotos = intent.getBooleanExtra("ownPhotos", false);
+        photoUsed=intent.getBooleanExtra("photoUsed", false);
 
         //Recibe los valores de score, username, numOfPieces y camera
         numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
         score = getIntent().getIntExtra("SCORE", 0);
         userName = getIntent().getStringExtra("USERNAME");
         camera = getIntent().getIntExtra("CAMERA", 0);
-        Log.d("NumOfPieces = ", String.valueOf(numOfPieces));
+        PhotoId photoId=new PhotoId();
 
         // Asigna el valor de numOfPieces a las filas del puzzle
         rows = numOfPieces;
@@ -117,7 +122,8 @@ public class PuzzleActivity extends AppCompatActivity {
         else {
             // Si vienes de darle al botón de PlayAgain
             if(ownPhotos) {
-                Log.d("IF", "Ha entrado en el if(ownPhotos)!!");
+                writeStoragePermissionGranted();
+                //Log.d("IF", "Ha entrado en el if(ownPhotos)!!");
                 // Display image randomly from user's photo gallery
 
                 // Crea un Array con los valores de las imágenes de la galería del usuario
@@ -126,6 +132,7 @@ public class PuzzleActivity extends AppCompatActivity {
                 };
 
                 Uri images = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                //ArrayList<String> playerPhotosNotRepeated = new ArrayList<>();
                 Cursor cur = getContentResolver().query(images,
                         projection,
                         null,
@@ -136,53 +143,70 @@ public class PuzzleActivity extends AppCompatActivity {
 
                     int dataColumn = cur.getColumnIndex(
                             MediaStore.Images.Media.DATA);
+                    photoId.setId(cur.getString(dataColumn));
                     // Añade las imágenes al Array
                     do {
                         imagesPath.add(cur.getString(dataColumn));
+
                     } while (cur.moveToNext());
+
                 }
                 cur.close();
                 final Random random = new Random();
-                final int count = imagesPath.size();
-                Log.d("Tamaño del Array", String.valueOf(imagesPath.size()));
+                final int[] count = {imagesPath.size()};
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        if (!imagesPath.isEmpty()) {
-                            // Selecciona imagen aleatoriamente
-                            int number = random.nextInt(count);
-                            String path = imagesPath.get(number);
-                            if (currentBitmap != null)
-                                currentBitmap.recycle();
-                            currentBitmap = BitmapFactory.decodeFile(path);
-                            // Establece la foto aleatoria como imagen para el puzzle
-                            imageView.setImageBitmap(currentBitmap);
-                            //handler.postDelayed(this, 1000);
+                        //bucle que itera sibre las fotos del jugador
+                        // Selecciona imagen aleatoriamente
+                        int number = random.nextInt(count[0]);
+                        String path = imagesPath.get(number);
+                        // mira si la foto anterior es igual a la primera
+                        if(path==imagesPath.get(number)+1 || path==firstPhotoSelected){
 
-                            // Rompe la imagen en piezas
-                            if (path != null) {
-                                setPicFromAsset(path, imageView);
-                            }
+                            photoUsed=true;
+                            //si es así elige la foto adelantada a la 2 posición
+                            path = imagesPath.get(number)+2;
+                            Log.d("Estoy usada",imagesPath.get(number)+1);
+                            Log.d("Estoy usada2",path);
+                        }
+                        else{
+                            photoUsed=false;
+                            path = imagesPath.get(number);
 
-                            // Split the image into pieces
-                            pieces = splitImage(numOfPieces + 1);
-                            TouchListener touchListener;
-                            touchListener = new TouchListener(PuzzleActivity.this);
+                        }
 
-                            // Shuffle pieces order
-                            Collections.shuffle(pieces);
-                            for (PuzzlePiece piece : pieces) {
-                                piece.setOnTouchListener(touchListener);
-                                layout.addView(piece);
+                        if (currentBitmap != null)
+                            currentBitmap.recycle();
+                        currentBitmap = BitmapFactory.decodeFile(path);
+                        // Establece la foto aleatoria como imagen para el puzzle
+                        imageView.setImageBitmap(currentBitmap);
+                        //handler.postDelayed(this, 1000);
 
-                                // Randomize position, on the bottom of the screen
-                                RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
-                                lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
-                                lParams.topMargin = layout.getHeight() - piece.pieceHeight;
-                                piece.setLayoutParams(lParams);
-                            }
+                        // Rompe la imagen en piezas
+                        if (path != null ) {
+                            setPicFromAsset(path, imageView);
+                        }
+
+                        // Split the image into pieces
+                        pieces = splitImage(numOfPieces + 1);
+                        TouchListener touchListener;
+                        touchListener = new TouchListener(PuzzleActivity.this);
+
+                        // Shuffle pieces order
+                        Collections.shuffle(pieces);
+                        for (PuzzlePiece piece : pieces) {
+                            piece.setOnTouchListener(touchListener);
+                            layout.addView(piece);
+
+                            // Randomize position, on the bottom of the screen
+                            RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
+                            lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
+                            lParams.topMargin = layout.getHeight() - piece.pieceHeight;
+                            piece.setLayoutParams(lParams);
                         }
                     }
+
                 });
             }
             else {
@@ -218,26 +242,6 @@ public class PuzzleActivity extends AppCompatActivity {
                 });
             }
         }
-
-
-
-        /*if (ownPhotos) {
-            Log.d("OwnPhotos value is ", String.valueOf(ownPhotos));
-            // Init ArrayList of Uris
-            imageUris = new ArrayList<>();
-
-            // setup image switcher
-            imagesIs.setFactory(new ViewSwitcher.ViewFactory() {
-                @Override
-                public View makeView() {
-                    ImageView imageView = new ImageView(getApplicationContext());
-                    return imageView;
-                }
-            });
-
-            // Llama a la función pickImagesIntent para que entre en OnActivityResult
-            pickImagesIntent();
-        }*/
 
         // Set the timer on
         timer = new Timer();
@@ -281,20 +285,20 @@ public class PuzzleActivity extends AppCompatActivity {
                     if (resultCode == RESULT_OK && data != null) {
                         Uri selectedImage = data.getData();
                         String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                        if (selectedImage != null) {
+                        if (selectedImage != null )  {
                             Cursor cursor = getContentResolver().query(selectedImage,
                                     filePathColumn, null, null, null);
                             if (cursor != null) {
                                 cursor.moveToFirst();
 
                                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                                String picturePath = cursor.getString(columnIndex);
-
+                                firstPhotoSelected= cursor.getString(columnIndex);
+                                // adding id to photo
                                 // Grant permissions
                                 writeStoragePermissionGranted();
 
                                 // Establece la foto seleccionada de la galería como fondo del ImageView
-                                setPicFromPath(picturePath, imageView);
+                                setPicFromPath(firstPhotoSelected, imageView);
                                 //imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
                                 try {
@@ -317,41 +321,12 @@ public class PuzzleActivity extends AppCompatActivity {
                                     piece.setLayoutParams(lParams);
                                 }
 
+
                                 cursor.close();
                             }
                         }
                     }
                     break;
-                /*default:
-                    if (requestCode == PICK_IMAGES_CODE) {
-                        Toast.makeText(this, "Displaying random images from your gallery!", Toast.LENGTH_SHORT).show();
-                        if (resultCode == Activity.RESULT_OK) {
-                            if (data.getClipData() != null) {
-                                // picked multiple images
-                                int count = data.getClipData().getItemCount(); // number of picked images
-                                for (int i = 0; i > count; i++) {
-                                    // get image Uri at specific index
-                                    Uri imageUri = data.getClipData().getItemAt(i).getUri();
-                                    imageUris.add(imageUri); // add to list
-                                }
-
-                                // set first image to our image switcher
-                                //imageView.setImageURI(imageUri);
-                                //imagesIs.setImageURI(selectedImage);
-                                position = 0;
-                            }
-                            else {
-                                // picked single image
-                                Uri imageUri = data.getData();
-                                imageUris.add(imageUri);
-                                // set image to our image switcher
-                                imageView.setImageURI(imageUri);
-                                //imagesIs.setImageURI(imageUris.get(0));
-                                position = 0;
-                            }
-                            pickImagesIntent();
-                        }
-                    }*/
             }
         }
     }
@@ -385,6 +360,14 @@ public class PuzzleActivity extends AppCompatActivity {
     public void checkGameOver() {
         if (isGameOver()) {
 
+            // Muestra animación final del puzzle
+            for(PuzzlePiece piece : pieces) {
+                AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(PuzzleActivity.this,
+                        R.animator.property_animator);
+                set.setTarget(piece);
+                set.start();
+            }
+
             // Calculate total time spent in finishing the puzzle
             int totalTime = getTime();
             Log.d("Total time spent ", String.valueOf(totalTime));  // Prints the time to the console
@@ -393,7 +376,25 @@ public class PuzzleActivity extends AppCompatActivity {
             score += (1000 - (totalTime * 5));
             Log.d("SCORE is ", String.valueOf(score));  // Prints the score to the console
 
-            // Show ResultActivity and passes the values of score, userName and numOfPieces
+            // Retardar unos segundos el lanzamiento de la siguiente activity (para mostrar animación final)
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // Show ResultActivity and passes the values of score, userName and numOfPieces
+                    Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
+                    intent.putExtra("SCORE", score);
+                    intent.putExtra("USERNAME", userName);
+                    intent.putExtra("NUMOFPIECES", numOfPieces + 1);
+                    Log.d("ownPhotos al finalizar", String.valueOf(ownPhotos));
+                    if (ownPhotos) {
+                        intent.putExtra("ownPhotos", true);
+                    }
+                    startActivity(intent);
+                    //PuzzleActivity.this.finish();
+                }
+            },1500);
+
+/*            // Show ResultActivity and passes the values of score, userName and numOfPieces
             Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
             intent.putExtra("SCORE", score);
             intent.putExtra("USERNAME", userName);
@@ -403,8 +404,7 @@ public class PuzzleActivity extends AppCompatActivity {
                 intent.putExtra("ownPhotos", true);
             }
             startActivity(intent);
-
-            //finish();
+*/            //finish();
         }
     }
 
@@ -480,7 +480,6 @@ public class PuzzleActivity extends AppCompatActivity {
             // Get the dimensions of the bitmap
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
             bmOptions.inJustDecodeBounds = true;
-            Log.d("PicturePath", picturePath);
             BitmapFactory.decodeFile(picturePath, bmOptions); //new Rect(-1, -1, -1, -1)
             int photoW = bmOptions.outWidth;
             int photoH = bmOptions.outHeight;
@@ -690,7 +689,6 @@ public class PuzzleActivity extends AppCompatActivity {
         int croppedImageWidth = scaledBitmapWidth - 2 * abs(scaledBitmapLeft);
         int croppedImageHeight = scaledBitmapHeight - 2 * abs(scaledBitmapTop);
 
-        Log.d("Bitmap equivale a", String.valueOf(bitmap));
 
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, scaledBitmapWidth, scaledBitmapHeight, true);
         Bitmap croppedBitmap = Bitmap.createBitmap(scaledBitmap, abs(scaledBitmapLeft), abs(scaledBitmapTop), croppedImageWidth, croppedImageHeight);
