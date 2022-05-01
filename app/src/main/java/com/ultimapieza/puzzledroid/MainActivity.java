@@ -20,7 +20,7 @@ import com.ultimapieza.puzzledroid.db.DbHelperNewPlayer;
 public class MainActivity extends AppCompatActivity {
 
     String filePath = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3";
-
+    public static boolean MediaPlayer = false;
     boolean musicPlaying = false;
     Intent serviceIntent;
 
@@ -34,11 +34,6 @@ public class MainActivity extends AppCompatActivity {
         serviceIntent = new Intent(this, MyService.class);
         serviceIntent.putExtra("FilePath", filePath);
 
-        try {
-            startService(serviceIntent);
-        } catch (SecurityException e) {
-            Toast.makeText(this, "Error while starting service: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
 
         // Asignamos botones buscando por su id
         Button playButton = findViewById(R.id.playBtn);
@@ -111,6 +106,26 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent2);
         }
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!MediaPlayer) {
+
+            serviceIntent = new Intent(this, MyService.class);
+            serviceIntent.putExtra("FilePath", filePath);
+            startService(serviceIntent);
+
+
+          /*Intent i = new Intent(this, MyService.class);
+            i.putExtra("action", startService(serviceIntent));
+            startService(serviceIntent)(i);
+
+             */
+
+            MediaPlayer = true;
+
+        }
     }
 
     /*@Override
