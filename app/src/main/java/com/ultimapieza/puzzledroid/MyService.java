@@ -4,17 +4,21 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Environment;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.File;
+
 // Servicio para gestionar la música y que suene a lo largo de todas las Activities
 public class MyService extends Service implements MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnSeekCompleteListener, MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener {
 
     private MediaPlayer reproductor;
     String filePath;
+    boolean ownAudio;
 
     // Atributos para controlar llamada entrante
     private boolean isPausedInCall = false;
@@ -48,6 +52,9 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        // Revisa si viene de elegir audio del propio móvil
+        ownAudio = intent.getBooleanExtra("ownAudio", false);
 
         // Manage incoming calls during playback (pause/resume MediaPlayer)
         telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);  // Get the telephony manager
@@ -98,13 +105,40 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
 
 
         // Pone en marcha el reproductor de manera asíncrona
-        if (!reproductor.isPlaying()) {
+        //if (!reproductor.isPlaying()) {
+        if(reproductor!=null) {
+            Log.d("reproductor", "reproductor done");
             try {
-                reproductor.setDataSource(filePath);
+                if(reproductor.isPlaying()) {
+                    reproductor.stop();
+                    reproductor.release();
+                    Log.d("reproductor", "reproductor released");
+                }
+
+                if(ownAudio) {
+                    Log.d("reproductor", "dentro de if(ownAudio)");
+                    //reproductor.setDataSource(new FileInputStream(new File(filePath)).getFD());
+                    reproductor.setDataSource("/storage/emulated/0/Download/sedative-110241.mp3");
+
+                    String destination = Environment.getExternalStorageDirectory().getPath() + File.separator;
+                    Log.d("destination", destination);
+
+                }
+                else {
+                    Log.d("reproductor", "dentro de else (ownAudio)");
+                    reproductor.setDataSource(filePath);
+                }
+
+                //reproductor.setDataSource(filePath);
+                //Log.d("audioPath", filePath);
+                Log.d("reproductor", "setDataSource done");
                 reproductor.setOnPreparedListener(this);
+                Log.d("reproductor", "setOnPrepared done");
                 reproductor.prepareAsync();
+                Log.d("reproductor", "prepareAsync done");
             } catch (Exception e) {
-                Toast.makeText(this, "Error while preparing music to play: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error while preparing music to play: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                Log.d("Error", String.valueOf(e));
             }
         }
         // Si el servicio es destruido por baja memoria, Android reinicia el servicio
