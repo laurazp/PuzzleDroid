@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -110,23 +110,46 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("background", "método onResume llamado");
         if (!MediaPlayer) {
 
             serviceIntent = new Intent(this, MyService.class);
             serviceIntent.putExtra("FilePath", filePath);
             startService(serviceIntent);
 
+<<<<<<< HEAD
 
           /*Intent i = new Intent(this, MyService.class);
             i.putExtra("action", startService(serviceIntent));
             startService(serviceInteIntentnt)(i);
 
              */
+=======
+            MediaPlayer = true;
+        }
+        /*else {
+            Log.d("background", "método onResume y else llamado");
+            serviceIntent = new Intent(this, MyService.class);
+            serviceIntent.putExtra("FilePath", filePath);
+            startService(serviceIntent);
+>>>>>>> 0cf6daf3287d63225b11d661552d254694aae2d8
 
             MediaPlayer = true;
+        }*/
 
-        }
+
     }
+
+    /*@Override
+    protected void onPause() {
+        super.onPause();
+        //La app esta en segundo plano (background).
+        serviceIntent.putExtra("background", true);
+        Log.d("background", "método onPause llamado");
+        stopService(serviceIntent);
+    }*/
+
+
 
     /*@Override
     public void onBackPressed() {

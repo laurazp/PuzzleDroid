@@ -1,9 +1,10 @@
 package com.ultimapieza.puzzledroid;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.AudioManager;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,10 +16,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -27,10 +27,18 @@ public class SettingsActivity extends AppCompatActivity {
     boolean stateSwitch1, stateSwitch2;
     MediaPlayer mediaPlayer;
 
+    // Storage Permissions
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
     String filePath = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3";
     Intent serviceIntent;
     SharedPreferences preferences;
     private File audio;
+    MyService service;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +46,9 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         Button backButton = findViewById(R.id.backBtn);
         Button buttonSelect = findViewById(R.id.buttonSelect);
+
+        // Solicita permisos para acceder a archivos del dispositivo
+        verifyStoragePermissions(this);
 
         // Lanzamos el servicio para la música
         serviceIntent = new Intent(this, MyService.class);
@@ -112,7 +123,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        // boton select
+        // Botón Select (para seleccionar el audio del móvil)
         buttonSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,20 +140,40 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             Uri audio = data.getData(); //declared above Uri audio;
             Log.d("media", "onActivityResult: " + audio);
 
+            // Prueba Uri to Path
+            File file = new File(audio.getPath()); //create path from uri
+            final String[] split = file.getPath().split(":"); //split the path.
+            String pathToMusic = split[1]; //assign it to a string(your choice).
+
+            /*String pathToMusic = audio.getPath();
+            //String pathToMusic = "Download/sedative-110241.mp3";*/
+            Log.d("pathToMusic", pathToMusic);
+
+            try {
+                serviceIntent.putExtra("OwnFilePath", pathToMusic);
+                serviceIntent.putExtra("ownAudio", true);
+                startService(serviceIntent);
+            }
+            catch (Exception e) {
+                e.getMessage();
+            }
         }
 
-        super.onActivityResult(requestCode, resultCode, data);
 
-        MediaPlayer player = new MediaPlayer();
+
+        /*MediaPlayer player = new MediaPlayer();
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
         try {
-            player.setDataSource(new FileInputStream(new File(audio.getPath())).getFD());
+            //player.setDataSource(new FileInputStream(new File(audio.getPath())).getFD());
+            player.setDataSource(audio.getPath());
+            Log.d("audioPath", audio.getPath());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -156,8 +187,23 @@ public class SettingsActivity extends AppCompatActivity {
 
         player.prepareAsync();
         if(player.isPlaying())
-            player.stop();
+            player.stop();*/
 
+    }
+
+    // Verifica permisos para acceder a archivos del dispositivo (necesario para API 23+)
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
     }
 
 }

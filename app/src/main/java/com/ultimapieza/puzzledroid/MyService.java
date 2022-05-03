@@ -15,6 +15,7 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
 
     private MediaPlayer reproductor;
     String filePath;
+    boolean ownAudio;
 
     // Atributos para controlar llamada entrante
     private boolean isPausedInCall = false;
@@ -45,8 +46,13 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
         //reproductor.reset();
     }
 
+
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        // Revisa si viene de elegir audio del propio móvil
+        ownAudio = intent.getBooleanExtra("ownAudio", false);
 
         // Manage incoming calls during playback (pause/resume MediaPlayer)
         telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);  // Get the telephony manager
@@ -84,26 +90,60 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
         // Register the listener with the telephony manager
         telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
 
-
-        // Recibe el path del archivo de música
-        try {
-            filePath = intent.getStringExtra("FilePath");
+        if(ownAudio) {
+            filePath = intent.getStringExtra("OwnFilePath");
             Log.d("Path to music is ", String.valueOf(filePath));
             reproductor.reset();
         }
-        catch (Exception e) {
-            Log.d("Error en path de música", e.getMessage());
+        else {
+            // Recibe el path del archivo de música
+            try {
+                filePath = intent.getStringExtra("FilePath");
+                Log.d("Path to music is ", String.valueOf(filePath));
+                reproductor.reset();
+            }
+            catch (Exception e) {
+                Log.d("Error en path de música", e.getMessage());
+            }
         }
 
 
         // Pone en marcha el reproductor de manera asíncrona
-        if (!reproductor.isPlaying()) {
+        //if (!reproductor.isPlaying()) {
+        if(reproductor!=null) {
+            Log.d("reproductor", "reproductor done");
             try {
-                reproductor.setDataSource(filePath);
+                if(reproductor.isPlaying()) {
+                    reproductor.stop();
+                    reproductor.release();
+                    Log.d("reproductor", "reproductor released");
+                }
+
+                if(ownAudio) {
+                    Log.d("reproductor", "dentro de if(ownAudio)");
+                    reproductor.setDataSource(filePath);
+                    //reproductor.setDataSource(new FileInputStream(new File(filePath)).getFD());
+                    //reproductor.setDataSource("/storage/emulated/0/Download/sedative-110241.mp3");
+
+                    //String destination = Environment.getExternalStorageDirectory().getPath() + File.separator;
+                    //Log.d("destination", destination);
+
+                }
+                else {
+                    Log.d("reproductor", "dentro de else (ownAudio)");
+                    reproductor.setDataSource(filePath);
+                }
+
+                //reproductor.setDataSource(filePath);
+                //Log.d("audioPath", filePath);
+                Log.d("reproductor", "setDataSource done");
                 reproductor.setOnPreparedListener(this);
+                Log.d("reproductor", "setOnPrepared done");
                 reproductor.prepareAsync();
+                Log.d("reproductor", "prepareAsync done");
             } catch (Exception e) {
-                Toast.makeText(this, "Error while preparing music to play: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error while preparing music to play: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                Log.d("Error", String.valueOf(e));
             }
         }
         // Si el servicio es destruido por baja memoria, Android reinicia el servicio
@@ -182,5 +222,6 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
             }
         }
     }
+
 
 }
