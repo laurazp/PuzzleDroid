@@ -4,14 +4,11 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.os.Environment;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
-
-import java.io.File;
 
 // Servicio para gestionar la música y que suene a lo largo de todas las Activities
 public class MyService extends Service implements MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnSeekCompleteListener, MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener {
@@ -49,6 +46,8 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
         reproductor.setOnSeekCompleteListener(this);
         //reproductor.reset();
     }
+
+
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -92,15 +91,21 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
         // Register the listener with the telephony manager
         telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
 
-
-        // Recibe el path del archivo de música
-        try {
-            filePath = intent.getStringExtra("FilePath");
+        if(ownAudio) {
+            filePath = intent.getStringExtra("OwnFilePath");
             Log.d("Path to music is ", String.valueOf(filePath));
             reproductor.reset();
         }
-        catch (Exception e) {
-            Log.d("Error en path de música", e.getMessage());
+        else {
+            // Recibe el path del archivo de música
+            try {
+                filePath = intent.getStringExtra("FilePath");
+                Log.d("Path to music is ", String.valueOf(filePath));
+                reproductor.reset();
+            }
+            catch (Exception e) {
+                Log.d("Error en path de música", e.getMessage());
+            }
         }
 
 
@@ -117,11 +122,12 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
 
                 if(ownAudio) {
                     Log.d("reproductor", "dentro de if(ownAudio)");
+                    reproductor.setDataSource(filePath);
                     //reproductor.setDataSource(new FileInputStream(new File(filePath)).getFD());
-                    reproductor.setDataSource("/storage/emulated/0/Download/sedative-110241.mp3");
+                    //reproductor.setDataSource("/storage/emulated/0/Download/sedative-110241.mp3");
 
-                    String destination = Environment.getExternalStorageDirectory().getPath() + File.separator;
-                    Log.d("destination", destination);
+                    //String destination = Environment.getExternalStorageDirectory().getPath() + File.separator;
+                    //Log.d("destination", destination);
 
                 }
                 else {
@@ -217,5 +223,6 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
             }
         }
     }
+
 
 }
