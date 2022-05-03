@@ -22,6 +22,7 @@ import java.io.IOException;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private static final int REQ_CODE_PICK_SOUNDFILE = 0;
     Switch switch1, switch2;
     boolean stateSwitch1, stateSwitch2;
     MediaPlayer mediaPlayer;
@@ -29,6 +30,7 @@ public class SettingsActivity extends AppCompatActivity {
     String filePath = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3";
     Intent serviceIntent;
     SharedPreferences preferences;
+    private File audio;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,23 +111,36 @@ public class SettingsActivity extends AppCompatActivity {
                 v.getContext().startActivity(intent);
             }
         });
-        // boton entra para seleccionar mp3
+
+        // boton select
         buttonSelect.setOnClickListener(new View.OnClickListener() {
             @Override
-                public void onClick(View v) {
+            public void onClick(View v) {
                 Intent intentMusic = new Intent(Intent.ACTION_GET_CONTENT);
                 intentMusic.setType("audio/*");
                 startActivityForResult(intentMusic, 1);
 
-                MediaPlayer player = new MediaPlayer();
-                player.setAudioStreamType(AudioManager.STREAM_MUSIC);
             }
 
         });
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            Uri audio = data.getData(); //declared above Uri audio;
+            Log.d("media", "onActivityResult: " + audio);
+
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+
         MediaPlayer player = new MediaPlayer();
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
-        File audio = null;
         try {
             player.setDataSource(new FileInputStream(new File(audio.getPath())).getFD());
         } catch (IOException e) {
@@ -140,25 +155,8 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         player.prepareAsync();
-
         if(player.isPlaying())
             player.stop();
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-
-
-        if(requestCode == 1 && resultCode == Activity.RESULT_OK){
-            Uri audio = data.getData(); //declared above Uri audio;
-            Log.d("media", "onActivityResult: "+audio);
-
-        }
-
-        super.onActivityResult(requestCode, resultCode, data);
-
 
     }
 

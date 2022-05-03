@@ -17,6 +17,7 @@
 
 
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/launcherapp"
@@ -26,6 +27,8 @@
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.PuzzleDroid">
+
+
 
         <service
             android:name=".MyService"
@@ -52,6 +55,9 @@
             android:exported="false" />
         <activity
             android:name=".HelpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Global"
             android:exported="false" />
         <activity
             android:name=".SettingsActivity"

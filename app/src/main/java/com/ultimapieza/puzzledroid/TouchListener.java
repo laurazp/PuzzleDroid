@@ -6,6 +6,7 @@ import static java.lang.Math.sqrt;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,6 +30,7 @@ public class TouchListener implements View.OnTouchListener {
         this.activity = activity;
     }
 
+    @SuppressLint("ResourceType")
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         float x = motionEvent.getRawX();
@@ -51,6 +53,8 @@ public class TouchListener implements View.OnTouchListener {
                 lParams.leftMargin = (int) (x - xDelta);
                 lParams.topMargin = (int) (y - yDelta);
                 view.setLayoutParams(lParams);
+                //TODO: Animación aceleración/desaceleración
+                //piece.startAnimation(AnimationUtils.loadAnimation(activity, R.animator.acceleration));
                 break;
             case MotionEvent.ACTION_UP:
                 int xDiff = abs(piece.xCoord - lParams.leftMargin);
@@ -100,7 +104,7 @@ public class TouchListener implements View.OnTouchListener {
         }
     }
 
-    // Animación
+    // Animación al colocar cada pieza en su sitio
     private void animacion() {
         animatorAlpha = ObjectAnimator.ofFloat(piece, View.ALPHA, 0.2f, 1.0f);
         animatorAlpha.setDuration(animationDuration);
