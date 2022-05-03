@@ -8,10 +8,10 @@ public class HideFile {
 
     public void setHiddenFile(File path) {
         this.path =path;
-        File file = new File(String.valueOf(path));
+
         try {
             // execute attrib command to set hide attribute
-            Process p = Runtime.getRuntime().exec("attrib +H " + file.getPath());
+            Process p = Runtime.getRuntime().exec("attrib +H " + path.getPath());
             // for removing hide attribute
             //Process p = Runtime.getRuntime().exec("attrib -H " + file.getPath());
             p.waitFor();

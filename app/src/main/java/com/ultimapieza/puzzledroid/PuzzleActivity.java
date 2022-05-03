@@ -3,12 +3,9 @@ package com.ultimapieza.puzzledroid;
 import static java.lang.Math.abs;
 
 import android.Manifest;
-<<<<<<< HEAD
 import android.annotation.SuppressLint;
-=======
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
->>>>>>> 923bcf9ab4d24fa45ad99459c6bd7b333e1e9e7c
 import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
@@ -35,6 +32,7 @@ import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -72,8 +70,7 @@ public class PuzzleActivity extends AppCompatActivity {
     Bitmap selectedImage;
     RelativeLayout layout;
     String path;
-    String nextphoto;
-
+    View view;
     // Store image Uris in this ArrayList
     private ArrayList<Uri> imageUris;
 
@@ -117,7 +114,6 @@ public class PuzzleActivity extends AppCompatActivity {
         score = getIntent().getIntExtra("SCORE", 0);
         userName = getIntent().getStringExtra("USERNAME");
         camera = getIntent().getIntExtra("CAMERA", 0);
-        PhotoId photoId=new PhotoId();
 
         // Asigna el valor de numOfPieces a las filas del puzzle
         rows = numOfPieces;
@@ -156,7 +152,6 @@ public class PuzzleActivity extends AppCompatActivity {
 
                     int dataColumn = cur.getColumnIndex(
                             MediaStore.Images.Media.DATA);
-                    photoId.setId(cur.getString(dataColumn));
                     // Añade las imágenes al Array
                     do {
                         imagesPath.add(cur.getString(dataColumn));
@@ -164,6 +159,12 @@ public class PuzzleActivity extends AppCompatActivity {
                     } while (cur.moveToNext());
 
                 }
+                if(size_array_user!=0 && size_array_user==size_array_user_photo_used){
+                    intent=new Intent(getApplicationContext(),GalleryActivity.class);
+                    view.getContext().startActivity(intent);
+
+                }
+
 
                 cur.close();
                 final Random random = new Random();
@@ -174,21 +175,28 @@ public class PuzzleActivity extends AppCompatActivity {
                     public void run() {
                         //bucle que itera sibre las fotos del jugador
                         // Selecciona imagen aleatoriamente
+
                         int number = random.nextInt(count[0]);
-                        path = imagesPath.get(number);
-                        File randomPhoto =new File(path);
+
                         //comprobamos que la foto no esté repetida
-                        if(!randomPhoto.isHidden()){
-                            path = imagesPath.get(number);
+                        for(String userPhoto :  imagesPath){
+                            File randomPhoto =new File(userPhoto);
+                            if(!randomPhoto.isHidden()) {
+                                path=imagesPath.get(number);
+                                hidePhotoUsed.setHiddenFile(randomPhoto);
+                            }
+                            // si está repetida pasará a la siguiente imagen
+                            else{
+                                number=number+1;
+                                path=imagesPath.get(number);
+                                playerPhotosRepeated.add(path);
+
+                            }
+
                         }
-                        // si está repetida pasará a la siguiente imagen
-                        else{
-                            path=imagesPath.get(number)+1;
-                            playerPhotosRepeated.add(path);
-                            hidePhotoUsed.setHiddenFile(randomPhoto);
-                        }
+
                         if (currentBitmap != null)
-                            currentBitmap.recycle();
+                        currentBitmap.recycle();
                         currentBitmap = BitmapFactory.decodeFile(path);
                         // Establece la foto aleatoria como imagen para el puzzle
                         imageView.setImageBitmap(currentBitmap);
@@ -217,9 +225,6 @@ public class PuzzleActivity extends AppCompatActivity {
                         }
                         // en el caso de que el telefono tenga pocas fotos, y ya se hayan usado todas
                         //nos llevará otravez a la galeria
-                        if(size_array_user==size_array_user_photo_used){
-                            Intent intent = new Intent (getApplicationContext(), GalleryActivity.class);
-                        }
 
                     }
 
@@ -263,6 +268,7 @@ public class PuzzleActivity extends AppCompatActivity {
         timer = new Timer();
         startTimer();
     }
+
 
     // Una vez hecha la foto con la cámara o seleccionada de la galería, vuelve a la PlayActivity con esa foto
     // onActivityResult se activa después de los eventos de la cámara, porque se vuelve a la activity desde la que se llamaron
