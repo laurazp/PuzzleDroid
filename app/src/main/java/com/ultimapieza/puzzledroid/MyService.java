@@ -12,6 +12,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
 
 // Servicio para gestionar la música y que suene a lo largo de todas las Activities
 public class MyService extends Service implements MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnSeekCompleteListener, MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener {
@@ -19,6 +20,7 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
     private MediaPlayer reproductor;
     String filePath;
     boolean ownAudio;
+    private File audio;
 
     // Atributos para controlar llamada entrante
     private boolean isPausedInCall = false;
@@ -117,8 +119,8 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
 
                 if(ownAudio) {
                     Log.d("reproductor", "dentro de if(ownAudio)");
-                    //reproductor.setDataSource(new FileInputStream(new File(filePath)).getFD());
-                    reproductor.setDataSource("/storage/emulated/0/Download/sedative-110241.mp3");
+                    reproductor.setDataSource(new FileInputStream(new File(filePath)).getFD());
+                    //reproductor.setDataSource("/storage/emulated/0/Download/sedative-110241.mp3");
 
                     String destination = Environment.getExternalStorageDirectory().getPath() + File.separator;
                     Log.d("destination", destination);
