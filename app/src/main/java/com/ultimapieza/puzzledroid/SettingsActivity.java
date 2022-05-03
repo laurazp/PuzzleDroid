@@ -140,17 +140,16 @@ public class SettingsActivity extends AppCompatActivity {
 
         MediaPlayer player = new MediaPlayer();
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-
         try {
             player.setDataSource(new FileInputStream(new File(audio.getPath())).getFD());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
                 player.start();
+
             }
         });
 
