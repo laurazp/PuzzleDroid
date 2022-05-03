@@ -145,12 +145,18 @@ public class SettingsActivity extends AppCompatActivity {
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             Uri audio = data.getData(); //declared above Uri audio;
             Log.d("media", "onActivityResult: " + audio);
-            String pathToMusic = audio.getPath();
-            //String pathToMusic = "Download/sedative-110241.mp3";
+
+            // Prueba Uri to Path
+            File file = new File(audio.getPath()); //create path from uri
+            final String[] split = file.getPath().split(":"); //split the path.
+            String pathToMusic = split[1]; //assign it to a string(your choice).
+
+            /*String pathToMusic = audio.getPath();
+            //String pathToMusic = "Download/sedative-110241.mp3";*/
             Log.d("pathToMusic", pathToMusic);
 
             try {
-                serviceIntent.putExtra("FilePath", pathToMusic);
+                serviceIntent.putExtra("OwnFilePath", pathToMusic);
                 serviceIntent.putExtra("ownAudio", true);
                 startService(serviceIntent);
             }
