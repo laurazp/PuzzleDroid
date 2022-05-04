@@ -24,7 +24,6 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
 
     public MyService() {
     }
-
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.

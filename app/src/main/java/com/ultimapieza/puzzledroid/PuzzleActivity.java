@@ -3,6 +3,7 @@ package com.ultimapieza.puzzledroid;
 import static java.lang.Math.abs;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.app.AlertDialog;
@@ -31,17 +32,21 @@ import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import java.io.FileDescriptor;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,11 +66,11 @@ public class PuzzleActivity extends AppCompatActivity {
     boolean ownPhotos;
     String firstPhotoSelected;
     boolean photoUsed;
-
     ImageView imageView;
     Bitmap selectedImage;
     RelativeLayout layout;
-
+    String path;
+    View view;
     // Store image Uris in this ArrayList
     private ArrayList<Uri> imageUris;
 
@@ -99,6 +104,7 @@ public class PuzzleActivity extends AppCompatActivity {
         Intent intent = getIntent();
         final String assetName = intent.getStringExtra("assetName");
         final String mCurrentPhotoUri = intent.getStringExtra("mCurrentPhotoUri");
+        HideFile hidePhotoUsed=new HideFile();
 
         ownPhotos = intent.getBooleanExtra("ownPhotos", false);
         photoUsed=intent.getBooleanExtra("photoUsed", false);
@@ -108,7 +114,6 @@ public class PuzzleActivity extends AppCompatActivity {
         score = getIntent().getIntExtra("SCORE", 0);
         userName = getIntent().getStringExtra("USERNAME");
         camera = getIntent().getIntExtra("CAMERA", 0);
-        PhotoId photoId=new PhotoId();
 
         // Asigna el valor de numOfPieces a las filas del puzzle
         rows = numOfPieces;
@@ -132,18 +137,21 @@ public class PuzzleActivity extends AppCompatActivity {
                 };
 
                 Uri images = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-                //ArrayList<String> playerPhotosNotRepeated = new ArrayList<>();
+                //creamos array para guardar las fotos que ya se usaron
+                ArrayList<String> playerPhotosRepeated = new ArrayList<>();
                 Cursor cur = getContentResolver().query(images,
                         projection,
                         null,
                         null,
                         null);
                 final ArrayList<String> imagesPath = new ArrayList<>();
+                //guardamos el size de los arrays en una variable
+                int size_array_user=imagesPath.size();
+                int size_array_user_photo_used=playerPhotosRepeated.size();
                 if (cur.moveToFirst()) {
 
                     int dataColumn = cur.getColumnIndex(
                             MediaStore.Images.Media.DATA);
-                    photoId.setId(cur.getString(dataColumn));
                     // Añade las imágenes al Array
                     do {
                         imagesPath.add(cur.getString(dataColumn));
@@ -151,43 +159,52 @@ public class PuzzleActivity extends AppCompatActivity {
                     } while (cur.moveToNext());
 
                 }
+                if(size_array_user!=0 && size_array_user==size_array_user_photo_used){
+                    intent=new Intent(getApplicationContext(),GalleryActivity.class);
+                    view.getContext().startActivity(intent);
+
+                }
+
+
                 cur.close();
                 final Random random = new Random();
                 final int[] count = {imagesPath.size()};
                 handler.post(new Runnable() {
+                    @SuppressLint("LongLogTag")
                     @Override
                     public void run() {
                         //bucle que itera sibre las fotos del jugador
                         // Selecciona imagen aleatoriamente
-                        int number = random.nextInt(count[0]);
-                        String path = imagesPath.get(number);
-                        // mira si la foto anterior es igual a la primera
-                        if(path==imagesPath.get(number)+1 || path==firstPhotoSelected){
 
-                            photoUsed=true;
-                            //si es así elige la foto adelantada a la 2 posición
-                            path = imagesPath.get(number)+2;
-                            Log.d("Estoy usada",imagesPath.get(number)+1);
-                            Log.d("Estoy usada2",path);
-                        }
-                        else{
-                            photoUsed=false;
-                            path = imagesPath.get(number);
+                        int number = random.nextInt(count[0]);
+
+                        //comprobamos que la foto no esté repetida
+                        for(String userPhoto :  imagesPath){
+                            File randomPhoto =new File(userPhoto);
+                            if(!randomPhoto.isHidden()) {
+                                path=imagesPath.get(number);
+                                hidePhotoUsed.setHiddenFile(randomPhoto);
+                            }
+                            // si está repetida pasará a la siguiente imagen
+                            else{
+                                number=number+1;
+                                path=imagesPath.get(number);
+                                playerPhotosRepeated.add(path);
+
+                            }
 
                         }
 
                         if (currentBitmap != null)
-                            currentBitmap.recycle();
+                        currentBitmap.recycle();
                         currentBitmap = BitmapFactory.decodeFile(path);
                         // Establece la foto aleatoria como imagen para el puzzle
                         imageView.setImageBitmap(currentBitmap);
                         //handler.postDelayed(this, 1000);
-
                         // Rompe la imagen en piezas
                         if (path != null ) {
                             setPicFromAsset(path, imageView);
                         }
-
                         // Split the image into pieces
                         pieces = splitImage(numOfPieces + 1);
                         TouchListener touchListener;
@@ -204,7 +221,11 @@ public class PuzzleActivity extends AppCompatActivity {
                             lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
                             lParams.topMargin = layout.getHeight() - piece.pieceHeight;
                             piece.setLayoutParams(lParams);
+
                         }
+                        // en el caso de que el telefono tenga pocas fotos, y ya se hayan usado todas
+                        //nos llevará otravez a la galeria
+
                     }
 
                 });
@@ -248,12 +269,14 @@ public class PuzzleActivity extends AppCompatActivity {
         startTimer();
     }
 
+
     // Una vez hecha la foto con la cámara o seleccionada de la galería, vuelve a la PlayActivity con esa foto
     // onActivityResult se activa después de los eventos de la cámara, porque se vuelve a la activity desde la que se llamaron
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        HideFile hidephoto=new HideFile();
         if (resultCode != RESULT_CANCELED) {
             switch (requestCode) {
                 case 0: // TakePhoto
@@ -293,6 +316,7 @@ public class PuzzleActivity extends AppCompatActivity {
 
                                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                                 firstPhotoSelected= cursor.getString(columnIndex);
+                                Log.d("photo_seleccionada",firstPhotoSelected);
                                 // adding id to photo
                                 // Grant permissions
                                 writeStoragePermissionGranted();
@@ -320,6 +344,13 @@ public class PuzzleActivity extends AppCompatActivity {
                                     lParams.topMargin = layout.getHeight() - piece.pieceHeight;
                                     piece.setLayoutParams(lParams);
                                 }
+                                File userFirtsPhotoSelected = new File(firstPhotoSelected);
+                                hidephoto.setHiddenFile(userFirtsPhotoSelected);
+
+
+
+
+
 
 
                                 cursor.close();
@@ -330,6 +361,7 @@ public class PuzzleActivity extends AppCompatActivity {
             }
         }
     }
+
 
     private void pickImagesIntent() {
         Intent intent = new Intent();
