@@ -10,12 +10,12 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
-<<<<<<< HEAD
+
 import java.io.File;
 import java.io.FileInputStream;
 
-=======
->>>>>>> 0cf6daf3287d63225b11d661552d254694aae2d8
+
+
 // Servicio para gestionar la música y que suene a lo largo de todas las Activities
 public class MyService extends Service implements MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnSeekCompleteListener, MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener {
 
@@ -129,12 +129,12 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
 
                 if(ownAudio) {
                     Log.d("reproductor", "dentro de if(ownAudio)");
-<<<<<<< HEAD
+
                     reproductor.setDataSource(new FileInputStream(new File(filePath)).getFD());
-=======
+
                     reproductor.setDataSource(filePath);
                     //reproductor.setDataSource(new FileInputStream(new File(filePath)).getFD());
->>>>>>> 0cf6daf3287d63225b11d661552d254694aae2d8
+
                     //reproductor.setDataSource("/storage/emulated/0/Download/sedative-110241.mp3");
 
                     //String destination = Environment.getExternalStorageDirectory().getPath() + File.separator;
