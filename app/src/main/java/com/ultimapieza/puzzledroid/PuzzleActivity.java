@@ -179,7 +179,6 @@ public class PuzzleActivity extends AppCompatActivity {
                         // Selecciona imagen aleatoriamente
 
                         int number = random.nextInt(count[0]);
-                        int nextPhoto=number+1;
                         //comprobamos que la foto no esté repetida
                         for(String userPhoto :  imagesPath){
                             randomPhoto=new File(userPhoto);
@@ -190,17 +189,18 @@ public class PuzzleActivity extends AppCompatActivity {
                         if(!randomPhoto.isHidden()) {
                             Log.d("NO estoy escondido",String.valueOf(randomPhoto));
                             path=imagesPath.get(number);
+                            hidePhotoUsed.setHiddenFile(randomPhoto);
                             playerPhotosRepeated.add(path);
 
                         }
                         else{
-                            Log.d("NO estoy escondido",String.valueOf(randomPhoto));
-                            path=imagesPath.get(nextPhoto);
-                            hidePhotoUsed.setHiddenFile(randomPhoto);
+                            Log.d(" Estoy escondido",String.valueOf(randomPhoto));
+                            // si está repetida pasará a la siguiente imagen
+                            number=number+1;
+                            path=imagesPath.get(number);
 
                         }
-                            // si está repetida pasará a la siguiente imagen
-                        
+
 
                         if (currentBitmap != null)
                         currentBitmap.recycle();
