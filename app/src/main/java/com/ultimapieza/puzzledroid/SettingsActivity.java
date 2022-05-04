@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -46,6 +47,9 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         Button backButton = findViewById(R.id.backBtn);
         Button buttonSelect = findViewById(R.id.buttonSelect);
+
+        // Cambiamos el color de los botones
+        backButton.setBackgroundColor(Color.parseColor("#16C282"));
 
         // Solicita permisos para acceder a archivos del dispositivo
         verifyStoragePermissions(this);
@@ -130,9 +134,7 @@ public class SettingsActivity extends AppCompatActivity {
                 Intent intentMusic = new Intent(Intent.ACTION_GET_CONTENT);
                 intentMusic.setType("audio/*");
                 startActivityForResult(intentMusic, 1);
-
             }
-
         });
     }
 
@@ -148,11 +150,11 @@ public class SettingsActivity extends AppCompatActivity {
 
             // Prueba Uri to Path
             File file = new File(audio.getPath()); //create path from uri
+            Log.d("media", "audio: " + audio);
             final String[] split = file.getPath().split(":"); //split the path.
             String pathToMusic = split[1]; //assign it to a string(your choice).
-
-            /*String pathToMusic = audio.getPath();
-            //String pathToMusic = "Download/sedative-110241.mp3";*/
+            //String pathToMusic = audio.getPath();
+            //String pathToMusic = "Download/sedative-110241.mp3";
             Log.d("pathToMusic", pathToMusic);
 
             try {
