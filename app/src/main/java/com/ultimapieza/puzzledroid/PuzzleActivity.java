@@ -71,6 +71,7 @@ public class PuzzleActivity extends AppCompatActivity {
     RelativeLayout layout;
     String path;
     View view;
+    File randomPhoto;
     // Store image Uris in this ArrayList
     private ArrayList<Uri> imageUris;
 
@@ -169,6 +170,7 @@ public class PuzzleActivity extends AppCompatActivity {
                 cur.close();
                 final Random random = new Random();
                 final int[] count = {imagesPath.size()};
+
                 handler.post(new Runnable() {
                     @SuppressLint("LongLogTag")
                     @Override
@@ -177,23 +179,28 @@ public class PuzzleActivity extends AppCompatActivity {
                         // Selecciona imagen aleatoriamente
 
                         int number = random.nextInt(count[0]);
-
+                        int nextPhoto=number+1;
                         //comprobamos que la foto no esté repetida
                         for(String userPhoto :  imagesPath){
-                            File randomPhoto =new File(userPhoto);
-                            if(!randomPhoto.isHidden()) {
-                                path=imagesPath.get(number);
-                                hidePhotoUsed.setHiddenFile(randomPhoto);
-                            }
-                            // si está repetida pasará a la siguiente imagen
-                            else{
-                                number=number+1;
-                                path=imagesPath.get(number);
-                                playerPhotosRepeated.add(path);
-
-                            }
+                            randomPhoto=new File(userPhoto);
+                            Log.d("dentro for",String.valueOf(randomPhoto));
 
                         }
+                        //Una vez acabado el bucle miramos si la foto está repetida o no
+                        if(!randomPhoto.isHidden()) {
+                            Log.d("NO estoy escondido",String.valueOf(randomPhoto));
+                            path=imagesPath.get(number);
+                            playerPhotosRepeated.add(path);
+
+                        }
+                        else{
+                            Log.d("NO estoy escondido",String.valueOf(randomPhoto));
+                            path=imagesPath.get(nextPhoto);
+                            hidePhotoUsed.setHiddenFile(randomPhoto);
+
+                        }
+                            // si está repetida pasará a la siguiente imagen
+                        
 
                         if (currentBitmap != null)
                         currentBitmap.recycle();
