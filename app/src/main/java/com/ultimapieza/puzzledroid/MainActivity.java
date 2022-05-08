@@ -124,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
             startService(serviceInteIntentnt)(i);
 
              */
-
             MediaPlayer = true;
         }
         /*else {
