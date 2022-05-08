@@ -18,11 +18,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.ultimapieza.puzzledroid.db.DbHelperNewPlayer;
 import com.ultimapieza.puzzledroid.db.DbNewPlayer;
 import com.ultimapieza.puzzledroid.entidades.Players;
@@ -48,6 +54,7 @@ public class ResultActivity extends AppCompatActivity {
     private PendingIntent pendingIntent;
     private final static String CHANNEL_ID = "NOTIFICACION";
     private final static int NOTIFICACION_ID = 0;
+    DatabaseReference databaseReference;
 
     boolean ownPhotos;
 
@@ -78,8 +85,6 @@ public class ResultActivity extends AppCompatActivity {
         //Recibe el valor de score y userName
         score = getIntent().getIntExtra("SCORE", 0);
         userName = getIntent().getStringExtra("USERNAME");
-        Log.d("Score antes del botón", String.valueOf(score));
-        Log.d("Nombre antes del botón", String.valueOf(userName));
 
         // Muestra en pantalla el resultado de score
         scoreLabel.setText(score + "");
@@ -87,8 +92,31 @@ public class ResultActivity extends AppCompatActivity {
         // Comprueba si la puntuación es la más alta, la guarda como High Score y lo muestra en pantalla
         SharedPreferences settings = getSharedPreferences("HIGH_SCORE", Context.MODE_PRIVATE);
         int highScore = settings.getInt("HIGH_SCORE", 0);
+        databaseReference= FirebaseDatabase.getInstance().getReference(userName);
+        databaseReference.setValue(String.valueOf(score)).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful() && score > highScore){
+                    highScoreLabel.setText("High Score: " + score);
+                    // Update high score
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putInt("HIGH_SCORE", score);
+                    editor.commit();
+                    //Integrar aqui parte del codigo para notificacion push
+                    createNotificationChannel();
+                    createNotification();
 
-        if (score > highScore) {
+                    //Enlazar con clase PushME;
+                }else {
+
+                    highScoreLabel.setText("High Score: " + highScore);
+
+                }
+
+            }
+        });
+
+         /*if (score > highScore) {
             highScoreLabel.setText("High Score: " + score);
 
             // Update high score
@@ -105,7 +133,7 @@ public class ResultActivity extends AppCompatActivity {
 
             highScoreLabel.setText("High Score: " + highScore);
 
-        }
+        }*/
 
 
 

@@ -9,10 +9,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.ultimapieza.puzzledroid.db.DbHelper;
 import com.ultimapieza.puzzledroid.db.DbHelperNewPlayer;
 
@@ -24,11 +31,16 @@ public class MainActivity extends AppCompatActivity {
     boolean musicPlaying = false;
     Intent serviceIntent;
 
+
     // Bundle pasa información desde una actividad a otra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
 
         // Lanzamos el servicio para la música
         serviceIntent = new Intent(this, MyService.class);

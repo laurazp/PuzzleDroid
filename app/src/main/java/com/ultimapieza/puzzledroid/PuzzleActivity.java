@@ -323,7 +323,6 @@ public class PuzzleActivity extends AppCompatActivity {
 
                                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                                 firstPhotoSelected= cursor.getString(columnIndex);
-                                Log.d("photo_seleccionada",firstPhotoSelected);
                                 // adding id to photo
                                 // Grant permissions
                                 writeStoragePermissionGranted();
