@@ -123,6 +123,7 @@ public class ScoreActivity extends AppCompatActivity {
                 adaptername.notifyDataSetChanged();
                 adapterscore.notifyDataSetChanged();
             }
+            //TODO el score tiene que ser de los 10 mejores. Meter al menos 15 datos y que coja clo 10 con el mejor score
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

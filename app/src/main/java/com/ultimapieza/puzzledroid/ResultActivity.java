@@ -92,7 +92,7 @@ public class ResultActivity extends AppCompatActivity {
         // Comprueba si la puntuación es la más alta, la guarda como High Score y lo muestra en pantalla
         SharedPreferences settings = getSharedPreferences("HIGH_SCORE", Context.MODE_PRIVATE);
         int highScore = settings.getInt("HIGH_SCORE", 0);
-        
+
         //Obtenemos la instancia de la base de datos
         databaseReference= FirebaseDatabase.getInstance().getReference();
         //Referenciamos a un padre donde debajo irán los datos
