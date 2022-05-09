@@ -104,26 +104,29 @@ public class ScoreActivity extends AppCompatActivity {
         //creando el adapter que mostrará los datos de los jugadores
         final ArrayAdapter adapterscore=new ArrayAdapter<String>(this,R.layout.list_item_player,R.id.viewName,playerScores);
         final ArrayAdapter adaptername=new ArrayAdapter<String>(this,R.layout.list_item_player,R.id.viewScore,playerScores);
+        //asignamos los adapter
         listPlayer.setAdapter(adapterscore);
         listPlayer.setAdapter(adaptername);
+        //guardamos la referncia en una variable
         DatabaseReference reference=databaseReference;
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //limpiamos la lista
                 playerScores.clear();
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    Log.d("Que cojones pasa?",String.valueOf(dataSnapshot.getKey()));
+                    //debido a que tenemos dos txtview uno supone la clave y el otro el valor
                     playerScores.add(String.valueOf(dataSnapshot.getKey()));
                     playerScores.add(dataSnapshot.getValue().toString());
-
                 }
+                //nos notifica si hay algún cambio
                 adaptername.notifyDataSetChanged();
                 adapterscore.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("Que cojones pasa?"," ");
+
             }
 
         });

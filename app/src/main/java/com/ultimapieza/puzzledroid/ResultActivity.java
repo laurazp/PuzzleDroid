@@ -89,30 +89,18 @@ public class ResultActivity extends AppCompatActivity {
 
         // Muestra en pantalla el resultado de score
         scoreLabel.setText(score + "");
-
         // Comprueba si la puntuación es la más alta, la guarda como High Score y lo muestra en pantalla
         SharedPreferences settings = getSharedPreferences("HIGH_SCORE", Context.MODE_PRIVATE);
         int highScore = settings.getInt("HIGH_SCORE", 0);
-        HashMap<String,String>bestPlayers=new HashMap<String,String>();
+        
+        //Obtenemos la instancia de la base de datos
         databaseReference= FirebaseDatabase.getInstance().getReference();
-        //bestPlayers.put("UserName",userName);
-        //bestPlayers.put("Score",String.valueOf(score));
+        //Referenciamos a un padre donde debajo irán los datos
         DatabaseReference playerReference = databaseReference.child("Players");
-        String s=String.valueOf(score);
-        playerReference.child(userName).setValue(s);
-
-
-        /*databaseReference.setValue(String.valueOf(score)).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    Log.d("Vamos","que nos vamos");
-
-                }
-
-            }
-        });*/
-
+        // casteamos a string el score
+        String stringScore=String.valueOf(score);
+        //asignamos los valores a la base de datos
+        playerReference.child(userName).setValue(stringScore);
 
          if (score > highScore) {
             highScoreLabel.setText("High Score: " + score);
