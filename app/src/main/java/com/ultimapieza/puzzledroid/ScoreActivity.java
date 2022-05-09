@@ -2,9 +2,12 @@ package com.ultimapieza.puzzledroid;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,11 +28,13 @@ import java.util.ArrayList;
 
 
 public class ScoreActivity extends AppCompatActivity {
-    RecyclerView listPlayer;
+    ListView listPlayer;
+    //TextView scorePlayerView;
     //boolean ownPhotos;
     // creating a variable for
     // our Firebase Database.
     FirebaseDatabase firebaseDatabase;
+
 
     // creating a variable for our
     // Database Reference for Firebase.
@@ -47,7 +52,9 @@ public class ScoreActivity extends AppCompatActivity {
 
         // Definimos la ReciclerView
         listPlayer= findViewById(R.id.listPlayer);
-        listPlayer.setLayoutManager(new LinearLayoutManager(this));
+       // scorePlayerView=findViewById(R.id.scorePlayerView);
+
+
 
         // Recibimos el valor de "ownPhotos"
         //Intent intent = getIntent();
@@ -65,7 +72,7 @@ public class ScoreActivity extends AppCompatActivity {
         // of our Firebase database.
         firebaseDatabase = FirebaseDatabase.getInstance();
         // reference for our database.
-        databaseReference = firebaseDatabase.getReference("Data");
+        databaseReference = firebaseDatabase.getReference("Players");
 
         // initializing our object class variable.
 
@@ -93,12 +100,33 @@ public class ScoreActivity extends AppCompatActivity {
                 //}
             }
         });
-        ArrayList<String>playerScores=new ArrayList<>();
+        final ArrayList<String>playerScores=new ArrayList<>();
         //creando el adapter que mostrará los datos de los jugadores
-        ArrayList<Players> listPlayers = new ArrayList<>();
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,R.layout.list_item_player,playerScores); ;
-        //listPlayer.setAdapter(adapter1);
+        final ArrayAdapter adapterscore=new ArrayAdapter<String>(this,R.layout.list_item_player,R.id.viewName,playerScores);
+        final ArrayAdapter adaptername=new ArrayAdapter<String>(this,R.layout.list_item_player,R.id.viewScore,playerScores);
+        listPlayer.setAdapter(adapterscore);
+        listPlayer.setAdapter(adaptername);
+        DatabaseReference reference=databaseReference;
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                playerScores.clear();
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    Log.d("Que cojones pasa?",String.valueOf(dataSnapshot.getKey()));
+                    playerScores.add(String.valueOf(dataSnapshot.getKey()));
+                    playerScores.add(dataSnapshot.getValue().toString());
 
+                }
+                adaptername.notifyDataSetChanged();
+                adapterscore.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Que cojones pasa?"," ");
+            }
+
+        });
 
         // Al hacer click en el botón "Exit", sale de la aplicación
         exitButton.setOnClickListener(new View.OnClickListener(){

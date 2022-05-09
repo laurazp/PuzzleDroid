@@ -8,6 +8,9 @@
     <string name="Start">Start</string>
     <string name="Player_score">Player Name</string>
     <string name="select_audio_file_title" />
+    <string name="scoretable">ScoreTable</string>
+    <string name="play_again">Play Again</string>
+    <string name="exit">Exit</string>
 
 
 </resources>

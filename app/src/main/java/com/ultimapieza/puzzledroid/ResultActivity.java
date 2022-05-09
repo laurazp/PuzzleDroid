@@ -34,6 +34,7 @@ import com.ultimapieza.puzzledroid.db.DbNewPlayer;
 import com.ultimapieza.puzzledroid.entidades.Players;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ResultActivity extends AppCompatActivity {
 
@@ -92,31 +93,28 @@ public class ResultActivity extends AppCompatActivity {
         // Comprueba si la puntuación es la más alta, la guarda como High Score y lo muestra en pantalla
         SharedPreferences settings = getSharedPreferences("HIGH_SCORE", Context.MODE_PRIVATE);
         int highScore = settings.getInt("HIGH_SCORE", 0);
-        databaseReference= FirebaseDatabase.getInstance().getReference(userName);
-        databaseReference.setValue(String.valueOf(score)).addOnCompleteListener(new OnCompleteListener<Void>() {
+        HashMap<String,String>bestPlayers=new HashMap<String,String>();
+        databaseReference= FirebaseDatabase.getInstance().getReference();
+        //bestPlayers.put("UserName",userName);
+        //bestPlayers.put("Score",String.valueOf(score));
+        DatabaseReference playerReference = databaseReference.child("Players");
+        String s=String.valueOf(score);
+        playerReference.child(userName).setValue(s);
+
+
+        /*databaseReference.setValue(String.valueOf(score)).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful() && score > highScore){
-                    highScoreLabel.setText("High Score: " + score);
-                    // Update high score
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putInt("HIGH_SCORE", score);
-                    editor.commit();
-                    //Integrar aqui parte del codigo para notificacion push
-                    createNotificationChannel();
-                    createNotification();
-
-                    //Enlazar con clase PushME;
-                }else {
-
-                    highScoreLabel.setText("High Score: " + highScore);
+                if(task.isSuccessful()){
+                    Log.d("Vamos","que nos vamos");
 
                 }
 
             }
-        });
+        });*/
 
-         /*if (score > highScore) {
+
+         if (score > highScore) {
             highScoreLabel.setText("High Score: " + score);
 
             // Update high score
@@ -133,7 +131,7 @@ public class ResultActivity extends AppCompatActivity {
 
             highScoreLabel.setText("High Score: " + highScore);
 
-        }*/
+        }
 
 
 
