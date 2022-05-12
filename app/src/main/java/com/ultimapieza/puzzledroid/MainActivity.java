@@ -9,17 +9,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.ultimapieza.puzzledroid.db.DbHelper;
 import com.ultimapieza.puzzledroid.db.DbHelperNewPlayer;
 
@@ -111,6 +104,16 @@ public class MainActivity extends AppCompatActivity {
                 //Toast.makeText(this, "Info Selected", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, InfoActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.nav_Login:
+                //Toast.makeText(this, "Authentication Selected", Toast.LENGTH_SHORT).show();
+                Intent intent3 = new Intent(this, AuthActivity.class);
+                startActivity(intent3);
+                break;
+            case R.id.nav_Logout:
+                //Toast.makeText(this, "Authentication Selected", Toast.LENGTH_SHORT).show();
+                Intent intent4 = new Intent(this, HomeActivity.class);
+                startActivity(intent4);
                 break;
             case R.id.nav_help:
                 //Toast.makeText(this, "Help Selected", Toast.LENGTH_SHORT).show();
