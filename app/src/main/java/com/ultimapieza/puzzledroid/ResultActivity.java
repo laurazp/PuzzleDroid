@@ -105,6 +105,7 @@ public class ResultActivity extends AppCompatActivity {
 
             highScoreLabel.setText("High Score: " + highScore);
 
+
         }
 
 
