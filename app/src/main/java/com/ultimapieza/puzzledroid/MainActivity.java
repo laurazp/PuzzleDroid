@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -101,22 +102,22 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_info:
-                //Toast.makeText(this, "Info Selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Info Selected", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, InfoActivity.class);
                 startActivity(intent);
                 break;
             case R.id.nav_Login:
-                //Toast.makeText(this, "Authentication Selected", Toast.LENGTH_SHORT).show();
-                //Intent intent3 = new Intent(this, AuthActivity.class);
-                //startActivity(intent3);
+                Toast.makeText(this, "Authentication Selected", Toast.LENGTH_SHORT).show();
+                Intent intent3 = new Intent(this, AuthActivity.class);
+                startActivity(intent3);
                 break;
             case R.id.nav_Logout:
-                //Toast.makeText(this, "Authentication Selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Authentication Selected", Toast.LENGTH_SHORT).show();
                 Intent intent4 = new Intent(this, HomeActivity.class);
                 startActivity(intent4);
                 break;
             case R.id.nav_help:
-                //Toast.makeText(this, "Help Selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Help Selected", Toast.LENGTH_SHORT).show();
                 Intent intent2 = new Intent(this, HelpActivity.class);
                 startActivity(intent2);
         }
