@@ -54,7 +54,6 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
     }
 
 
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 

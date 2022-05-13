@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PuzzleDroid</string>
+    <string name="player_name" translatable="false">Jugador:</string>
+    <string name="player_score" translatable="false">Puntuación:</string>
+    <string name="item_menu" translatable="false">Nuevo Jugador</string>
+    <string name="Start" translatable="false">Comenzar</string>
+    <string name="Player_score" translatable="false">Nombre del jugador</string>
+    <string name="scoretable" translatable="false">Salón de la fama</string>
+    <string name="exit" translatable="false">Salir</string>
+    <string name="by_ultima_pieza" translatable="false">Creado por el grupo última pieza</string>
+    <string name="play" translatable="false">Jugar</string>
+    <string name="options" translatable="false">Opciones</string>
+    <string name="select_language">Selecciona un idioma</string>
+    <string name="choose_an_option" translatable="false">Elige una opción</string>
+    <string name="select_a_puzzle" translatable="false">Elige un puzzle</string>
+    <string name="open_your_photos" translatable="false">Elegir fotos desde la galeria</string>
+    <string name="back_to_menu" translatable="false">Volver al menú</string>
+    <string name="about_us" translatable="false">Sobre nosotros</string>
+    <string name="puzzle_by_ultima_pieza">PuzzleDroid es un juego creado por UltimaPieza, un grupo de estudiantes de desarrollo que aprenden a crear aplicaciones nativas con Android Studio. Este juego de rompecabezas está escrito en el lenguaje de programación Java.</string>
+    <string name="we_are">Nosotros somos: · Matilde Pascual · · Andreu Martín · · Jordi Podeschva · · Laura Zafra ·</string>
+    <string name="home" translatable="false">Menú</string>
+    <string name="settings" translatable="false">Ajustes</string>
+    <string name="music" translatable="true">Música</string>
+    <string name="sounds" translatable="false">Sonidos</string>
+    <string name="back" translatable="false">Volver</string>
+    <string name="select_a_language" translatable="false">Elige un idioma</string>
+    <string name="score" translatable="false">Puntuación:</string>
+    <string name="see_scoretable" translatable="false">Ver salón de la fama</string>
+    <string name="add_calendar" translatable="false">Añadir score al calendario</string>
+    <string name="welcome" translatable="false">Bienvenido selecciona un idioma</string>
+    <string name="select_music" translatable="false">Elige nueva música</string>
+    <string name="play_again" translatable="false">Volver a jugar</string>
+    <string name="nick_name">Elige tu nombre:</string>
+    <string name="high_score">Mayor puntuación:</string>
+    <string name="ubicacion_gps">Ubicacion GPS</string>
+</resources>

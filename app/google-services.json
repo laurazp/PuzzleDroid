@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "517269793052",
+    "firebase_url": "https://puzzledroid-aeb2b-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "puzzledroid-aeb2b",
+    "storage_bucket": "puzzledroid-aeb2b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:517269793052:android:5cb0be078916c0a6f072d9",
+        "android_client_info": {
+          "package_name": "com.ultimapieza.puzzledroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "517269793052-rfvbc71psqmc4u4fuqck0qj6f1hip7n7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhstOzutPUq7_NATGdtFyUtzM7Oit-nfI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "517269793052-rfvbc71psqmc4u4fuqck0qj6f1hip7n7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

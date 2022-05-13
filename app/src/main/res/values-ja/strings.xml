@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PuzzleDroid</string>
+    <string name="player_name" translatable="false">プレーヤー:</string>
+    <string name="player_score" translatable="false">スコア:</string>
+    <string name="select_language">"言語を選択してください "</string>
+    <string name="puzzle_by_ultima_pieza">PuzzleDroidは、AndroidStudioを使用してネイティブアプリケーションを作成する方法を学ぶ開発学生のグループであるUltimaPiezaによって作成されたゲームです。このパズルゲームはJavaプログラミング言語で書かれています。</string>
+    <string name="nick_name">あなたのニックネームを選択してください：</string>
+    <string name="exit" translatable="false">出口:</string>
+    <string name="welcome" translatable="false">Puzzledroid ようこそ:</string>
+    <string name="select_a_language" translatable="false">"言語を選択してください "</string>
+    <string name="about_us" translatable="false">私たちに関しては</string>
+    <string name="home" translatable="false">家</string>
+    <string name="by_ultima_pieza" translatable="false">ウルティマ・ピエザ</string>
+    <string name="play" translatable="false">遊ぶ</string>
+    <string name="options" translatable="false">オプション</string>
+    <string name="choose_an_option" translatable="false">オプションを選択：</string>
+    <string name="select_a_puzzle" translatable="false">パズルを選択</string>
+    <string name="open_your_photos" translatable="false">写真を開く</string>
+    <string name="back_to_menu" translatable="false">メニューに戻る</string>
+    <string name="settings" translatable="false">設定</string>
+    <string name="music">音楽</string>
+    <string name="sounds" translatable="false">音</string>
+    <string name="back" translatable="false">戻る</string>
+    <string name="select_music" translatable="false">音楽を選択</string>
+    <string name="score" translatable="false">スコア：</string>
+    <string name="high_score">高得点：</string>
+    <string name="see_scoretable" translatable="false">スコアテーブルを参照してください</string>
+    <string name="add_calendar" translatable="false">カレンダーを追加</string>
+    <string name="we_are">私たちは：・MatildePascual··AndreuMartín··JordiPodeschva··LauraZafra・</string>
+    <string name="play_again" translatable="false">再びプレー</string>
+    <string name="item_menu" translatable="false">ヌエボジュガドール</string>
+    <string name="Start" translatable="false">始める</string>
+    <string name="Player_score" translatable="false">プレーヤの名前</string>
+    <string name="scoretable" translatable="false">スコアテーブル</string>
+    <string name="ubicacion_gps">Ubicacion GPS</string>
+</resources>

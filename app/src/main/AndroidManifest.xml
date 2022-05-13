@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ultimapieza.puzzledroid">
+    <!-- <uses-sdk android:minSdkVersion="14" /> -->
     <!-- Permissions of internet -->
-    <uses-sdk android:minSdkVersion="14" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -12,9 +12,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.LEGACY_STORAGE"/>
-
-
+    <uses-permission android:name="android.permission.LEGACY_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
 
 
@@ -22,13 +23,42 @@
         android:allowBackup="true"
         android:icon="@mipmap/launcherapp"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/launcherapp_round"
         android:supportsRtl="true"
-        android:requestLegacyExternalStorage="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.PuzzleDroid">
+        android:theme="@style/Theme.PuzzleDroid"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".Location"
+            android:exported="false" />
+        <!--
+             TODO: Before you run your application, you need a Google Maps API key.
 
+             To get one, follow the directions here:
 
+                https://developers.google.com/maps/documentation/android-sdk/get-api-key
+
+             Once you have your API key (it starts with "AIza"), define a new property in your
+             project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
+             "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="YOUR_API_KEY" />
+
+        <activity
+            android:name=".Language"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
 
         <service
             android:name=".MyService"
@@ -57,20 +87,27 @@
         <activity
             android:name=".HelpActivity"
             android:exported="false" />
-        <activity
-            android:name=".Global"
-            android:exported="false" />
+        <!--
+       <activity
+           android:name=".AuthActivity"
+           android:exported="false" />
+
+<activity
+           android:name=".Global"
+           android:exported="false" />
+        -->
         <activity
             android:name=".SettingsActivity"
             android:exported="false" />
         android:requestLegacyExternalStorage="true"
         <activity
             android:name=".PlayActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
+<<<<<<< HEAD
             android:exported="true"
             android:requestLegacyExternalStorage="true"
             android:screenOrientation="portrait">
@@ -80,6 +117,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+=======
+            android:exported="false"
+            android:screenOrientation="portrait" />
+>>>>>>> d084b5fe70a32a5911be5fc9db5347fb0441f7b8
 
 
         <meta-data

@@ -18,16 +18,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.ultimapieza.puzzledroid.db.DbHelperNewPlayer;
 import com.ultimapieza.puzzledroid.db.DbNewPlayer;
 import com.ultimapieza.puzzledroid.entidades.Players;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ResultActivity extends AppCompatActivity {
 
@@ -48,6 +55,7 @@ public class ResultActivity extends AppCompatActivity {
     private PendingIntent pendingIntent;
     private final static String CHANNEL_ID = "NOTIFICACION";
     private final static int NOTIFICACION_ID = 0;
+    DatabaseReference databaseReference;
 
     boolean ownPhotos;
 
@@ -78,17 +86,23 @@ public class ResultActivity extends AppCompatActivity {
         //Recibe el valor de score y userName
         score = getIntent().getIntExtra("SCORE", 0);
         userName = getIntent().getStringExtra("USERNAME");
-        Log.d("Score antes del botón", String.valueOf(score));
-        Log.d("Nombre antes del botón", String.valueOf(userName));
 
         // Muestra en pantalla el resultado de score
         scoreLabel.setText(score + "");
-
         // Comprueba si la puntuación es la más alta, la guarda como High Score y lo muestra en pantalla
         SharedPreferences settings = getSharedPreferences("HIGH_SCORE", Context.MODE_PRIVATE);
         int highScore = settings.getInt("HIGH_SCORE", 0);
 
-        if (score > highScore) {
+        //Obtenemos la instancia de la base de datos
+        databaseReference= FirebaseDatabase.getInstance().getReference();
+        //Referenciamos a un padre donde debajo irán los datos
+        DatabaseReference playerReference = databaseReference.child("Players");
+        // casteamos a string el score
+        String stringScore=String.valueOf(score);
+        //asignamos los valores a la base de datos
+        playerReference.child(userName).setValue(stringScore);
+
+         if (score > highScore) {
             highScoreLabel.setText("High Score: " + score);
 
             // Update high score

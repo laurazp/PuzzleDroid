@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PuzzleDroid</string>
+    <string name="player_name" translatable="false">Joueur:</string>
+    <string name="player_score" translatable="false">Score:</string>
+    <string name="select_language">" Sélectionnez une langue:"</string>
+    <string name="puzzle_by_ultima_pieza">PuzzleDroid est un jeu créé par UltimaPieza, un groupe d\'étudiants en développement qui apprennent à créer des applications natives à l\'aide d\'Android Studio. Ce jeu de puzzle est écrit dans le langage de programmation Java.</string>
+    <string name="nick_name">Choisissez votre pseudo :</string>
+    <string name="exit" translatable="false">Sortie</string>
+    <string name="welcome" translatable="false">Bienvenue sur PuzzleDroid</string>
+    <string name="select_a_language" translatable="false">Sélectionnez une langue</string>
+    <string name="about_us" translatable="false">À propos de nous</string>
+    <string name="home" translatable="false">Menu</string>
+    <string name="by_ultima_pieza" translatable="false">par Ultima Pieza</string>
+    <string name="play" translatable="false">Joue</string>
+    <string name="options" translatable="false">Choix</string>
+    <string name="choose_an_option" translatable="false">Choisis une option:</string>
+    <string name="select_a_puzzle" translatable="false">Sélectionnez un casse-tête</string>
+    <string name="open_your_photos" translatable="false">Ouvrez vos photos</string>
+    <string name="back_to_menu" translatable="false">Retour au menu</string>
+    <string name="settings" translatable="false">RÉGLAGES</string>
+    <string name="music">Musique</string>
+    <string name="sounds" translatable="false">Des sons</string>
+    <string name="back" translatable="false">ARRIÈRE</string>
+    <string name="select_music" translatable="false">Sélectionnez la musique</string>
+    <string name="score" translatable="false">Score:</string>
+    <string name="high_score">Score élevé:</string>
+    <string name="see_scoretable" translatable="false">Voir le tableau des scores</string>
+    <string name="add_calendar" translatable="false">Ajouter un calendrier</string>
+    <string name="we_are">Nous sommes : · Matilde Pascual · · Andreu Martín · · Jordi Podeschva · · Laura Zafra ·</string>
+    <string name="play_again" translatable="false">Rejouer</string>
+    <string name="Start" translatable="false">Démarrer</string>
+    <string name="item_menu" translatable="false">Nouveau joueur</string>
+    <string name="Player_score" translatable="false">Nom de joueur</string>
+    <string name="scoretable" translatable="false">Tableau des scores</string>
+    <string name="ubicacion_gps">Ubicacion GPS</string>
+</resources>

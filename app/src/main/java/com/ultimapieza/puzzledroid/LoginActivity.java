@@ -37,13 +37,16 @@ public class LoginActivity extends AppCompatActivity {
 
                 // Asigna el input de texto a userName
                 userName = txtPlayerInput.getText().toString();
-
+                try {
+                    if(id>0){
+                        //Toast.makeText(LoginActivity.this, "Nuevo jugador registrado", Toast.LENGTH_LONG).show();
+                        clean();
+                }
                 // Comprueba que se haya registrado correctamente al jugador en la BD
-                if(id>0){
-                    Toast.makeText(LoginActivity.this, "Nuevo jugador registrado", Toast.LENGTH_LONG).show();
-                    clean();
-                }else{
-                    Toast.makeText(LoginActivity.this, "Error al registrar nuevo jugador", Toast.LENGTH_LONG).show();
+
+                }catch(Exception exception)
+                {
+                    //Toast.makeText(LoginActivity.this, "Error al registrar nuevo jugador", Toast.LENGTH_LONG).show();
                 }
 
                 // Crea un nuevo intent para PlayActivity y pasa el userName

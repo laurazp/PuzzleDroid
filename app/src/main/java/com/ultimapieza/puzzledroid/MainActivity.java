@@ -1,17 +1,25 @@
 package com.ultimapieza.puzzledroid;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.ultimapieza.puzzledroid.db.DbHelper;
 import com.ultimapieza.puzzledroid.db.DbHelperNewPlayer;
@@ -23,12 +31,15 @@ public class MainActivity extends AppCompatActivity {
     public static boolean MediaPlayer = false;
     boolean musicPlaying = false;
     Intent serviceIntent;
+    Button location;
+    TextView tvUbicacion;
 
     // Bundle pasa información desde una actividad a otra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         // Lanzamos el servicio para la música
         serviceIntent = new Intent(this, MyService.class);
@@ -44,6 +55,38 @@ public class MainActivity extends AppCompatActivity {
         // Cambiamos el color de los botones
         playButton.setBackgroundColor(Color.parseColor("#F7C52C"));
         optionsButton.setBackgroundColor(Color.parseColor("#16C282"));
+
+        Button button_location=findViewById(R.id.location);
+        TextView tvUbicacion=findViewById(R.id.tvUbicacion);
+        button_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LocationManager locationManager=(LocationManager)MainActivity.this.getSystemService(Context.LOCATION_SERVICE);
+                LocationListener locationListener=new LocationListener() {
+                    @Override
+                    public void onLocationChanged(@NonNull android.location.Location location) {
+                        tvUbicacion.setText(""+location.getLatitude()+""+location.getLongitude());
+                        Intent intentlocation = new Intent (view.getContext(), Location.class);
+                        view.getContext().startActivity(intentlocation);
+                    }
+                    public void OnStatusChanged(String provide, int status, Bundle extras){}
+                    public void OnProviderEnabled(String provide){}
+                    public void OnProviderDisabled(String provide, int status, Bundle extras){}
+
+                };
+                int permissionCheck= ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION);
+                locationManager.requestLocationUpdates(locationManager.NETWORK_PROVIDER,0,0,locationListener);
+            }
+        });
+        int permissionCheck= ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION);
+        if(permissionCheck== PackageManager.PERMISSION_DENIED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,android.Manifest.permission.ACCESS_FINE_LOCATION)){
+
+            }else{
+                ActivityCompat.requestPermissions(MainActivity.this,new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},1);
+            }
+        }
+
 
         // Al hacer click en el botón Play, nos lleva a PlayActivity
         playButton.setOnClickListener(new View.OnClickListener(){
@@ -96,12 +139,22 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_info:
-                //Toast.makeText(this, "Info Selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Info Selected", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, InfoActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.nav_Login:
+                Toast.makeText(this, "Authentication Selected", Toast.LENGTH_SHORT).show();
+                Intent intent3 = new Intent(this, AuthActivity.class);
+                startActivity(intent3);
+                break;
+            case R.id.nav_Logout:
+                Toast.makeText(this, "Authentication Selected", Toast.LENGTH_SHORT).show();
+                Intent intent4 = new Intent(this, HomeActivity.class);
+                startActivity(intent4);
+                break;
             case R.id.nav_help:
-                //Toast.makeText(this, "Help Selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Help Selected", Toast.LENGTH_SHORT).show();
                 Intent intent2 = new Intent(this, HelpActivity.class);
                 startActivity(intent2);
         }
@@ -117,13 +170,20 @@ public class MainActivity extends AppCompatActivity {
             serviceIntent.putExtra("FilePath", filePath);
             startService(serviceIntent);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d084b5fe70a32a5911be5fc9db5347fb0441f7b8
 
           /*Intent i = new Intent(this, MyService.class);
             i.putExtra("action", startService(serviceIntent));
             startService(serviceInteIntentnt)(i);
 
              */
+<<<<<<< HEAD
 
+=======
+>>>>>>> d084b5fe70a32a5911be5fc9db5347fb0441f7b8
             MediaPlayer = true;
         }
         /*else {
@@ -131,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
             serviceIntent = new Intent(this, MyService.class);
             serviceIntent.putExtra("FilePath", filePath);
             startService(serviceIntent);
->>>>>>> 0cf6daf3287d63225b11d661552d254694aae2d8
+
 
             MediaPlayer = true;
         }*/
