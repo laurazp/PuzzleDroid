@@ -4,7 +4,7 @@
     <string name="by_ultima_pieza">by Ultima Pieza</string>
     <string name="play">Play</string>
     <string name="options">Options</string>
-    <string name="select_language">Selecciona un idioma</string>
+    <string name="select_language">Select a language</string>
     <string name="choose_an_option">Choose an option:</string>
     <string name="select_a_puzzle">Select a Puzzle</string>
     <string name="open_your_photos">Open Your Photos</string>
@@ -22,10 +22,16 @@
     <string name="score">Score:</string>
     <string name="see_scoretable">See ScoreTable</string>
     <string name="add_calendar">Add Calendar</string>
-    <string name="welcome">Welcome select a Language</string>
+    <string name="welcome">Welcome to PuzzleDroid</string>
     <string name="select_music">Select Music</string>
     <string name="player_name">Player:</string>
     <string name="exit">Exit</string>
     <string name="player_score">Score:</string>
     <string name="high_score">High Score:</string>
+    <string name="play_again" translatable="false">Play Again</string>
+    <string name="item_menu" translatable="false">New Player</string>
+    <string name="Start" translatable="false">Start</string>
+    <string name="Player_score" translatable="false">Player Name</string>
+    <string name="scoretable" translatable="false">ScoreTable</string>
+    <string name="puzzledroid" translatable="false">PuzzleDroid</string>
 </resources>

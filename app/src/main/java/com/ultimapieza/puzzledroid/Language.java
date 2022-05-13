@@ -1,5 +1,4 @@
 package com.ultimapieza.puzzledroid;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -16,28 +15,21 @@ import android.widget.Toast;
 
 import java.util.Locale;
 import java.util.Timer;
-
 public class Language extends AppCompatActivity {
     Spinner spinner;
-    public static final String[] languages ={"English","Spanish"};
-    private static int TIME_OUT = 4000;
-
+    public static final String[] languages ={"English","Spanish","French","Japanese"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_language);
         spinner = findViewById(R.id.spinner);
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,languages);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         //spinner.setSelection(0);
-        Timer timer = new Timer();
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
                 String selectedLang = adapterView.getItemAtPosition(i).toString();
                  if(selectedLang.equals("Spanish")){
                     setLocal( "es");
@@ -48,10 +40,20 @@ public class Language extends AppCompatActivity {
                             Language.this.startActivity(mainIntent);
                             Language.this.finish();
                         }
-                    }, 5000);
+                    }, 6000);
 
                 }else if(selectedLang.equals("English")){
-                    setLocal( "en");
+                     setLocal( "en");
+                     new Handler().postDelayed(new Runnable() {
+                         @Override
+                         public void run() {
+                             final Intent mainIntent = new Intent(Language.this, MainActivity.class);
+                             Language.this.startActivity(mainIntent);
+                             Language.this.finish();
+                         }
+                     }, 6000);
+                 } else if(selectedLang.equals("French")){
+                    setLocal( "fr");
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -60,15 +62,21 @@ public class Language extends AppCompatActivity {
                             Language.this.finish();
                         }
                     }, 5000);
-
-                }
-
+                } else if(selectedLang.equals("Japanese")){
+                    setLocal( "ja");
+                    new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        final Intent mainIntent = new Intent(Language.this, MainActivity.class);
+                        Language.this.startActivity(mainIntent);
+                        Language.this.finish();
+                    }
+                }, 6000);
+            }
                 else {
                     Toast.makeText(Language.this, "Please select a Language", Toast.LENGTH_SHORT).show();
-
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 Toast.makeText(Language.this, "Please select a Language", Toast.LENGTH_SHORT).show();
