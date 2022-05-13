@@ -37,4 +37,6 @@
     <string name="see_scoretable">See ScoreTable</string>
     <string name="add_calendar">Add Calendar</string>
     <string name="we_are">We are: · Matilde Pascual · · Andreu Martín · · Jordi Podeschva · · Laura Zafra ·</string>
+    <string name="title_activity_location" translatable="false">Location</string>
+    <string name="ubicacion_gps">Ubicacion GPS</string>
 </resources>

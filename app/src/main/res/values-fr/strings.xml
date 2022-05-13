@@ -33,4 +33,5 @@
     <string name="item_menu" translatable="false">Nouveau joueur</string>
     <string name="Player_score" translatable="false">Nom de joueur</string>
     <string name="scoretable" translatable="false">Tableau des scores</string>
+    <string name="ubicacion_gps">Ubicacion GPS</string>
 </resources>

@@ -1,18 +1,25 @@
 package com.ultimapieza.puzzledroid;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.ultimapieza.puzzledroid.db.DbHelper;
 import com.ultimapieza.puzzledroid.db.DbHelperNewPlayer;
@@ -24,16 +31,14 @@ public class MainActivity extends AppCompatActivity {
     public static boolean MediaPlayer = false;
     boolean musicPlaying = false;
     Intent serviceIntent;
-
+    Button location;
+    TextView tvUbicacion;
 
     // Bundle pasa información desde una actividad a otra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
 
 
         // Lanzamos el servicio para la música
@@ -50,6 +55,38 @@ public class MainActivity extends AppCompatActivity {
         // Cambiamos el color de los botones
         playButton.setBackgroundColor(Color.parseColor("#F7C52C"));
         optionsButton.setBackgroundColor(Color.parseColor("#16C282"));
+
+        Button button_location=findViewById(R.id.location);
+        TextView tvUbicacion=findViewById(R.id.tvUbicacion);
+        button_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LocationManager locationManager=(LocationManager)MainActivity.this.getSystemService(Context.LOCATION_SERVICE);
+                LocationListener locationListener=new LocationListener() {
+                    @Override
+                    public void onLocationChanged(@NonNull android.location.Location location) {
+                        tvUbicacion.setText(""+location.getLatitude()+""+location.getLongitude());
+                        Intent intentlocation = new Intent (view.getContext(), Location.class);
+                        view.getContext().startActivity(intentlocation);
+                    }
+                    public void OnStatusChanged(String provide, int status, Bundle extras){}
+                    public void OnProviderEnabled(String provide){}
+                    public void OnProviderDisabled(String provide, int status, Bundle extras){}
+
+                };
+                int permissionCheck= ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION);
+                locationManager.requestLocationUpdates(locationManager.NETWORK_PROVIDER,0,0,locationListener);
+            }
+        });
+        int permissionCheck= ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION);
+        if(permissionCheck== PackageManager.PERMISSION_DENIED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,android.Manifest.permission.ACCESS_FINE_LOCATION)){
+
+            }else{
+                ActivityCompat.requestPermissions(MainActivity.this,new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},1);
+            }
+        }
+
 
         // Al hacer click en el botón Play, nos lleva a PlayActivity
         playButton.setOnClickListener(new View.OnClickListener(){

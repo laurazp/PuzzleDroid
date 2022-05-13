@@ -33,4 +33,5 @@
     <string name="Start" translatable="false">始める</string>
     <string name="Player_score" translatable="false">プレーヤの名前</string>
     <string name="scoretable" translatable="false">スコアテーブル</string>
+    <string name="ubicacion_gps">Ubicacion GPS</string>
 </resources>

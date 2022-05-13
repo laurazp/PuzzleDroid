@@ -33,4 +33,5 @@
     <string name="play_again" translatable="false">Volver a jugar</string>
     <string name="nick_name">Elige tu nombre:</string>
     <string name="high_score">Mayor puntuación:</string>
+    <string name="ubicacion_gps">Ubicacion GPS</string>
 </resources>
