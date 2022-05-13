@@ -87,41 +87,41 @@
         <activity
             android:name=".HelpActivity"
             android:exported="false" />
-        <!--
+
        <activity
            android:name=".AuthActivity"
            android:exported="false" />
+        <!--
+                <activity
+                   android:name=".Global"
+                   android:exported="false" />
+                -->
+                <activity
+                    android:name=".SettingsActivity"
+                    android:exported="false" />
+                android:requestLegacyExternalStorage="true"
+                <activity
+                    android:name=".PlayActivity"
+                    android:configChanges="orientation|screenSize"
+                    android:exported="false"
+                    android:screenOrientation="portrait" />
+                <activity
+                    android:name=".MainActivity"
+                    android:exported="true"
+                    android:requestLegacyExternalStorage="true"
+                    android:screenOrientation="portrait">
+                    <intent-filter>
+                        <action android:name="android.intent.action.MAIN" />
 
-<activity
-           android:name=".Global"
-           android:exported="false" />
-        -->
-        <activity
-            android:name=".SettingsActivity"
-            android:exported="false" />
-        android:requestLegacyExternalStorage="true"
-        <activity
-            android:name=".PlayActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:requestLegacyExternalStorage="true"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                        <category android:name="android.intent.category.LAUNCHER" />
+                    </intent-filter>
+                </activity>
+                    android:exported="false"
+                    android:screenOrientation="portrait" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-            android:exported="false"
-            android:screenOrientation="portrait" />
+                <meta-data
+                    android:name="preloaded_fonts"
+                    android:resource="@array/preloaded_fonts" />
+            </application>
 
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
-    </application>
-
-</manifest>
+        </manifest>
