@@ -170,20 +170,12 @@ public class MainActivity extends AppCompatActivity {
             serviceIntent.putExtra("FilePath", filePath);
             startService(serviceIntent);
 
-<<<<<<< HEAD
-=======
-
->>>>>>> d084b5fe70a32a5911be5fc9db5347fb0441f7b8
 
           /*Intent i = new Intent(this, MyService.class);
             i.putExtra("action", startService(serviceIntent));
             startService(serviceInteIntentnt)(i);
 
              */
-<<<<<<< HEAD
-
-=======
->>>>>>> d084b5fe70a32a5911be5fc9db5347fb0441f7b8
             MediaPlayer = true;
         }
         /*else {
