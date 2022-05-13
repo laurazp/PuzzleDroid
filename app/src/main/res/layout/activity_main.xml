@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
-        android:text="PuzzleDroid"
+        android:text="@string/puzzledroid"
         android:textSize="48sp"
         android:textStyle="bold" />
 
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
-        android:text="by Ultima Pieza"
+        android:text="@string/by_ultima_pieza"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -30,7 +30,7 @@
         android:id="@+id/playBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Play"
+        android:text="@string/play"
         app:cornerRadius="15dp"
         android:layout_marginBottom="20dp"/>
 
@@ -38,7 +38,7 @@
         android:id="@+id/optionsBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Options"
+        android:text="@string/options"
         app:cornerRadius="15dp"
         android:layout_marginBottom="20dp"/>
 
@@ -46,7 +46,7 @@
         android:id="@+id/scoreBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ScoreTable"
+        android:text="@string/scoretable"
         app:cornerRadius="15dp" />
 
 </LinearLayout>

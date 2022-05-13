@@ -107,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.nav_Login:
                 //Toast.makeText(this, "Authentication Selected", Toast.LENGTH_SHORT).show();
-                Intent intent3 = new Intent(this, AuthActivity.class);
-                startActivity(intent3);
+                //Intent intent3 = new Intent(this, AuthActivity.class);
+                //startActivity(intent3);
                 break;
             case R.id.nav_Logout:
                 //Toast.makeText(this, "Authentication Selected", Toast.LENGTH_SHORT).show();

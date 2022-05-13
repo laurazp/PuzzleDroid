@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-public class AuthActivity extends AppCompatActivity {
+/*public class AuthActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,4 +31,4 @@ public class AuthActivity extends AppCompatActivity {
 
         }
     }
-}
+}*/

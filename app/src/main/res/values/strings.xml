@@ -4,13 +4,39 @@
     <string name="player_name">Player:</string>
     <string name="player_score">Score:</string>
     <string name="hint">player_name</string>
-    <string name="item_menu">Nuevo Jugador</string>
+    <string name="item_menu" translatable="true">Nuevo Jugador</string>
     <string name="Start">Start</string>
     <string name="Player_score">Player Name</string>
     <string name="select_audio_file_title" />
+    <string name="select_language">Selecciona un idioma</string>
+    <string name="puzzle_by_ultima_pieza">PuzzleDroid es un juego creado por UltimaPieza, un grupo de estudiantes de desarrollo que aprenden a crear aplicaciones nativas con Android Studio. Este juego de rompecabezas está escrito en el lenguaje de programación Java.</string>
     <string name="scoretable">ScoreTable</string>
-    <string name="play_again">Play Again</string>
+    <string name="nick_name">Choose Your nick:</string>
     <string name="exit">Exit</string>
+    <string name="welcome">Welcome select a Language</string>
+    <string name="select_a_language">Select a Language</string>
+    <string name="about_us">About us</string>
+    <string name="home">Home</string>
+    <string name="puzzledroid">PuzzleDroid</string>
+    <string name="by_ultima_pieza">by Ultima Pieza</string>
+    <string name="play">Play</string>
+    <string name="options">Options</string>
+    <string name="choose_an_option">Choose an option:</string>
+    <string name="select_a_puzzle">Select a Puzzle</string>
+    <string name="open_your_photos">Open Your Photos</string>
+    <string name="back_to_menu">Back To Menu</string>
+    <string name="settings">SETTINGS</string>
+    <string name="music">Music</string>
+    <string name="sounds">Sounds</string>
+    <string name="back">BACK</string>
+    <string name="select_music">Select Music</string>
+    <string name="score">Score:</string>
+    <string name="_50">50</string>
+    <string name="high_score">High Score:</string>
+    <string name="play_again">Play Again</string>
+    <string name="see_scoretable">See ScoreTable</string>
+    <string name="add_calendar">Add Calendar</string>
+    <string name="we_are">We are: · Matilde Pascual · · Andreu Martín · · Jordi Podeschva · · Laura Zafra ·</string>
 
 
 </resources>

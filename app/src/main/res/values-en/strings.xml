@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PuzzleDroid</string>
+    <string name="by_ultima_pieza">by Ultima Pieza</string>
+    <string name="play">Play</string>
+    <string name="options">Options</string>
+    <string name="select_language">Selecciona un idioma</string>
+    <string name="choose_an_option">Choose an option:</string>
+    <string name="select_a_puzzle">Select a Puzzle</string>
+    <string name="open_your_photos">Open Your Photos</string>
+    <string name="back_to_menu">Back To Menu</string>
+    <string name="about_us">About us</string>
+    <string name="puzzle_by_ultima_pieza">PuzzleDroid is a game created by UltimaPieza, a group of development students learning how to create native applications using Android Studio. This puzzle game is written in the Java programming language.</string>
+    <string name="we_are">We are: · Matilde Pascual · · Andreu Martín · · Jordi Podeschva · · Laura Zafra ·</string>
+    <string name="home">Home</string>
+    <string name="settings">SETTINGS</string>
+    <string name="music">Music</string>
+    <string name="sounds">Sounds</string>
+    <string name="back">BACK</string>
+    <string name="nick_name">Choose Your nick:</string>
+    <string name="select_a_language">Select a Language</string>
+    <string name="score">Score:</string>
+    <string name="see_scoretable">See ScoreTable</string>
+    <string name="add_calendar">Add Calendar</string>
+    <string name="welcome">Welcome select a Language</string>
+    <string name="select_music">Select Music</string>
+    <string name="player_name">Player:</string>
+    <string name="exit">Exit</string>
+    <string name="player_score">Score:</string>
+    <string name="high_score">High Score:</string>
+</resources>

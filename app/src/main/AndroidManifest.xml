@@ -24,6 +24,16 @@
         android:theme="@style/Theme.PuzzleDroid"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Language"
+            android:exported="true"
+                android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".HomeActivity"
             android:exported="false" />
 
@@ -53,14 +63,15 @@
         <activity
             android:name=".HelpActivity"
             android:exported="false" />
-        <activity
-            android:name=".AuthActivity"
-            android:exported="false"  />
         <!--
+       <activity
+           android:name=".AuthActivity"
+           android:exported="false" />
+
 <activity
-            android:name=".Global"
-            android:exported="false" />
-        -->
+           android:name=".Global"
+           android:exported="false" />
+       -->
         <activity
             android:name=".SettingsActivity"
             android:exported="false" />
@@ -71,13 +82,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <meta-data
