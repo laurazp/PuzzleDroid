@@ -60,8 +60,8 @@ public class DbNewPlayer extends DbHelperNewPlayer {
             DbHelperNewPlayer dbHelper= new DbHelperNewPlayer(context);
             SQLiteDatabase db= dbHelper.getWritableDatabase();
 
-            db.execSQL("UPDATE t_player SET score = " + score + " WHERE nombre = '" + name + "'");
-
+            //db.execSQL("UPDATE t_player SET score = " + score + " WHERE nombre = '" + name + "'");
+            db.execSQL("UPDATE t_player SET nombre = " + name + " WHERE score = '" + score + "'");
         }
         catch(Exception ex){
             ex.toString();
