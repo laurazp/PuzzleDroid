@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.StringWriter;
@@ -84,7 +85,11 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
 
                             Toast.makeText(AuthActivity.this,"Se ha registrado el email", Toast.LENGTH_LONG).show();
                         }else{
-                            Toast.makeText(AuthActivity.this,"No se pudo registrar el email", Toast.LENGTH_LONG).show();
+                            if(task.getException() instanceof FirebaseAuthUserCollisionException) { //si ya existe usuario
+                                Toast.makeText(AuthActivity.this, "Este usuario ya existe", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(AuthActivity.this,"No se pudo registrar el email", Toast.LENGTH_LONG).show();
+                            }
                         }
                         progressDialog.dismiss();
                     }
@@ -104,8 +109,62 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void loguearUsuario(){
+        //obtención del email y la contrasña desde las cajas de texto
+        String email = TextEmail.getText().toString().trim();
+        String password = TextPassword.getText().toString().trim();
+
+        //Verificamos que las cajas de texto no esten vacías
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(this,"Ingrese un email",Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (TextUtils.isEmpty(password)) {
+            Toast.makeText(this,"Ingrese una contraseña",Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        progressDialog.setMessage("Realizando registro en linea...");
+        progressDialog.show();
+
+        //login user
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        //cheking if succes
+                        if (task.isSuccessful()){
+
+                            Toast.makeText(AuthActivity.this,"Bienvenido:"+ TextEmail.getText(),Toast.LENGTH_LONG).show();
+                        }else{
+                            if(task.getException() instanceof FirebaseAuthUserCollisionException) { //si ya existe usuario
+                                Toast.makeText(AuthActivity.this, "Este usuario ya existe", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(AuthActivity.this,"No se pudo registrar el email", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        progressDialog.dismiss();
+                    }
+                });
+
+    }
+
     @Override
     public void onClick(View view) {
-        registrarUsuario();
+
+        switch (view.getId()){
+            case R.id.signUpButton:
+                //invocamos el método
+                registrarUsuario();
+                break;
+            case R.id.loginButton:
+                //invocamos el método
+                loguearUsuario();
+
+
+        }
+
+
     }
 }
