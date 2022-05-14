@@ -4,29 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list_item_player"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
-    <LinearLayout
-        android:id="@+id/linear_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+    <TextView
+        android:id="@+id/viewName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:textColor="#0E0E0E"
+        android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/viewName"
-            android:layout_width="220dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="monospace"
-            android:textColor="#0E0E0E"
-            android:textSize="24sp" />
-
-        <TextView
-            android:id="@+id/viewScore"
-            android:layout_width="192dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="monospace"
-            android:textColor="#0C0C0C"
-            android:textSize="24sp" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/viewScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="monospace"
+        android:textColor="#0C0C0C"
+        android:textSize="18sp" />
 
 </LinearLayout>
