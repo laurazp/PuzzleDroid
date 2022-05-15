@@ -18,15 +18,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.ultimapieza.puzzledroid.db.DbHelperNewPlayer;
@@ -34,7 +30,6 @@ import com.ultimapieza.puzzledroid.db.DbNewPlayer;
 import com.ultimapieza.puzzledroid.entidades.Players;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ResultActivity extends AppCompatActivity {
 

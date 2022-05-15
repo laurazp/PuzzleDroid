@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".ScoreActivity">
+
+    <TextView
+        android:id="@+id/scorePlayerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:fontFamily="monospace"
+        android:text="@string/scoretable"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <Button
+        android:id="@+id/galleryButton"
+        android:layout_width="184dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="20dp"
+        android:width="170dp"
+        android:height="200dp"
+        android:text="@string/play_again"
+        app:cornerRadius="30dp" />
+
+    <Button
+        android:id="@+id/exitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="58dp"
+        android:width="170dp"
+        android:text="@string/exit"
+        app:cornerRadius="30dp" />
+
+
+</LinearLayout>

@@ -2,49 +2,51 @@ package com.ultimapieza.puzzledroid;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.ultimapieza.puzzledroid.adaptadores.ListPlayersAdapter;
-import com.ultimapieza.puzzledroid.db.DbNewPlayer;
-import com.ultimapieza.puzzledroid.entidades.Players;
 
 import java.util.ArrayList;
 
 
 public class ScoreActivity extends AppCompatActivity {
     ListView listPlayer;
-    //TextView scorePlayerView;
+    TextView scorePlayerView;
     //boolean ownPhotos;
     // creating a variable for
     // our Firebase Database.
     FirebaseDatabase firebaseDatabase;
 
-
     // creating a variable for our
     // Database Reference for Firebase.
     DatabaseReference databaseReference;
+
+    // Variables para el RecyclerView usando Retrofit
+    //RecyclerView recyclerView;
+    //List<Players> userListResponseData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
+        //setContentView(R.layout.activity_score_retrofit); //---------- Comentado para trabajar con Retrofit ------
+        //userListResponseData = new ArrayList<Players>();
+
+        // Definimos el RecyclerView para trabajar con Retrofit
+        //recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        //getUserListData(); // call a method in which we have implement our GET type web API
 
         // Definimos los botones
         Button galleryButton = findViewById(R.id.galleryButton);
@@ -52,20 +54,19 @@ public class ScoreActivity extends AppCompatActivity {
 
         // Definimos la ReciclerView
         listPlayer= findViewById(R.id.listPlayer);
-       // scorePlayerView=findViewById(R.id.scorePlayerView);
-
+        scorePlayerView=findViewById(R.id.scorePlayerView);
 
 
         // Recibimos el valor de "ownPhotos"
         //Intent intent = getIntent();
         //ownPhotos = intent.getBooleanExtra("ownPhotos", false);
 
-        /*Llamamos al método mostrarPlayers para que se muestren en la ReciclerView
-        DbNewPlayer dbNewPlayer=new DbNewPlayer(ScoreActivity.this);
+        //Llamamos al método mostrarPlayers para que se muestren en la ReciclerView
+        //DbNewPlayer dbNewPlayer=new DbNewPlayer(ScoreActivity.this);
 
-        ListPlayersAdapter adapters=new ListPlayersAdapter(dbNewPlayer.mostrarPlayers());
-        /Importante!! Notificamos que el orden de los datos en adapters ha cambiado
-        adapters.notifyDataSetChanged();*/
+        //ListPlayersAdapter adapters=new ListPlayersAdapter(dbNewPlayer.mostrarPlayers());
+        //Importante!! Notificamos que el orden de los datos en adapters ha cambiado
+        //adapters.notifyDataSetChanged();
 
         //listPlayer.setAdapter(adapters);
 
@@ -100,7 +101,8 @@ public class ScoreActivity extends AppCompatActivity {
                 //}
             }
         });
-        final ArrayList<String>playerScores=new ArrayList<>();
+
+        final ArrayList<String> playerScores=new ArrayList<>();
         //creando el adapter que mostrará los datos de los jugadores
         final ArrayAdapter adapterscore=new ArrayAdapter<String>(this,R.layout.list_item_player,R.id.viewName,playerScores);
         final ArrayAdapter adaptername=new ArrayAdapter<String>(this,R.layout.list_item_player,R.id.viewScore,playerScores);
@@ -132,6 +134,7 @@ public class ScoreActivity extends AppCompatActivity {
 
         });
 
+
         // Al hacer click en el botón "Exit", sale de la aplicación
         exitButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -145,5 +148,43 @@ public class ScoreActivity extends AppCompatActivity {
 
     }
 
+    // Métodos para trabajar con Retrofit
+    //---------- Comentado para trabajar con Retrofit ------------
+    /*private void getUserListData() {
+        // display a progress dialog
+        final ProgressDialog progressDialog = new ProgressDialog(ScoreActivity.this);
+        progressDialog.setCancelable(false); // set cancelable to false
+        progressDialog.setMessage("Please Wait"); // set message
+        progressDialog.show(); // show progress dialog
+
+        (Api.getClient().getUsersList()).enqueue(new Callback<List<Players>>() {
+
+            @Override
+            public void onResponse(Call<List<Players>> call, Response<List<Players>> response) {
+                Log.d("responseGET", response.body().get(0).getName());
+                progressDialog.dismiss(); //dismiss progress dialog
+                userListResponseData = response.body();
+                setDataInRecyclerView();
+            }
+
+            @Override
+            public void onFailure(Call<List<Players>> call, Throwable t) {
+                // if error occurs in network transaction then we can get the error in this method.
+                Toast.makeText(ScoreActivity.this, t.toString(), Toast.LENGTH_LONG).show();
+                Log.d("ERROR RETROFIT: ", t.toString());
+                progressDialog.dismiss(); //dismiss progress dialog
+            }
+        });
+    }
+
+    private void setDataInRecyclerView() {
+        // set a LinearLayoutManager with default vertical orientation
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ScoreActivity.this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        // call the constructor of UsersAdapter to send the reference and data to Adapter
+        UsersAdapter usersAdapter = new UsersAdapter(ScoreActivity.this, userListResponseData);
+        recyclerView.setAdapter(usersAdapter); // set the Adapter to RecyclerView
+        usersAdapter.notifyDataSetChanged();
+    }*/
 
 }

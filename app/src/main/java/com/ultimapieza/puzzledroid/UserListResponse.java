@@ -1,14 +1,16 @@
-package com.ultimapieza.puzzledroid.entidades;
+package com.ultimapieza.puzzledroid;
+
+import com.ultimapieza.puzzledroid.entidades.Players;
 
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Players {
+public class UserListResponse {
 
+    // POJO class to get the data from web api
     private String name;
     private int score;
-
 
     private String com_code;
     private String status;
@@ -33,8 +35,9 @@ public class Players {
         this.score = score;
     }
 
+
     // Comparador para ordenar los datos de jugadores por mayor puntuación
-        public static Comparator<Players> playersComparator = new Comparator<Players>() {
+    public static Comparator<Players> playersComparator = new Comparator<Players>() {
         @Override
         public int compare(Players t1, Players t2) {
             return t2.getScore() - t1.getScore();

@@ -58,7 +58,7 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         // Revisa si viene de elegir audio del propio móvil
-        ownAudio = intent.getBooleanExtra("ownAudio", false);
+        //ownAudio = intent.getBooleanExtra("ownAudio", false);
 
         // Manage incoming calls during playback (pause/resume MediaPlayer)
         telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);  // Get the telephony manager
