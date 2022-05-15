@@ -21,12 +21,17 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.io.StringWriter;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class AuthActivity extends AppCompatActivity implements View.OnClickListener{
 
     private EditText TextEmail;
     private EditText TextPassword;
-    private Button btnLogin;
-    private Button btnSignUp;
+    @BindView(R.id.signUpButton) Button btnSignUp;
+    @BindView(R.id.loginButton) Button btnLogin;
+
+
     private ProgressDialog progressDialog;
 
     //Declaramos un objeto firebase
@@ -36,6 +41,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
+        ButterKnife.bind(this);
 
         //Inicializamos el objetos de mAuth
         mAuth = FirebaseAuth.getInstance();
@@ -43,9 +49,6 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         //referenciamos los views
         TextEmail = (EditText) findViewById(R.id.editEmailtext);
         TextPassword = (EditText) findViewById(R.id.editPasswordtext);
-
-        btnSignUp = (Button) findViewById(R.id.signUpButton);
-        btnLogin = (Button) findViewById(R.id.loginButton);
 
         progressDialog = new ProgressDialog(this);
 

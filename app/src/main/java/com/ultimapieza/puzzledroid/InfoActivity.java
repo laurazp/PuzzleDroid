@@ -7,13 +7,18 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class InfoActivity extends AppCompatActivity {
+
+    @BindView(R.id.returnBtn) Button backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
-        Button backButton = findViewById(R.id.returnBtn);
+        ButterKnife.bind(this);
 
         // When clicking on backBtn, go back to Menu
         backButton.setOnClickListener(new View.OnClickListener(){

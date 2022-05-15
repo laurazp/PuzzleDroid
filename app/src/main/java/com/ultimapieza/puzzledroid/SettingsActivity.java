@@ -21,12 +21,17 @@ import androidx.core.app.ActivityCompat;
 
 import java.io.File;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class SettingsActivity extends AppCompatActivity {
 
     private static final int REQ_CODE_PICK_SOUNDFILE = 0;
     Switch switch1, switch2;
     boolean stateSwitch1, stateSwitch2;
     MediaPlayer mediaPlayer;
+    @BindView(R.id.backBtn) Button backButton;
+    @BindView(R.id.buttonSelect) Button buttonSelect;
 
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -45,10 +50,12 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        Button backButton = findViewById(R.id.backBtn);
-        Button buttonSelect = findViewById(R.id.buttonSelect);
+        //Button backButton = findViewById(R.id.backBtn);
+        //Button buttonSelect = findViewById(R.id.buttonSelect);
+        ButterKnife.bind(this);
 
         // Cambiamos el color de los botones
+
         backButton.setBackgroundColor(Color.parseColor("#16C282"));
 
         // Solicita permisos para acceder a archivos del dispositivo
@@ -117,6 +124,7 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.apply();
             }
         });
+
 
         // When clicking on backBtn, go back to Menu
         backButton.setOnClickListener(new View.OnClickListener() {

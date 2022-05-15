@@ -19,6 +19,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class ScoreActivity extends AppCompatActivity {
     ListView listPlayer;
@@ -27,6 +30,9 @@ public class ScoreActivity extends AppCompatActivity {
     // creating a variable for
     // our Firebase Database.
     FirebaseDatabase firebaseDatabase;
+    //Definimos botones con butterknife
+    @BindView(R.id.galleryButton) Button galleryButton;
+    @BindView(R.id.exitButton) Button exitButton;
 
     // creating a variable for our
     // Database Reference for Firebase.
@@ -52,6 +58,7 @@ public class ScoreActivity extends AppCompatActivity {
         Button galleryButton = findViewById(R.id.galleryButton);
         Button exitButton = findViewById(R.id.exitButton);
 
+        ButterKnife.bind(this);
         // Definimos la ReciclerView
         listPlayer= findViewById(R.id.listPlayer);
         scorePlayerView=findViewById(R.id.scorePlayerView);
