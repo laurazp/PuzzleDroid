@@ -55,8 +55,8 @@ public class ScoreActivity extends AppCompatActivity {
         //getUserListData(); // call a method in which we have implement our GET type web API
 
         // Definimos los botones
-        Button galleryButton = findViewById(R.id.galleryButton);
-        Button exitButton = findViewById(R.id.exitButton);
+        //Button galleryButton = findViewById(R.id.galleryButton);
+        //Button exitButton = findViewById(R.id.exitButton);
 
         ButterKnife.bind(this);
         // Definimos la ReciclerView
