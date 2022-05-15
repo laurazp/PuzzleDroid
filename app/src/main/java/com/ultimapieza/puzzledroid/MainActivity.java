@@ -50,13 +50,14 @@ public class MainActivity extends AppCompatActivity {
         Button playButton = findViewById(R.id.playBtn);
         Button optionsButton = findViewById(R.id.optionsBtn);
         Button scoreButton = findViewById(R.id.scoreBtn);
-
+        Button button_location=findViewById(R.id.location);
 
         // Cambiamos el color de los botones
         playButton.setBackgroundColor(Color.parseColor("#F7C52C"));
         optionsButton.setBackgroundColor(Color.parseColor("#16C282"));
+        button_location.setBackgroundColor(Color.parseColor("#16C282"));
 
-        Button button_location=findViewById(R.id.location);
+
         TextView tvUbicacion=findViewById(R.id.tvUbicacion);
         button_location.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,9 +66,13 @@ public class MainActivity extends AppCompatActivity {
                 LocationListener locationListener=new LocationListener() {
                     @Override
                     public void onLocationChanged(@NonNull android.location.Location location) {
-                        tvUbicacion.setText(""+location.getLatitude()+""+location.getLongitude());
-                        Intent intentlocation = new Intent (view.getContext(), Location.class);
-                        view.getContext().startActivity(intentlocation);
+                        // Guardamos los parámetros de la localización en una variable
+                        String locationCoords = ""+location.getLatitude()+""+location.getLongitude();
+                        //tvUbicacion.setText(""+location.getLatitude()+""+location.getLongitude());
+                        // Creamos un intent de Location y le pasamos los datos
+                        Intent intentLocation = new Intent (view.getContext(), Location.class);
+                        intentLocation.putExtra("LOCATION", locationCoords);
+                        view.getContext().startActivity(intentLocation);
                     }
                     public void OnStatusChanged(String provide, int status, Bundle extras){}
                     public void OnProviderEnabled(String provide){}
