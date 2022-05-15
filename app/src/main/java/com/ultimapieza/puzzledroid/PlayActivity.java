@@ -8,12 +8,17 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class PlayActivity extends AppCompatActivity {
 
     int score;
     String userName;
     int numOfPieces;
-
+    // Define buttons with Butterknife
+    @BindView(R.id.selectBtn) Button selectButton;
+    @BindView(R.id.backBtn) Button backButton;
     private String[] tileList;
     /*ActivityResultLauncher<Intent> startForResult=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -31,15 +36,13 @@ public class PlayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
+        ButterKnife.bind(this);
 
         // Get values of score, userName and numOfPieces
         numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
         score = getIntent().getIntExtra("SCORE", 0);
         userName = getIntent().getStringExtra("USERNAME");
 
-        // Define buttons
-        Button selectButton = findViewById(R.id.selectBtn);
-        Button backButton = findViewById(R.id.backBtn);
 
         // Change button color
         backButton.setBackgroundColor(Color.parseColor("#16C282"));

@@ -24,6 +24,9 @@ import androidx.core.content.ContextCompat;
 import com.ultimapieza.puzzledroid.db.DbHelper;
 import com.ultimapieza.puzzledroid.db.DbHelperNewPlayer;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,24 +36,24 @@ public class MainActivity extends AppCompatActivity {
     Intent serviceIntent;
     Button location;
     TextView tvUbicacion;
+    // Asignamos botones buscando por su id con Butterknife
+    @BindView(R.id.playBtn) Button playButton;
+    @BindView(R.id.optionsBtn) Button optionsButton;
+    @BindView(R.id.scoreBtn) Button scoreButton;
+    @BindView(R.id.location) Button button_location;
+
 
     // Bundle pasa información desde una actividad a otra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //Definimos bind para que encuentre la asignación de arriba
+        ButterKnife.bind(this);
 
         // Lanzamos el servicio para la música
         serviceIntent = new Intent(this, MyService.class);
         serviceIntent.putExtra("FilePath", filePath);
-
-
-        // Asignamos botones buscando por su id
-        Button playButton = findViewById(R.id.playBtn);
-        Button optionsButton = findViewById(R.id.optionsBtn);
-        Button scoreButton = findViewById(R.id.scoreBtn);
-        Button button_location=findViewById(R.id.location);
 
         // Cambiamos el color de los botones
         playButton.setBackgroundColor(Color.parseColor("#F7C52C"));

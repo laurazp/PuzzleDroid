@@ -12,10 +12,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ultimapieza.puzzledroid.db.DbNewPlayer;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class LoginActivity extends AppCompatActivity {
 
     public EditText txtPlayerInput;
-    private Button txtStartGame;
+    //private Button txtStartGame;
+    @BindView(R.id.txtStartGame) Button txtStartGame;
     private int score;
     String userName;
 
@@ -23,9 +27,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        ButterKnife.bind(this);
         txtPlayerInput=findViewById(R.id.txtPlayerInput);
-        txtStartGame= findViewById(R.id.txtStartGame);
+       // txtStartGame= findViewById(R.id.txtStartGame);
+
 
         // Al hacer click en el botón Start, registra al jugador en la BD y empieza el juego
         txtStartGame.setOnClickListener(new View.OnClickListener() {
