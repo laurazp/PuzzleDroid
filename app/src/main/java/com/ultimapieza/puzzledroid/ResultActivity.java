@@ -36,12 +36,17 @@ import com.ultimapieza.puzzledroid.entidades.Players;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ResultActivity extends AppCompatActivity {
 
     String userName;
     int score;
     int numOfPieces;
     ImageView imageView;
+    @BindView(R.id.addcalendarButton) Button addcalendarButton;
+    @BindView(R.id.scoretableBtn) Button scoretableBtn;
 
     // Atributos para las animaciones
     private ObjectAnimator animatorRotation;
@@ -63,12 +68,13 @@ public class ResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+        ButterKnife.bind(this);
 
         TextView scoreLabel = (TextView) findViewById(R.id.scoreLabel);
         TextView highScoreLabel = (TextView) findViewById(R.id.highScoreLabel);
         TextView name = findViewById(R.id.viewName);
         TextView score_p = findViewById(R.id.viewScore);
-        Button addcalendarButton=findViewById(R.id.addcalendarButton);
+        //Button addcalendarButton=findViewById(R.id.addcalendarButton);
         imageView = findViewById(R.id.imageView);
 
         // Ejecutar animación
@@ -81,7 +87,7 @@ public class ResultActivity extends AppCompatActivity {
         Intent intent = getIntent();
         ownPhotos = intent.getBooleanExtra("ownPhotos", false);
 
-        Button scoretableBtn = findViewById(R.id.scoretableBtn);
+        //Button scoretableBtn = findViewById(R.id.scoretableBtn);
 
         //Recibe el valor de score y userName
         score = getIntent().getIntExtra("SCORE", 0);
