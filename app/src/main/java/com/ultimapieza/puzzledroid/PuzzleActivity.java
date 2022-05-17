@@ -3,9 +3,9 @@ package com.ultimapieza.puzzledroid;
 import static java.lang.Math.abs;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
@@ -37,16 +37,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import java.io.File;
 import java.io.FileDescriptor;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -243,7 +241,9 @@ public class PuzzleActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (assetName != null) {
-                            setPicFromAsset(assetName, imageView);
+                            Bitmap bitmap = BitmapFactory.decodeFile(assetName);
+                            //setPicFromAsset(assetName, imageView);
+                            imageView.setImageBitmap(bitmap);
                         }
                         if (mCurrentPhotoUri != null) {
                             setPicFromAsset(mCurrentPhotoUri, imageView);

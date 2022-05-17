@@ -20,14 +20,11 @@ public class PlayActivity extends AppCompatActivity {
     @BindView(R.id.selectBtn) Button selectButton;
     @BindView(R.id.backBtn) Button backButton;
     private String[] tileList;
+
     /*ActivityResultLauncher<Intent> startForResult=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
             if(result !=null && result.getResultCode()==RESULT_OK){
-
-
-
-
             }
         }
     });*/
