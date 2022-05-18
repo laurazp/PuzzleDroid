@@ -94,7 +94,7 @@ public class MyService extends Service implements MediaPlayer.OnCompletionListen
         };
 
         // Register the listener with the telephony manager
-        telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+        //telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
 
         if(ownAudio) {
             filePath = intent.getStringExtra("OwnFilePath");
