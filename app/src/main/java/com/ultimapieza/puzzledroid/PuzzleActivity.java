@@ -37,10 +37,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -94,6 +97,14 @@ public class PuzzleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_puzzle);
+
+        if(ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(PuzzleActivity.this,new String[]{
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+            },1);
+
+        }
+
 
 
         layout = findViewById(R.id.layout);
@@ -211,7 +222,7 @@ public class PuzzleActivity extends AppCompatActivity {
                             setPicFromAsset(path, imageView);
                         }
                         // Split the image into pieces
-                        pieces = splitImage(numOfPieces + 1);
+                        //pieces = splitImage(numOfPieces + 1);
                         TouchListener touchListener;
                         touchListener = new TouchListener(PuzzleActivity.this);
 
@@ -241,16 +252,24 @@ public class PuzzleActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (assetName != null) {
-                            Bitmap bitmap = BitmapFactory.decodeFile(assetName);
+
+                            Log.d("assetname", assetName);
+                            //Bitmap bitmap = BitmapFactory.decodeFile(assetName);
+                            Picasso.get().load(assetName).into(imageView);
                             //setPicFromAsset(assetName, imageView);
-                            imageView.setImageBitmap(bitmap);
+                            //imageView.setImageBitmap(bitmap);
+                            pieces = splitImage((numOfPieces + 1));
+                            /*File imgFile = new  File(assetName);
+                            if(imgFile.exists()) {
+                                Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                            }*/
                         }
-                        if (mCurrentPhotoUri != null) {
+                        /*if (mCurrentPhotoUri != null) {
                             setPicFromAsset(mCurrentPhotoUri, imageView);
-                        }
+                        }*/
 
                         // Split the image into pieces
-                        pieces = splitImage(numOfPieces + 1);
+                        //pieces = splitImage(numOfPieces + 1);
                         TouchListener touchListener;
                         touchListener = new TouchListener(PuzzleActivity.this);
 
@@ -293,7 +312,7 @@ public class PuzzleActivity extends AppCompatActivity {
                         imageView.setImageBitmap(selectedImage);
 
                         // Llama al método que parte la imagen en piezas
-                        pieces = splitImage(numOfPieces + 1);
+                        //pieces = splitImage(numOfPieces + 1);
                         TouchListener touchListener;
                         touchListener = new TouchListener(PuzzleActivity.this);
 
@@ -937,6 +956,19 @@ public class PuzzleActivity extends AppCompatActivity {
             }
         } else {
             return;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==1){
+            if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
+
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_LONG).show();
+            }
         }
     }
 

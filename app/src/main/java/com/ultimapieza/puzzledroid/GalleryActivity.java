@@ -3,8 +3,6 @@ package com.ultimapieza.puzzledroid;
 import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,19 +19,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.appcheck.FirebaseAppCheck;
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class GalleryActivity extends AppCompatActivity {
@@ -50,46 +45,30 @@ public class GalleryActivity extends AppCompatActivity {
     boolean firebaseApp ;
     FirebaseAppCheck firebaseAppCheck;
 
+    ArrayList<String> pathsList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
+        numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
+        score = getIntent().getIntExtra("SCORE", 0);
+        userName = getIntent().getStringExtra("USERNAME");
+        Log.d("NumOfPieces = ", String.valueOf(numOfPieces));
+
+        pathsList = new ArrayList<>();
+
         ProgressBar progressBar=findViewById(R.id.progressBar);
-        ArrayList<String>imageList = new ArrayList<>();
+        ArrayList<String> imageList = new ArrayList<>();
         RecyclerView recyclerView=findViewById(R.id.recyclerView);
         ImageAdapter adapter= new ImageAdapter(imageList,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-
-        StorageReference storageReference=FirebaseStorage.getInstance().getReference().child("images");
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images");
         progressBar.setVisibility(View.VISIBLE);
-        storageReference.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
-            @Override
-            public void onSuccess(ListResult listResult) {
-                accessFireBase();
-                
-                if (firebaseApp){
-                    for( StorageReference fileRef: listResult.getItems() ){
-                        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                imageList.add(uri.toString());
 
-                            }
-                        }).addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                recyclerView.setAdapter(adapter);
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        });
-                    }
-                }
 
-            }
-        });
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
 
@@ -111,14 +90,84 @@ public class GalleryActivity extends AppCompatActivity {
                         }
                     }
                 });
-        numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
-        score = getIntent().getIntExtra("SCORE", 0);
-        userName = getIntent().getStringExtra("USERNAME");
-        Log.d("NumOfPieces = ", String.valueOf(numOfPieces));
-        numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
-        score = getIntent().getIntExtra("SCORE", 0);
-        userName = getIntent().getStringExtra("USERNAME");
-        Log.d("NumOfPieces = ", String.valueOf(numOfPieces));
+
+
+        storageReference.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+            @Override
+            public void onSuccess(ListResult listResult) {
+                firebaseApp = accessFireBase();
+                
+                if (firebaseApp){
+                    for( StorageReference fileRef: listResult.getItems() ){
+                        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                imageList.add(uri.toString());
+                                Log.d("item", uri.toString());
+                                String imagePath = uri.toString();
+                                pathsList.add(imagePath);
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                recyclerView.setAdapter(adapter);
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+
+                    recyclerView.addOnItemTouchListener(
+                            new RecyclerItemClickListener(GalleryActivity.this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                                @Override public void onItemClick(View view, int position) {
+                                    // do whatever
+                                    String chosenImagePath = pathsList.get(position);
+                                    Log.d("imagePath", chosenImagePath);
+
+                                    Intent intent = new Intent(getApplicationContext(), PuzzleActivity.class);
+                                    intent.putExtra("assetName", chosenImagePath);
+                                    intent.putExtra("SCORE", score);
+                                    intent.putExtra("USERNAME", userName);
+                                    intent.putExtra("NUMOFPIECES", numOfPieces);
+                                    startActivity(intent);
+                                }
+
+                                @Override public void onLongItemClick(View view, int position) {
+                                    // do whatever
+                                }
+                            })
+                    );
+
+
+                }
+
+            }
+        });
+
+        // Al hacer click, se inicia el puzzle con la imagen elegida
+        /*recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                ImageAdapter.ViewHolder child = rv.getChildItemId(recyclerView);
+
+                Intent intent = new Intent(getApplicationContext(), PuzzleActivity.class);
+                intent.putExtra("assetName", );
+                intent.putExtra("SCORE", score);
+                intent.putExtra("USERNAME", userName);
+                intent.putExtra("NUMOFPIECES", numOfPieces);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });*/
+
 
 
         // Inicializamos la referencia de Firebase Storage
@@ -180,6 +229,8 @@ public class GalleryActivity extends AppCompatActivity {
 
         //File localFile = null;
 
+
+         */
         /*try {
             localFile = File.createTempFile("tmpfile", ".jpg");
             Log.d("FILE", "File from Firebase Storage = " + localFile.getAbsolutePath().toString());
@@ -317,7 +368,9 @@ public class GalleryActivity extends AppCompatActivity {
         firebaseAppCheck.installAppCheckProviderFactory(
                 PlayIntegrityAppCheckProviderFactory.getInstance());
 
+        if(firebaseAppCheck != null) {
+            firebaseApp = true;
+        }
         return firebaseApp;
-
     }
 }

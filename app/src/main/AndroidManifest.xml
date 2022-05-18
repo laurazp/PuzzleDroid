@@ -25,7 +25,8 @@
         android:roundIcon="@mipmap/launcherapp_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PuzzleDroid"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:largeHeap="true">
         <activity
             android:name=".ImageAdapter"
             android:exported="false" />
