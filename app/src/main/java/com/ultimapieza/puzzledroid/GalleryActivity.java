@@ -5,26 +5,36 @@ import static android.content.ContentValues.TAG;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.appcheck.FirebaseAppCheck;
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class GalleryActivity extends AppCompatActivity {
 
@@ -37,14 +47,80 @@ public class GalleryActivity extends AppCompatActivity {
     File localFile = null;
     FirebaseAuth mAuth;
     FirebaseUser user;
+    boolean firebaseApp ;
+    FirebaseAppCheck firebaseAppCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
+        ProgressBar progressBar=findViewById(R.id.progressBar);
+        ArrayList<String>imageList = new ArrayList<>();
+        RecyclerView recyclerView=findViewById(R.id.recyclerView);
+        ImageAdapter adapter= new ImageAdapter(imageList,this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+
+        StorageReference storageReference=FirebaseStorage.getInstance().getReference().child("images");
+        progressBar.setVisibility(View.VISIBLE);
+        storageReference.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+            @Override
+            public void onSuccess(ListResult listResult) {
+                if (firebaseApp){
+                    for( StorageReference fileRef: listResult.getItems() ){
+                        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                imageList.add(uri.toString());
+
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                recyclerView.setAdapter(adapter);
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+                }
+
+            }
+        });
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+
+        mAuth.signInAnonymously()
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInAnonymously:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            //updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInAnonymously:failure", task.getException());
+                            Toast.makeText(GalleryActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            //updateUI(null);
+                        }
+                    }
+                });
+        numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
+        score = getIntent().getIntExtra("SCORE", 0);
+        userName = getIntent().getStringExtra("USERNAME");
+        Log.d("NumOfPieces = ", String.valueOf(numOfPieces));
+        numOfPieces = getIntent().getIntExtra("NUMOFPIECES", 3);
+        score = getIntent().getIntExtra("SCORE", 0);
+        userName = getIntent().getStringExtra("USERNAME");
+        Log.d("NumOfPieces = ", String.valueOf(numOfPieces));
+
+
         // Inicializamos la referencia de Firebase Storage
-        mStorageRef = FirebaseStorage.getInstance().getReference("images/flower.jpg");
+        /*mStorageRef = FirebaseStorage.getInstance().getReference("images/flower.jpg");
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
@@ -54,6 +130,11 @@ public class GalleryActivity extends AppCompatActivity {
             signInAnonymously();
         }*/
 
+        /*if (user != null) {
+            // do your stuff
+        } else {
+            signInAnonymously();
+        }
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -78,12 +159,26 @@ public class GalleryActivity extends AppCompatActivity {
         score = getIntent().getIntExtra("SCORE", 0);
         userName = getIntent().getStringExtra("USERNAME");
         Log.d("NumOfPieces = ", String.valueOf(numOfPieces));
+        private void signInAnonymously() {
+            mAuth.signInAnonymously().addOnSuccessListener(this, new  OnSuccessListener<AuthResult>() {
+                @Override
+                public void onSuccess(AuthResult authResult) {
+                    // do your stuff
+                }
+            })
+                    .addOnFailureListener(this, new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            Log.e("FIREBASE", "signInAnonymously:FAILURE", exception);
+                        }
+                    });
+        }
 
         // TODO: Muestra las imágenes desde Firebase Storage
 
         //File localFile = null;
 
-        try {
+        /*try {
             localFile = File.createTempFile("tmpfile", ".jpg");
             Log.d("FILE", "File from Firebase Storage = " + localFile.getAbsolutePath().toString());
         } catch (IOException e) {
@@ -127,7 +222,7 @@ public class GalleryActivity extends AppCompatActivity {
         }*/
 
 
-                            Intent intent = new Intent(getApplicationContext(), PuzzleActivity.class);
+                           /* Intent intent = new Intent(getApplicationContext(), PuzzleActivity.class);
                             intent.putExtra("assetName", localFile.getAbsolutePath());
                             intent.putExtra("SCORE", score);
                             intent.putExtra("USERNAME", userName);
@@ -141,7 +236,7 @@ public class GalleryActivity extends AppCompatActivity {
                     Log.d("FILE ERROR", "Error downloading files from Firebase Storage" + exception);
                 }
             });
-        }
+        }*/
 
         // Muestra las imágenes de la carpeta assets en el grid
         // Código para trabajar con imágenes estáticas de la carpeta assets/img
@@ -167,9 +262,32 @@ public class GalleryActivity extends AppCompatActivity {
 
         } catch (IOException e) {
             Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT);
-        }*/
+        }
+    }*/
+
+    /*@Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        //updateUI(currentUser);
     }
 
+    private void signInAnonymously() {
+        mAuth.signInAnonymously().addOnSuccessListener(this, new  OnSuccessListener<AuthResult>() {
+            @Override
+            public void onSuccess(AuthResult authResult) {
+                // do your stuff
+            }
+        })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Log.e("FIREBASE", "signInAnonymously:FAILURE", exception);
+                    }
+                });
+    }*/
+    }
     @Override
     public void onStart() {
         super.onStart();
@@ -191,5 +309,11 @@ public class GalleryActivity extends AppCompatActivity {
                         Log.e("FIREBASE", "signInAnonymously:FAILURE", exception);
                     }
                 });
+    }
+    public boolean accessFireBase(){
+        firebaseAppCheck = FirebaseAppCheck.getInstance();
+        firebaseAppCheck.installAppCheckProviderFactory(
+                PlayIntegrityAppCheckProviderFactory.getInstance());
+        return firebaseApp;
     }
 }
