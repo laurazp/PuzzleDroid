@@ -68,6 +68,8 @@ public class GalleryActivity extends AppCompatActivity {
         storageReference.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
             @Override
             public void onSuccess(ListResult listResult) {
+                accessFireBase();
+                
                 if (firebaseApp){
                     for( StorageReference fileRef: listResult.getItems() ){
                         fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -314,6 +316,8 @@ public class GalleryActivity extends AppCompatActivity {
         firebaseAppCheck = FirebaseAppCheck.getInstance();
         firebaseAppCheck.installAppCheckProviderFactory(
                 PlayIntegrityAppCheckProviderFactory.getInstance());
+
         return firebaseApp;
+
     }
 }
